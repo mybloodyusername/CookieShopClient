@@ -1,0 +1,21 @@
+<h2>Login</h2>
+<form [formRoot]="loginForm">
+  <mat-form-field>
+    <mat-label>Phone number</mat-label>
+    <input matInput type="text" [formField]="loginForm.phoneNumber" />
+    @for (item of loginForm.phoneNumber().errors(); track item.message) {
+      <mat-error>{{ item.message }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input matInput type="password" [formField]="loginForm.password" />
+    @for (item of loginForm.password().errors(); track item.message) {
+      <mat-error>{{ item.message }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-action-row>
+    <button type="submit" mat-flat-button>Login</button>
+    <button type="button" mat-button matDialogClose>Cancel</button>
+  </mat-action-row>
+</form>

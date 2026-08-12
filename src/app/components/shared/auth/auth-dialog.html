@@ -1,0 +1,24 @@
+@let view = viewMode();
+
+<mat-dialog-content>
+  @if (view === 'login') {
+    <cookie-login />
+  }
+
+  @if (view === 'register') {
+    <cookie-register />
+  }
+
+  <div class="footer">
+    @if (view === 'login') {
+      <button type="button" mat-button (click)="viewMode.set('register')">
+        Don't have an account?
+      </button>
+    }
+    @if (view === 'register') {
+      <button type="button" mat-button (click)="viewMode.set('login')">
+        Already have an account?
+      </button>
+    }
+  </div>
+</mat-dialog-content>

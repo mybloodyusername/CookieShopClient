@@ -1,0 +1,28 @@
+<h1>home works!</h1>
+
+<hr/>
+
+<h2>Products</h2>
+@if (products.hasValue()) {
+  <mat-grid-list [cols]="6" rowHeight="300px" gutterSize="1rem">
+    @for (item of products.value().items; track item.id) {
+      <mat-grid-tile style="overflow: visible">
+        <mat-card style="width: 100%; height: 100%">
+          <mat-card-header>
+            <span matCardTitle>{{ item.name }}</span>
+          </mat-card-header>
+          <mat-card-content style="flex-grow: 1">
+            <p>{{ item.description }}</p>
+            <div style="display: flex; justify-content: space-between; align-items: center">
+              <span>Price: {{ item.price }}</span>
+              <span>Remaining: {{ item.stockQuantity }}</span>
+            </div>
+          </mat-card-content>
+          <mat-card-actions style="margin-block-start: auto">
+            <button mat-flat-button>Add</button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-grid-tile>
+    }
+  </mat-grid-list>
+}

@@ -11,28 +11,48 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "skipTests": true
+          "skipTests": true,
+          "addTypeToClassName": true,
+          "changeDetection": "OnPush",
+          "path": "src/app/components",
+          "prefix": "cookie"
         },
         "@schematics/angular:class": {
-          "skipTests": true
+          "skipTests": true,
+          "path": "src/app/classes"
         },
         "@schematics/angular:directive": {
-          "skipTests": true
+          "skipTests": true,
+          "path": "src/app/directives",
+          "addTypeToClassName": true
         },
         "@schematics/angular:guard": {
-          "skipTests": true
+          "skipTests": true,
+          "path": "src/app/guards",
+          "typeSeparator": ".",
+          "functional": true,
         },
         "@schematics/angular:interceptor": {
-          "skipTests": true
+          "skipTests": true,
+          "path": "src/app/interceptors",
+          "typeSeparator": ".",
+          "functional": true
         },
         "@schematics/angular:pipe": {
-          "skipTests": true
+          "skipTests": true,
+          "path": "src/app/pipes",
+          "typeSeparator": "."
         },
         "@schematics/angular:resolver": {
-          "skipTests": true
+          "skipTests": true,
+          "path": "src/app/resolvers",
+          "typeSeparator": ".",
+          "functional": true
         },
         "@schematics/angular:service": {
-          "skipTests": true
+          "skipTests": true,
+          "path": "src/app/services",
+          "addTypeToClassName": true
         }
       },
       "root": "",
