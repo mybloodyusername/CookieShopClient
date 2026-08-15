@@ -20,6 +20,10 @@ export const routes: Routes = [
         loadComponent: () => import('./components/panel/products/products').then((c) => c.Products),
       },
       {
+        path: 'orders',
+        loadComponent: () => import('./components/panel/orders/orders').then((c) => c.Orders),
+      },
+      {
         path: 'setting',
         loadComponent: () => import('./components/panel/setting/setting').then((c) => c.Setting),
       },

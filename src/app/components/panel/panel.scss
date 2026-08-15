@@ -5,7 +5,7 @@
 .sidenav {
   width: 240px;
   margin-block: 1rem;
-  background-color: var(--mat-sys-primary-container);
+  background-color: var(--mat-sys-secondary-container);
 }
 
 .sidenav .mat-toolbar {
@@ -16,11 +16,19 @@ mat-nav-list {
   padding: .25rem;
 }
 
+.sidenav-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .mat-toolbar {
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: var(--mat-sys-tertiary-container);
+  background-color: var(--mat-sys-secondary-container);
   border-end-end-radius: 1rem;
   border-end-start-radius: 1rem;
 }

@@ -5,13 +5,25 @@
     #drawer
     class="sidenav"
     fixedInViewport
+    disableClose
     [attr.role]="isHandset ? 'dialog' : 'navigation'"
     [mode]="isHandset ? 'over' : 'side'"
     [opened]="isHandset === false"
   >
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar>
+      <div class="sidenav-header">
+        <span>Menu</span>
+        @if (isHandset) {
+          <button matIconButton aria-label="Close menu" (click)="drawer.close()">
+            <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
+          </button>
+        }
+      </div>
+      <mat-divider />
+    </mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="/panel">Dashboard</a>
+      <a mat-list-item routerLink="/panel/orders">Orders</a>
       <a mat-list-item routerLink="/panel/products">Products</a>
       <a mat-list-item routerLink="/panel/setting">Setting</a>
     </mat-nav-list>
@@ -20,13 +32,13 @@
     <mat-toolbar>
       @if (isHandset) {
         <button type="button" aria-label="Toggle sidenav" matIconButton (click)="drawer.toggle()">
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+          <mat-icon fontSet="material-symbols-outlined">menu</mat-icon>
         </button>
       }
       <span>CookieShopClient</span>
     </mat-toolbar>
     <main>
-      <router-outlet/>
+      <router-outlet />
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
