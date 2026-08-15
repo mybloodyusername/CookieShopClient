@@ -7,7 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { map } from 'rxjs/operators';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'cookie-panel',
@@ -20,6 +20,7 @@ import { RouterOutlet } from '@angular/router';
     MatListModule,
     MatIconModule,
     RouterOutlet,
+    RouterLink,
   ],
 })
 export class Panel {

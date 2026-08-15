@@ -11,9 +11,9 @@
   >
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#">Link 1</a>
-      <a mat-list-item href="#">Link 2</a>
-      <a mat-list-item href="#">Link 3</a>
+      <a mat-list-item routerLink="/panel">Dashboard</a>
+      <a mat-list-item routerLink="/panel/products">Products</a>
+      <a mat-list-item routerLink="/panel/setting">Setting</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -26,7 +26,7 @@
       <span>CookieShopClient</span>
     </mat-toolbar>
     <main>
-      <router-outlet />
+      <router-outlet/>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

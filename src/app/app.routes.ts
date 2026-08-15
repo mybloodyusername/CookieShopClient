@@ -1,10 +1,6 @@
 import { Routes } from '@angular/router';
 import { Portal } from './components/portal/portal';
 import { NotFound } from './components/shared/not-found/not-found';
-import { Home } from './components/portal/home/home';
-import { About } from './components/portal/about/about';
-import { Dashboard } from './components/panel/dashboard/dashboard';
-import { Setting } from './components/panel/setting/setting';
 import { Panel } from './components/panel/panel';
 import { roleGuard } from './guards/role.guard';
 
@@ -16,11 +12,21 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: Dashboard,
+        loadComponent: () =>
+          import('./components/panel/dashboard/dashboard').then((c) => c.Dashboard),
+      },
+      {
+        path: 'products',
+        loadComponent: () => import('./components/panel/products/products').then((c) => c.Products),
       },
       {
         path: 'setting',
-        component: Setting,
+        loadComponent: () => import('./components/panel/setting/setting').then((c) => c.Setting),
+      },
+      {
+        path: '**',
+        pathMatch: 'full',
+        redirectTo: '',
       },
     ],
   },
@@ -30,11 +36,11 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: Home,
+        loadComponent: () => import('./components/portal/home/home').then((c) => c.Home),
       },
       {
         path: 'about',
-        component: About,
+        loadComponent: () => import('./components/portal/about/about').then((c) => c.About),
       },
     ],
   },
