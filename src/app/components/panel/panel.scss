@@ -3,15 +3,28 @@
 }
 
 .sidenav {
-  width: 200px;
+  width: 240px;
+  margin-block: 1rem;
+  background-color: var(--mat-sys-primary-container);
 }
 
 .sidenav .mat-toolbar {
   background: inherit;
 }
 
-.mat-toolbar.mat-primary {
+mat-nav-list {
+  padding: .25rem;
+}
+
+.mat-toolbar {
   position: sticky;
   top: 0;
   z-index: 1;
+  background-color: var(--mat-sys-tertiary-container);
+  border-end-end-radius: 1rem;
+  border-end-start-radius: 1rem;
+}
+
+mat-sidenav-content {
+  padding: 0 1rem;
 }
