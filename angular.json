@@ -30,7 +30,7 @@
           "skipTests": true,
           "path": "src/app/guards",
           "typeSeparator": ".",
-          "functional": true,
+          "functional": true
         },
         "@schematics/angular:interceptor": {
           "skipTests": true,

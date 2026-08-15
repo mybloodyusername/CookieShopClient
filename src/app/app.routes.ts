@@ -6,11 +6,13 @@ import { About } from './components/portal/about/about';
 import { Dashboard } from './components/panel/dashboard/dashboard';
 import { Setting } from './components/panel/setting/setting';
 import { Panel } from './components/panel/panel';
+import { roleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
   {
     path: 'panel',
     component: Panel,
+    canActivate: [roleGuard('admin')],
     children: [
       {
         path: '',
