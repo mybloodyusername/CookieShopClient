@@ -1,9 +1,9 @@
 import { CanActivateFn, RedirectCommand, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { CurrentUserService } from '../services/current-user';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs/operators';
 import { switchMap } from 'rxjs';
+import { CurrentUserService } from '../services/current-user.service';
 
 export const roleGuard = (role: 'customer' | 'admin'): CanActivateFn => {
   return (route, state) => {

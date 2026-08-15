@@ -52,6 +52,7 @@
         "@schematics/angular:service": {
           "skipTests": true,
           "path": "src/app/services",
+          "type": "service",
           "addTypeToClassName": true
         }
       },
