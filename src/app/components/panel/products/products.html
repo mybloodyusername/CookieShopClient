@@ -1,1 +1,11 @@
 <p>products works!</p>
+<form [formRoot]="searchForm">
+  <mat-form-field>
+    <mat-label>Category</mat-label>
+    <mat-select multiple [formField]="searchForm.category">
+      @for (category of categories.value(); track category.id) {
+        <mat-option [value]="category.id">{{ category.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</form>
