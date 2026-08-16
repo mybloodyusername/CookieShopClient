@@ -12,7 +12,7 @@ import {
   TreeValidationResult,
 } from '@angular/forms/signals';
 import { catchError, firstValueFrom, of, switchMap } from 'rxjs';
-import { AuthService } from '../../../../../api';
+import { ApiAuthService } from '../../../../../api';
 
 @Component({
   selector: 'cookie-login',
@@ -31,7 +31,7 @@ import { AuthService } from '../../../../../api';
   styleUrl: './login.scss',
 })
 export class Login {
-  private readonly authService = inject(AuthService);
+  private readonly apiAuthService = inject(ApiAuthService);
 
   formModel = signal({
     phoneNumber: '',
@@ -48,7 +48,7 @@ export class Login {
       submission: {
         action: (field, detail) => {
           return firstValueFrom(
-            this.authService
+            this.apiAuthService
               .apiAuthLoginPost({
                 phoneNumber: field.phoneNumber().value(),
                 password: field.password().value(),

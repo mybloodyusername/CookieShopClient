@@ -2,9 +2,9 @@ import { Component, inject, resource } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import {
   PagedResultOfProductResponse,
-  ProductService,
+  ApiProductService,
   UserResponse,
-  UserService,
+  ApiUserService,
 } from '../../../../api';
 import {
   MatCard,
@@ -32,17 +32,17 @@ import { MatGridList, MatGridTile } from '@angular/material/grid-list';
   styleUrl: './home.scss',
 })
 export class Home {
-  private readonly userService = inject(UserService);
-  private readonly productService = inject(ProductService);
+  private readonly apiUserService = inject(ApiUserService);
+  private readonly apiProductService = inject(ApiProductService);
   protected readonly me = resource<UserResponse, never>({
     loader: () => {
-      return firstValueFrom(this.userService.apiUserMeGet());
+      return firstValueFrom(this.apiUserService.apiUserMeGet());
     },
   });
 
   protected readonly products = resource<PagedResultOfProductResponse, never>({
     loader: () => {
-      return firstValueFrom(this.productService.apiProductGet());
+      return firstValueFrom(this.apiProductService.apiProductGet());
     },
   });
 }

@@ -6,6 +6,12 @@ const config: GeneratorConfig = {
   options: {
     dateType: 'Date',
     enumStyle: 'enum',
+    naming: {
+      services: {
+        prefix: 'Api',
+      },
+    },
+    serviceDecorator: 'service',
   },
 };
 
