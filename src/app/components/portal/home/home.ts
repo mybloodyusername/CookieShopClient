@@ -1,11 +1,5 @@
-import { Component, inject, resource } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
-import {
-  PagedResultOfProductResponse,
-  ApiProductService,
-  UserResponse,
-  ApiUserService,
-} from '../../../../api';
+import { Component, inject } from '@angular/core';
+import { ApiProductService, ApiUserService } from '../../../../api';
 import {
   MatCard,
   MatCardActions,
@@ -15,6 +9,7 @@ import {
 } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
 import { MatGridList, MatGridTile } from '@angular/material/grid-list';
+import { StoreService } from '../../../services/store.service';
 
 @Component({
   selector: 'cookie-home',
@@ -32,17 +27,16 @@ import { MatGridList, MatGridTile } from '@angular/material/grid-list';
   styleUrl: './home.scss',
 })
 export class Home {
-  private readonly apiUserService = inject(ApiUserService);
-  private readonly apiProductService = inject(ApiProductService);
-  protected readonly me = resource<UserResponse, never>({
-    loader: () => {
-      return firstValueFrom(this.apiUserService.apiUserMeGet());
-    },
-  });
+  private readonly storeService = inject(StoreService);
 
-  protected readonly products = resource<PagedResultOfProductResponse, never>({
-    loader: () => {
-      return firstValueFrom(this.apiProductService.apiProductGet());
-    },
-  });
+  protected readonly products = this.storeService.products;
+
+  constructor() {
+    this.storeService.productParams.set({
+      page: 1,
+      pageSize: 100,
+      search: '',
+      categoryId: '',
+    });
+  }
 }
