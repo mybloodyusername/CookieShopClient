@@ -12,7 +12,7 @@ import { inject, Service } from "@angular/core";
 import { Observable } from "rxjs";
 import { BASE_PATH_DEFAULT, CLIENT_CONTEXT_TOKEN_DEFAULT } from "../tokens";
 import { HttpParamsBuilder } from "../utils/http-params-builder";
-import { LoginRequest, RequestOptions, UserResponse, RegisterRequest, RegisterResponse } from "../models";
+import { ApiAuthLoginPostParams, RequestOptions, UserResponse, ApiAuthRegisterPostParams, RegisterResponse } from "../models";
 
 @Service()
 export class ApiAuthService {
@@ -25,10 +25,11 @@ export class ApiAuthService {
         return context.set(this.clientContextToken, 'default');
     }
 
-    apiAuthLoginPost(loginRequest: LoginRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<UserResponse>;
-    apiAuthLoginPost(loginRequest: LoginRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<UserResponse>>;
-    apiAuthLoginPost(loginRequest: LoginRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<UserResponse>>;
-    apiAuthLoginPost(loginRequest: LoginRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiAuthLoginPost(request: ApiAuthLoginPostParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<UserResponse>;
+    apiAuthLoginPost(request: ApiAuthLoginPostParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<UserResponse>>;
+    apiAuthLoginPost(request: ApiAuthLoginPostParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<UserResponse>>;
+    apiAuthLoginPost(request: ApiAuthLoginPostParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { loginRequest } = request;
         const url = `${this.basePath}/api/Auth/Login`;
 
         let headers: HttpHeaders;
@@ -56,10 +57,11 @@ export class ApiAuthService {
         });
     }
 
-    apiAuthRegisterPost(registerRequest: RegisterRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<RegisterResponse>;
-    apiAuthRegisterPost(registerRequest: RegisterRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<RegisterResponse>>;
-    apiAuthRegisterPost(registerRequest: RegisterRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<RegisterResponse>>;
-    apiAuthRegisterPost(registerRequest: RegisterRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiAuthRegisterPost(request: ApiAuthRegisterPostParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<RegisterResponse>;
+    apiAuthRegisterPost(request: ApiAuthRegisterPostParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<RegisterResponse>>;
+    apiAuthRegisterPost(request: ApiAuthRegisterPostParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<RegisterResponse>>;
+    apiAuthRegisterPost(request: ApiAuthRegisterPostParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { registerRequest } = request;
         const url = `${this.basePath}/api/Auth/Register`;
 
         let headers: HttpHeaders;

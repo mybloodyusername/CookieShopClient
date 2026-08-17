@@ -50,15 +50,16 @@ export class Login {
           return firstValueFrom(
             this.apiAuthService
               .apiAuthLoginPost({
-                phoneNumber: field.phoneNumber().value(),
-                password: field.password().value(),
+                loginRequest: {
+                  phoneNumber: field.phoneNumber().value(),
+                  password: field.password().value(),
+                },
               })
               .pipe(
                 switchMap(() => {
                   return of();
                 }),
                 catchError((err) => {
-                  debugger;
                   return of<TreeValidationResult>({
                     message: err.error.message ?? '',
                     kind: 'Http Request',

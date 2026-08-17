@@ -12,7 +12,7 @@ import { inject, Service } from "@angular/core";
 import { Observable } from "rxjs";
 import { BASE_PATH_DEFAULT, CLIENT_CONTEXT_TOKEN_DEFAULT } from "../tokens";
 import { HttpParamsBuilder } from "../utils/http-params-builder";
-import { UpdateUserRequest, RequestOptions, UserResponse, CreateUserRequest } from "../models";
+import { ApiUserUpdatePutParams, RequestOptions, UserResponse, ApiUserCreateByAdminPostParams, ApiUserUpdateByAdminIdPostParams, ApiUserGetByIdByAdminIdGetParams, ApiUserGetByPhoneNumberByAdminPhoneNumberGetParams } from "../models";
 
 @Service()
 export class ApiUserService {
@@ -25,10 +25,11 @@ export class ApiUserService {
         return context.set(this.clientContextToken, 'default');
     }
 
-    apiUserUpdatePut(updateUserRequest: UpdateUserRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<UserResponse>;
-    apiUserUpdatePut(updateUserRequest: UpdateUserRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<UserResponse>>;
-    apiUserUpdatePut(updateUserRequest: UpdateUserRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<UserResponse>>;
-    apiUserUpdatePut(updateUserRequest: UpdateUserRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiUserUpdatePut(request: ApiUserUpdatePutParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<UserResponse>;
+    apiUserUpdatePut(request: ApiUserUpdatePutParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<UserResponse>>;
+    apiUserUpdatePut(request: ApiUserUpdatePutParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<UserResponse>>;
+    apiUserUpdatePut(request: ApiUserUpdatePutParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { updateUserRequest } = request;
         const url = `${this.basePath}/api/User/Update`;
 
         let headers: HttpHeaders;
@@ -105,10 +106,11 @@ export class ApiUserService {
         });
     }
 
-    apiUserCreateByAdminPost(createUserRequest: CreateUserRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<UserResponse>;
-    apiUserCreateByAdminPost(createUserRequest: CreateUserRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<UserResponse>>;
-    apiUserCreateByAdminPost(createUserRequest: CreateUserRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<UserResponse>>;
-    apiUserCreateByAdminPost(createUserRequest: CreateUserRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiUserCreateByAdminPost(request: ApiUserCreateByAdminPostParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<UserResponse>;
+    apiUserCreateByAdminPost(request: ApiUserCreateByAdminPostParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<UserResponse>>;
+    apiUserCreateByAdminPost(request: ApiUserCreateByAdminPostParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<UserResponse>>;
+    apiUserCreateByAdminPost(request: ApiUserCreateByAdminPostParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { createUserRequest } = request;
         const url = `${this.basePath}/api/User/CreateByAdmin`;
 
         let headers: HttpHeaders;
@@ -136,10 +138,11 @@ export class ApiUserService {
         });
     }
 
-    apiUserUpdateByAdminIdPost(id: string, updateUserRequest: UpdateUserRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<UserResponse>;
-    apiUserUpdateByAdminIdPost(id: string, updateUserRequest: UpdateUserRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<UserResponse>>;
-    apiUserUpdateByAdminIdPost(id: string, updateUserRequest: UpdateUserRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<UserResponse>>;
-    apiUserUpdateByAdminIdPost(id: string, updateUserRequest: UpdateUserRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiUserUpdateByAdminIdPost(request: ApiUserUpdateByAdminIdPostParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<UserResponse>;
+    apiUserUpdateByAdminIdPost(request: ApiUserUpdateByAdminIdPostParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<UserResponse>>;
+    apiUserUpdateByAdminIdPost(request: ApiUserUpdateByAdminIdPostParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<UserResponse>>;
+    apiUserUpdateByAdminIdPost(request: ApiUserUpdateByAdminIdPostParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { id, updateUserRequest } = request;
         const url = `${this.basePath}/api/User/UpdateByAdmin/${id}`;
 
         let headers: HttpHeaders;
@@ -167,10 +170,11 @@ export class ApiUserService {
         });
     }
 
-    apiUserGetByIdByAdminIdGet(id: string, observe?: 'body', options?: RequestOptions<'json'>): Observable<UserResponse>;
-    apiUserGetByIdByAdminIdGet(id: string, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<UserResponse>>;
-    apiUserGetByIdByAdminIdGet(id: string, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<UserResponse>>;
-    apiUserGetByIdByAdminIdGet(id: string, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiUserGetByIdByAdminIdGet(request: ApiUserGetByIdByAdminIdGetParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<UserResponse>;
+    apiUserGetByIdByAdminIdGet(request: ApiUserGetByIdByAdminIdGetParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<UserResponse>>;
+    apiUserGetByIdByAdminIdGet(request: ApiUserGetByIdByAdminIdGetParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<UserResponse>>;
+    apiUserGetByIdByAdminIdGet(request: ApiUserGetByIdByAdminIdGetParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { id } = request;
         const url = `${this.basePath}/api/User/GetByIdByAdmin/${id}`;
 
         let headers: HttpHeaders;
@@ -193,10 +197,11 @@ export class ApiUserService {
         });
     }
 
-    apiUserGetByPhoneNumberByAdminPhoneNumberGet(phoneNumber: string, observe?: 'body', options?: RequestOptions<'json'>): Observable<UserResponse>;
-    apiUserGetByPhoneNumberByAdminPhoneNumberGet(phoneNumber: string, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<UserResponse>>;
-    apiUserGetByPhoneNumberByAdminPhoneNumberGet(phoneNumber: string, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<UserResponse>>;
-    apiUserGetByPhoneNumberByAdminPhoneNumberGet(phoneNumber: string, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiUserGetByPhoneNumberByAdminPhoneNumberGet(request: ApiUserGetByPhoneNumberByAdminPhoneNumberGetParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<UserResponse>;
+    apiUserGetByPhoneNumberByAdminPhoneNumberGet(request: ApiUserGetByPhoneNumberByAdminPhoneNumberGetParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<UserResponse>>;
+    apiUserGetByPhoneNumberByAdminPhoneNumberGet(request: ApiUserGetByPhoneNumberByAdminPhoneNumberGetParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<UserResponse>>;
+    apiUserGetByPhoneNumberByAdminPhoneNumberGet(request: ApiUserGetByPhoneNumberByAdminPhoneNumberGetParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { phoneNumber } = request;
         const url = `${this.basePath}/api/User/GetByPhoneNumberByAdmin/${phoneNumber}`;
 
         let headers: HttpHeaders;

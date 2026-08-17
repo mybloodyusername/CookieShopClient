@@ -12,7 +12,7 @@ import { inject, Service } from "@angular/core";
 import { Observable } from "rxjs";
 import { BASE_PATH_DEFAULT, CLIENT_CONTEXT_TOKEN_DEFAULT } from "../tokens";
 import { HttpParamsBuilder } from "../utils/http-params-builder";
-import { RequestOptions, CategoryResponse, CreateCategoryRequest, UpdateCategoryRequest } from "../models";
+import { RequestOptions, CategoryResponse, ApiCategoryCreateByAdminPostParams, ApiCategoryUpdateByAdminPutParams, ApiCategoryDeleteByAdminIdDeleteParams } from "../models";
 
 @Service()
 export class ApiCategoryService {
@@ -51,10 +51,11 @@ export class ApiCategoryService {
         });
     }
 
-    apiCategoryCreateByAdminPost(createCategoryRequest: CreateCategoryRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<CategoryResponse>;
-    apiCategoryCreateByAdminPost(createCategoryRequest: CreateCategoryRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<CategoryResponse>>;
-    apiCategoryCreateByAdminPost(createCategoryRequest: CreateCategoryRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<CategoryResponse>>;
-    apiCategoryCreateByAdminPost(createCategoryRequest: CreateCategoryRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiCategoryCreateByAdminPost(request: ApiCategoryCreateByAdminPostParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<CategoryResponse>;
+    apiCategoryCreateByAdminPost(request: ApiCategoryCreateByAdminPostParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<CategoryResponse>>;
+    apiCategoryCreateByAdminPost(request: ApiCategoryCreateByAdminPostParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<CategoryResponse>>;
+    apiCategoryCreateByAdminPost(request: ApiCategoryCreateByAdminPostParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { createCategoryRequest } = request;
         const url = `${this.basePath}/api/Category/CreateByAdmin`;
 
         let headers: HttpHeaders;
@@ -82,10 +83,11 @@ export class ApiCategoryService {
         });
     }
 
-    apiCategoryUpdateByAdminPut(updateCategoryRequest: UpdateCategoryRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<CategoryResponse>;
-    apiCategoryUpdateByAdminPut(updateCategoryRequest: UpdateCategoryRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<CategoryResponse>>;
-    apiCategoryUpdateByAdminPut(updateCategoryRequest: UpdateCategoryRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<CategoryResponse>>;
-    apiCategoryUpdateByAdminPut(updateCategoryRequest: UpdateCategoryRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiCategoryUpdateByAdminPut(request: ApiCategoryUpdateByAdminPutParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<CategoryResponse>;
+    apiCategoryUpdateByAdminPut(request: ApiCategoryUpdateByAdminPutParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<CategoryResponse>>;
+    apiCategoryUpdateByAdminPut(request: ApiCategoryUpdateByAdminPutParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<CategoryResponse>>;
+    apiCategoryUpdateByAdminPut(request: ApiCategoryUpdateByAdminPutParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { updateCategoryRequest } = request;
         const url = `${this.basePath}/api/Category/UpdateByAdmin`;
 
         let headers: HttpHeaders;
@@ -113,10 +115,11 @@ export class ApiCategoryService {
         });
     }
 
-    apiCategoryDeleteByAdminIdDelete(id: string, observe?: 'body', options?: RequestOptions<'json'>): Observable<any>;
-    apiCategoryDeleteByAdminIdDelete(id: string, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<any>>;
-    apiCategoryDeleteByAdminIdDelete(id: string, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<any>>;
-    apiCategoryDeleteByAdminIdDelete(id: string, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiCategoryDeleteByAdminIdDelete(request: ApiCategoryDeleteByAdminIdDeleteParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<any>;
+    apiCategoryDeleteByAdminIdDelete(request: ApiCategoryDeleteByAdminIdDeleteParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<any>>;
+    apiCategoryDeleteByAdminIdDelete(request: ApiCategoryDeleteByAdminIdDeleteParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<any>>;
+    apiCategoryDeleteByAdminIdDelete(request: ApiCategoryDeleteByAdminIdDeleteParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { id } = request;
         const url = `${this.basePath}/api/Category/DeleteByAdmin/${id}`;
 
         let headers: HttpHeaders;

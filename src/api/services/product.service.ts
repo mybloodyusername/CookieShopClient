@@ -12,7 +12,7 @@ import { inject, Service } from "@angular/core";
 import { Observable } from "rxjs";
 import { BASE_PATH_DEFAULT, CLIENT_CONTEXT_TOKEN_DEFAULT } from "../tokens";
 import { HttpParamsBuilder } from "../utils/http-params-builder";
-import { RequestOptions, PagedResultOfProductResponse, ProductDetailResponse, CreateProductRequest, ProductResponse, UpdateProductRequest } from "../models";
+import { ApiProductGetParams, RequestOptions, PagedResultOfProductResponse, ApiProductIdGetParams, ProductDetailResponse, ApiProductCreateByAdminPostParams, ProductResponse, ApiProductUpdateByAdminPutParams, ApiProductDeleteByAdminIdDeleteParams } from "../models";
 
 @Service()
 export class ApiProductService {
@@ -25,10 +25,11 @@ export class ApiProductService {
         return context.set(this.clientContextToken, 'default');
     }
 
-    apiProductGet(categoryId?: string, search?: string, page?: number | string, pageSize?: number | string, observe?: 'body', options?: RequestOptions<'json'>): Observable<PagedResultOfProductResponse>;
-    apiProductGet(categoryId?: string, search?: string, page?: number | string, pageSize?: number | string, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<PagedResultOfProductResponse>>;
-    apiProductGet(categoryId?: string, search?: string, page?: number | string, pageSize?: number | string, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<PagedResultOfProductResponse>>;
-    apiProductGet(categoryId?: string, search?: string, page?: number | string, pageSize?: number | string, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiProductGet(request?: ApiProductGetParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<PagedResultOfProductResponse>;
+    apiProductGet(request?: ApiProductGetParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<PagedResultOfProductResponse>>;
+    apiProductGet(request?: ApiProductGetParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<PagedResultOfProductResponse>>;
+    apiProductGet(request?: ApiProductGetParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { categoryId, search, page, pageSize } = request ?? {};
         const url = `${this.basePath}/api/Product`;
 
         let params = new HttpParams();
@@ -66,10 +67,11 @@ export class ApiProductService {
         });
     }
 
-    apiProductIdGet(id: string, observe?: 'body', options?: RequestOptions<'json'>): Observable<ProductDetailResponse>;
-    apiProductIdGet(id: string, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<ProductDetailResponse>>;
-    apiProductIdGet(id: string, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<ProductDetailResponse>>;
-    apiProductIdGet(id: string, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiProductIdGet(request: ApiProductIdGetParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<ProductDetailResponse>;
+    apiProductIdGet(request: ApiProductIdGetParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<ProductDetailResponse>>;
+    apiProductIdGet(request: ApiProductIdGetParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<ProductDetailResponse>>;
+    apiProductIdGet(request: ApiProductIdGetParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { id } = request;
         const url = `${this.basePath}/api/Product/${id}`;
 
         let headers: HttpHeaders;
@@ -92,10 +94,11 @@ export class ApiProductService {
         });
     }
 
-    apiProductCreateByAdminPost(createProductRequest: CreateProductRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<ProductResponse>;
-    apiProductCreateByAdminPost(createProductRequest: CreateProductRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<ProductResponse>>;
-    apiProductCreateByAdminPost(createProductRequest: CreateProductRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<ProductResponse>>;
-    apiProductCreateByAdminPost(createProductRequest: CreateProductRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiProductCreateByAdminPost(request: ApiProductCreateByAdminPostParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<ProductResponse>;
+    apiProductCreateByAdminPost(request: ApiProductCreateByAdminPostParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<ProductResponse>>;
+    apiProductCreateByAdminPost(request: ApiProductCreateByAdminPostParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<ProductResponse>>;
+    apiProductCreateByAdminPost(request: ApiProductCreateByAdminPostParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { createProductRequest } = request;
         const url = `${this.basePath}/api/Product/CreateByAdmin`;
 
         let headers: HttpHeaders;
@@ -123,10 +126,11 @@ export class ApiProductService {
         });
     }
 
-    apiProductUpdateByAdminPut(updateProductRequest: UpdateProductRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<ProductResponse>;
-    apiProductUpdateByAdminPut(updateProductRequest: UpdateProductRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<ProductResponse>>;
-    apiProductUpdateByAdminPut(updateProductRequest: UpdateProductRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<ProductResponse>>;
-    apiProductUpdateByAdminPut(updateProductRequest: UpdateProductRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiProductUpdateByAdminPut(request: ApiProductUpdateByAdminPutParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<ProductResponse>;
+    apiProductUpdateByAdminPut(request: ApiProductUpdateByAdminPutParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<ProductResponse>>;
+    apiProductUpdateByAdminPut(request: ApiProductUpdateByAdminPutParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<ProductResponse>>;
+    apiProductUpdateByAdminPut(request: ApiProductUpdateByAdminPutParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { updateProductRequest } = request;
         const url = `${this.basePath}/api/Product/UpdateByAdmin`;
 
         let headers: HttpHeaders;
@@ -154,10 +158,11 @@ export class ApiProductService {
         });
     }
 
-    apiProductDeleteByAdminIdDelete(id: string, observe?: 'body', options?: RequestOptions<'json'>): Observable<any>;
-    apiProductDeleteByAdminIdDelete(id: string, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<any>>;
-    apiProductDeleteByAdminIdDelete(id: string, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<any>>;
-    apiProductDeleteByAdminIdDelete(id: string, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiProductDeleteByAdminIdDelete(request: ApiProductDeleteByAdminIdDeleteParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<any>;
+    apiProductDeleteByAdminIdDelete(request: ApiProductDeleteByAdminIdDeleteParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<any>>;
+    apiProductDeleteByAdminIdDelete(request: ApiProductDeleteByAdminIdDeleteParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<any>>;
+    apiProductDeleteByAdminIdDelete(request: ApiProductDeleteByAdminIdDeleteParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { id } = request;
         const url = `${this.basePath}/api/Product/DeleteByAdmin/${id}`;
 
         let headers: HttpHeaders;

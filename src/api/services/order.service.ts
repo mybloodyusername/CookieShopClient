@@ -12,7 +12,7 @@ import { inject, Service } from "@angular/core";
 import { Observable } from "rxjs";
 import { BASE_PATH_DEFAULT, CLIENT_CONTEXT_TOKEN_DEFAULT } from "../tokens";
 import { HttpParamsBuilder } from "../utils/http-params-builder";
-import { CreateOrderRequest, RequestOptions, OrderDetailResponse, OrderResponse, OrderStatus, PagedResultOfOrderResponse, UpdateOrderStatusRequest } from "../models";
+import { ApiOrderCreatePostParams, RequestOptions, OrderDetailResponse, OrderResponse, ApiOrderGetByIdIdGetParams, ApiOrderCancelIdPutParams, ApiOrderGetAllByAdminGetParams, PagedResultOfOrderResponse, ApiOrderGetByIdByAdminIdGetParams, ApiOrderUpdateStatusByAdminPutParams } from "../models";
 
 @Service()
 export class ApiOrderService {
@@ -25,10 +25,11 @@ export class ApiOrderService {
         return context.set(this.clientContextToken, 'default');
     }
 
-    apiOrderCreatePost(createOrderRequest: CreateOrderRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<OrderDetailResponse>;
-    apiOrderCreatePost(createOrderRequest: CreateOrderRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<OrderDetailResponse>>;
-    apiOrderCreatePost(createOrderRequest: CreateOrderRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<OrderDetailResponse>>;
-    apiOrderCreatePost(createOrderRequest: CreateOrderRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiOrderCreatePost(request: ApiOrderCreatePostParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<OrderDetailResponse>;
+    apiOrderCreatePost(request: ApiOrderCreatePostParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<OrderDetailResponse>>;
+    apiOrderCreatePost(request: ApiOrderCreatePostParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<OrderDetailResponse>>;
+    apiOrderCreatePost(request: ApiOrderCreatePostParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { createOrderRequest } = request;
         const url = `${this.basePath}/api/Order/Create`;
 
         let headers: HttpHeaders;
@@ -82,10 +83,11 @@ export class ApiOrderService {
         });
     }
 
-    apiOrderGetByIdIdGet(id: string, observe?: 'body', options?: RequestOptions<'json'>): Observable<OrderDetailResponse>;
-    apiOrderGetByIdIdGet(id: string, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<OrderDetailResponse>>;
-    apiOrderGetByIdIdGet(id: string, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<OrderDetailResponse>>;
-    apiOrderGetByIdIdGet(id: string, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiOrderGetByIdIdGet(request: ApiOrderGetByIdIdGetParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<OrderDetailResponse>;
+    apiOrderGetByIdIdGet(request: ApiOrderGetByIdIdGetParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<OrderDetailResponse>>;
+    apiOrderGetByIdIdGet(request: ApiOrderGetByIdIdGetParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<OrderDetailResponse>>;
+    apiOrderGetByIdIdGet(request: ApiOrderGetByIdIdGetParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { id } = request;
         const url = `${this.basePath}/api/Order/GetById/${id}`;
 
         let headers: HttpHeaders;
@@ -108,10 +110,11 @@ export class ApiOrderService {
         });
     }
 
-    apiOrderCancelIdPut(id: string, observe?: 'body', options?: RequestOptions<'json'>): Observable<OrderResponse>;
-    apiOrderCancelIdPut(id: string, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<OrderResponse>>;
-    apiOrderCancelIdPut(id: string, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<OrderResponse>>;
-    apiOrderCancelIdPut(id: string, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiOrderCancelIdPut(request: ApiOrderCancelIdPutParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<OrderResponse>;
+    apiOrderCancelIdPut(request: ApiOrderCancelIdPutParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<OrderResponse>>;
+    apiOrderCancelIdPut(request: ApiOrderCancelIdPutParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<OrderResponse>>;
+    apiOrderCancelIdPut(request: ApiOrderCancelIdPutParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { id } = request;
         const url = `${this.basePath}/api/Order/Cancel/${id}`;
 
         let headers: HttpHeaders;
@@ -135,10 +138,11 @@ export class ApiOrderService {
         });
     }
 
-    apiOrderGetAllByAdminGet(status?: OrderStatus, page?: number | string, pageSize?: number | string, observe?: 'body', options?: RequestOptions<'json'>): Observable<PagedResultOfOrderResponse>;
-    apiOrderGetAllByAdminGet(status?: OrderStatus, page?: number | string, pageSize?: number | string, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<PagedResultOfOrderResponse>>;
-    apiOrderGetAllByAdminGet(status?: OrderStatus, page?: number | string, pageSize?: number | string, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<PagedResultOfOrderResponse>>;
-    apiOrderGetAllByAdminGet(status?: OrderStatus, page?: number | string, pageSize?: number | string, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiOrderGetAllByAdminGet(request?: ApiOrderGetAllByAdminGetParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<PagedResultOfOrderResponse>;
+    apiOrderGetAllByAdminGet(request?: ApiOrderGetAllByAdminGetParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<PagedResultOfOrderResponse>>;
+    apiOrderGetAllByAdminGet(request?: ApiOrderGetAllByAdminGetParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<PagedResultOfOrderResponse>>;
+    apiOrderGetAllByAdminGet(request?: ApiOrderGetAllByAdminGetParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { status, page, pageSize } = request ?? {};
         const url = `${this.basePath}/api/Order/GetAllByAdmin`;
 
         let params = new HttpParams();
@@ -173,10 +177,11 @@ export class ApiOrderService {
         });
     }
 
-    apiOrderGetByIdByAdminIdGet(id: string, observe?: 'body', options?: RequestOptions<'json'>): Observable<OrderDetailResponse>;
-    apiOrderGetByIdByAdminIdGet(id: string, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<OrderDetailResponse>>;
-    apiOrderGetByIdByAdminIdGet(id: string, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<OrderDetailResponse>>;
-    apiOrderGetByIdByAdminIdGet(id: string, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiOrderGetByIdByAdminIdGet(request: ApiOrderGetByIdByAdminIdGetParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<OrderDetailResponse>;
+    apiOrderGetByIdByAdminIdGet(request: ApiOrderGetByIdByAdminIdGetParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<OrderDetailResponse>>;
+    apiOrderGetByIdByAdminIdGet(request: ApiOrderGetByIdByAdminIdGetParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<OrderDetailResponse>>;
+    apiOrderGetByIdByAdminIdGet(request: ApiOrderGetByIdByAdminIdGetParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { id } = request;
         const url = `${this.basePath}/api/Order/GetByIdByAdmin/${id}`;
 
         let headers: HttpHeaders;
@@ -199,10 +204,11 @@ export class ApiOrderService {
         });
     }
 
-    apiOrderUpdateStatusByAdminPut(updateOrderStatusRequest: UpdateOrderStatusRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<OrderResponse>;
-    apiOrderUpdateStatusByAdminPut(updateOrderStatusRequest: UpdateOrderStatusRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<OrderResponse>>;
-    apiOrderUpdateStatusByAdminPut(updateOrderStatusRequest: UpdateOrderStatusRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<OrderResponse>>;
-    apiOrderUpdateStatusByAdminPut(updateOrderStatusRequest: UpdateOrderStatusRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiOrderUpdateStatusByAdminPut(request: ApiOrderUpdateStatusByAdminPutParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<OrderResponse>;
+    apiOrderUpdateStatusByAdminPut(request: ApiOrderUpdateStatusByAdminPutParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<OrderResponse>>;
+    apiOrderUpdateStatusByAdminPut(request: ApiOrderUpdateStatusByAdminPutParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<OrderResponse>>;
+    apiOrderUpdateStatusByAdminPut(request: ApiOrderUpdateStatusByAdminPutParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { updateOrderStatusRequest } = request;
         const url = `${this.basePath}/api/Order/UpdateStatusByAdmin`;
 
         let headers: HttpHeaders;

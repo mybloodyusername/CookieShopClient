@@ -4,7 +4,19 @@
     <ul>
       <li><a mat-button routerLink="/">Home</a></li>
       <li><a mat-button routerLink="/about">About</a></li>
-      <li><button mat-flat-button (click)="openLogin()">Login</button></li>
+      <li>
+        @if (me.status() !== 'error') {
+          @let user = me.value();
+          <a
+            mat-flat-button
+            [routerLink]="user?.role?.toLowerCase() === 'admin' ? ['/', 'panel'] : ['/', 'account']"
+          >
+            {{ user?.fullName || 'Profile' }}
+          </a>
+        } @else {
+          <button mat-flat-button (click)="openLogin()">Login</button>
+        }
+      </li>
     </ul>
   </div>
 </header>

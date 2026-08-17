@@ -12,6 +12,7 @@ const config: GeneratorConfig = {
       },
     },
     serviceDecorator: 'service',
+    useSingleRequestParameter: true,
   },
 };
 

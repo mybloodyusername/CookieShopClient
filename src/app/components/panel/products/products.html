@@ -1,11 +1,75 @@
-<p>products works!</p>
+<h2>Products</h2>
+
 <form [formRoot]="searchForm">
   <mat-form-field>
     <mat-label>Category</mat-label>
-    <mat-select multiple [formField]="searchForm.category">
+    <mat-select [formField]="searchForm.category">
+      <mat-option [value]="''">All</mat-option>
       @for (category of categories.value(); track category.id) {
         <mat-option [value]="category.id">{{ category.name }}</mat-option>
       }
     </mat-select>
   </mat-form-field>
 </form>
+
+<mat-divider />
+
+@let productsValue = products.value();
+
+<table mat-table [dataSource]="productsValue.items">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>name</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef>description</th>
+    <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef>price</th>
+    <td mat-cell *matCellDef="let element">{{ element.price }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="isOnSale">
+    <th mat-header-cell *matHeaderCellDef>isOnSale</th>
+    <td mat-cell *matCellDef="let element">{{ element.isOnSale }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="salePrice">
+    <th mat-header-cell *matHeaderCellDef>salePrice</th>
+    <td mat-cell *matCellDef="let element">{{ element.salePrice }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="imageUrl">
+    <th mat-header-cell *matHeaderCellDef>imageUrl</th>
+    <td mat-cell *matCellDef="let element">{{ element.imageUrl }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="stockQuantity">
+    <th mat-header-cell *matHeaderCellDef>stockQuantity</th>
+    <td mat-cell *matCellDef="let element">{{ element.stockQuantity }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="isAvailable">
+    <th mat-header-cell *matHeaderCellDef>isAvailable</th>
+    <td mat-cell *matCellDef="let element">{{ element.isAvailable }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="categoryId">
+    <th mat-header-cell *matHeaderCellDef>categoryId</th>
+    <td mat-cell *matCellDef="let element">{{ element.categoryId }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+<mat-paginator
+  [pageSizeOptions]="[2, 5, 10, 20, 50]"
+  [pageSize]="productsValue.pageSize"
+  [pageIndex]="productsValue.page"
+  [length]="productsValue.totalCount"
+  (page)="onPageChange($event)"
+/>

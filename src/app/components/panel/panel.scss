@@ -5,7 +5,7 @@
 .sidenav {
   width: 240px;
   margin-block: 1rem;
-  background-color: var(--mat-sys-secondary-container);
+  background-color: var(--mat-sys-tertiary-container);
 }
 
 .sidenav .mat-toolbar {
@@ -13,7 +13,7 @@
 }
 
 mat-nav-list {
-  padding: .25rem;
+  padding: 0.25rem;
 }
 
 .sidenav-header {
@@ -28,11 +28,18 @@ mat-nav-list {
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: var(--mat-sys-secondary-container);
+  background-color: var(--mat-sys-tertiary-container);
   border-end-end-radius: 1rem;
   border-end-start-radius: 1rem;
 }
 
 mat-sidenav-content {
   padding: 0 1rem;
+  mat-toolbar {
+    background-color: var(--mat-sys-tertiary-container);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }

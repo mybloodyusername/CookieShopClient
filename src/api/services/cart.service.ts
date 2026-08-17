@@ -12,7 +12,7 @@ import { inject, Service } from "@angular/core";
 import { Observable } from "rxjs";
 import { BASE_PATH_DEFAULT, CLIENT_CONTEXT_TOKEN_DEFAULT } from "../tokens";
 import { HttpParamsBuilder } from "../utils/http-params-builder";
-import { RequestOptions, CartResponse, AddCartItemRequest, UpdateCartItemRequest } from "../models";
+import { RequestOptions, CartResponse, ApiCartAddItemPostParams, ApiCartUpdateItemPutParams, ApiCartRemoveItemProductIdDeleteParams } from "../models";
 
 @Service()
 export class ApiCartService {
@@ -51,10 +51,11 @@ export class ApiCartService {
         });
     }
 
-    apiCartAddItemPost(addCartItemRequest: AddCartItemRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<CartResponse>;
-    apiCartAddItemPost(addCartItemRequest: AddCartItemRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<CartResponse>>;
-    apiCartAddItemPost(addCartItemRequest: AddCartItemRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<CartResponse>>;
-    apiCartAddItemPost(addCartItemRequest: AddCartItemRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiCartAddItemPost(request: ApiCartAddItemPostParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<CartResponse>;
+    apiCartAddItemPost(request: ApiCartAddItemPostParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<CartResponse>>;
+    apiCartAddItemPost(request: ApiCartAddItemPostParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<CartResponse>>;
+    apiCartAddItemPost(request: ApiCartAddItemPostParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { addCartItemRequest } = request;
         const url = `${this.basePath}/api/Cart/AddItem`;
 
         let headers: HttpHeaders;
@@ -82,10 +83,11 @@ export class ApiCartService {
         });
     }
 
-    apiCartUpdateItemPut(updateCartItemRequest: UpdateCartItemRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<CartResponse>;
-    apiCartUpdateItemPut(updateCartItemRequest: UpdateCartItemRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<CartResponse>>;
-    apiCartUpdateItemPut(updateCartItemRequest: UpdateCartItemRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<CartResponse>>;
-    apiCartUpdateItemPut(updateCartItemRequest: UpdateCartItemRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiCartUpdateItemPut(request: ApiCartUpdateItemPutParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<CartResponse>;
+    apiCartUpdateItemPut(request: ApiCartUpdateItemPutParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<CartResponse>>;
+    apiCartUpdateItemPut(request: ApiCartUpdateItemPutParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<CartResponse>>;
+    apiCartUpdateItemPut(request: ApiCartUpdateItemPutParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { updateCartItemRequest } = request;
         const url = `${this.basePath}/api/Cart/UpdateItem`;
 
         let headers: HttpHeaders;
@@ -113,10 +115,11 @@ export class ApiCartService {
         });
     }
 
-    apiCartRemoveItemProductIdDelete(productId: string, observe?: 'body', options?: RequestOptions<'json'>): Observable<CartResponse>;
-    apiCartRemoveItemProductIdDelete(productId: string, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<CartResponse>>;
-    apiCartRemoveItemProductIdDelete(productId: string, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<CartResponse>>;
-    apiCartRemoveItemProductIdDelete(productId: string, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiCartRemoveItemProductIdDelete(request: ApiCartRemoveItemProductIdDeleteParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<CartResponse>;
+    apiCartRemoveItemProductIdDelete(request: ApiCartRemoveItemProductIdDeleteParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<CartResponse>>;
+    apiCartRemoveItemProductIdDelete(request: ApiCartRemoveItemProductIdDeleteParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<CartResponse>>;
+    apiCartRemoveItemProductIdDelete(request: ApiCartRemoveItemProductIdDeleteParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { productId } = request;
         const url = `${this.basePath}/api/Cart/RemoveItem/${productId}`;
 
         let headers: HttpHeaders;

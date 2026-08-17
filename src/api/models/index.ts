@@ -231,3 +231,5 @@ export interface RequestOptions<TResponseType extends 'arraybuffer' | 'blob' | '
     withCredentials?: boolean;
     context?: HttpContext;
 }
+
+export * from "./request-params";

@@ -19,8 +19,8 @@
           </button>
         }
       </div>
-      <mat-divider />
     </mat-toolbar>
+    <mat-divider/>
     <mat-nav-list>
       <a mat-list-item routerLink="/panel">Dashboard</a>
       <a mat-list-item routerLink="/panel/orders">Orders</a>
@@ -30,15 +30,18 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar>
-      @if (isHandset) {
-        <button type="button" aria-label="Toggle sidenav" matIconButton (click)="drawer.toggle()">
-          <mat-icon fontSet="material-symbols-outlined">menu</mat-icon>
-        </button>
-      }
-      <span>CookieShopClient</span>
+      <div>
+        @if (isHandset) {
+          <button type="button" aria-label="Toggle sidenav" matIconButton (click)="drawer.toggle()">
+            <mat-icon fontSet="material-symbols-outlined">menu</mat-icon>
+          </button>
+        }
+        <span>CookieShopClient</span>
+      </div>
+      <a mat-flat-button routerLink="/">Portal</a>
     </mat-toolbar>
     <main>
-      <router-outlet />
+      <router-outlet/>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

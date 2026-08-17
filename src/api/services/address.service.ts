@@ -12,7 +12,7 @@ import { inject, Service } from "@angular/core";
 import { Observable } from "rxjs";
 import { BASE_PATH_DEFAULT, CLIENT_CONTEXT_TOKEN_DEFAULT } from "../tokens";
 import { HttpParamsBuilder } from "../utils/http-params-builder";
-import { RequestOptions, AddressResponse, CreateAddressRequest, UpdateAddressRequest } from "../models";
+import { RequestOptions, AddressResponse, ApiAddressCreatePostParams, ApiAddressUpdatePutParams, ApiAddressIdDeleteParams, ApiAddressGetAllByUserIdByAdminUserIdGetParams, ApiAddressCreateByAdminPostParams, ApiAddressUpdateByAdminPutParams } from "../models";
 
 @Service()
 export class ApiAddressService {
@@ -51,10 +51,11 @@ export class ApiAddressService {
         });
     }
 
-    apiAddressCreatePost(createAddressRequest: CreateAddressRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<AddressResponse>;
-    apiAddressCreatePost(createAddressRequest: CreateAddressRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<AddressResponse>>;
-    apiAddressCreatePost(createAddressRequest: CreateAddressRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<AddressResponse>>;
-    apiAddressCreatePost(createAddressRequest: CreateAddressRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiAddressCreatePost(request: ApiAddressCreatePostParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<AddressResponse>;
+    apiAddressCreatePost(request: ApiAddressCreatePostParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<AddressResponse>>;
+    apiAddressCreatePost(request: ApiAddressCreatePostParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<AddressResponse>>;
+    apiAddressCreatePost(request: ApiAddressCreatePostParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { createAddressRequest } = request;
         const url = `${this.basePath}/api/Address/Create`;
 
         let headers: HttpHeaders;
@@ -82,10 +83,11 @@ export class ApiAddressService {
         });
     }
 
-    apiAddressUpdatePut(updateAddressRequest: UpdateAddressRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<AddressResponse>;
-    apiAddressUpdatePut(updateAddressRequest: UpdateAddressRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<AddressResponse>>;
-    apiAddressUpdatePut(updateAddressRequest: UpdateAddressRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<AddressResponse>>;
-    apiAddressUpdatePut(updateAddressRequest: UpdateAddressRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiAddressUpdatePut(request: ApiAddressUpdatePutParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<AddressResponse>;
+    apiAddressUpdatePut(request: ApiAddressUpdatePutParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<AddressResponse>>;
+    apiAddressUpdatePut(request: ApiAddressUpdatePutParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<AddressResponse>>;
+    apiAddressUpdatePut(request: ApiAddressUpdatePutParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { updateAddressRequest } = request;
         const url = `${this.basePath}/api/Address/Update`;
 
         let headers: HttpHeaders;
@@ -113,10 +115,11 @@ export class ApiAddressService {
         });
     }
 
-    apiAddressIdDelete(id: string, observe?: 'body', options?: RequestOptions<'json'>): Observable<any>;
-    apiAddressIdDelete(id: string, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<any>>;
-    apiAddressIdDelete(id: string, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<any>>;
-    apiAddressIdDelete(id: string, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiAddressIdDelete(request: ApiAddressIdDeleteParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<any>;
+    apiAddressIdDelete(request: ApiAddressIdDeleteParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<any>>;
+    apiAddressIdDelete(request: ApiAddressIdDeleteParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<any>>;
+    apiAddressIdDelete(request: ApiAddressIdDeleteParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { id } = request;
         const url = `${this.basePath}/api/Address/${id}`;
 
         let headers: HttpHeaders;
@@ -135,10 +138,11 @@ export class ApiAddressService {
         });
     }
 
-    apiAddressGetAllByUserIdByAdminUserIdGet(userId: string, observe?: 'body', options?: RequestOptions<'json'>): Observable<Array<AddressResponse>>;
-    apiAddressGetAllByUserIdByAdminUserIdGet(userId: string, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<Array<AddressResponse>>>;
-    apiAddressGetAllByUserIdByAdminUserIdGet(userId: string, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<Array<AddressResponse>>>;
-    apiAddressGetAllByUserIdByAdminUserIdGet(userId: string, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiAddressGetAllByUserIdByAdminUserIdGet(request: ApiAddressGetAllByUserIdByAdminUserIdGetParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<Array<AddressResponse>>;
+    apiAddressGetAllByUserIdByAdminUserIdGet(request: ApiAddressGetAllByUserIdByAdminUserIdGetParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<Array<AddressResponse>>>;
+    apiAddressGetAllByUserIdByAdminUserIdGet(request: ApiAddressGetAllByUserIdByAdminUserIdGetParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<Array<AddressResponse>>>;
+    apiAddressGetAllByUserIdByAdminUserIdGet(request: ApiAddressGetAllByUserIdByAdminUserIdGetParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { userId } = request;
         const url = `${this.basePath}/api/Address/GetAllByUserIdByAdmin/${userId}`;
 
         let headers: HttpHeaders;
@@ -161,10 +165,11 @@ export class ApiAddressService {
         });
     }
 
-    apiAddressCreateByAdminPost(createAddressRequest: CreateAddressRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<AddressResponse>;
-    apiAddressCreateByAdminPost(createAddressRequest: CreateAddressRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<AddressResponse>>;
-    apiAddressCreateByAdminPost(createAddressRequest: CreateAddressRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<AddressResponse>>;
-    apiAddressCreateByAdminPost(createAddressRequest: CreateAddressRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiAddressCreateByAdminPost(request: ApiAddressCreateByAdminPostParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<AddressResponse>;
+    apiAddressCreateByAdminPost(request: ApiAddressCreateByAdminPostParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<AddressResponse>>;
+    apiAddressCreateByAdminPost(request: ApiAddressCreateByAdminPostParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<AddressResponse>>;
+    apiAddressCreateByAdminPost(request: ApiAddressCreateByAdminPostParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { createAddressRequest } = request;
         const url = `${this.basePath}/api/Address/CreateByAdmin`;
 
         let headers: HttpHeaders;
@@ -192,10 +197,11 @@ export class ApiAddressService {
         });
     }
 
-    apiAddressUpdateByAdminPut(updateAddressRequest: UpdateAddressRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<AddressResponse>;
-    apiAddressUpdateByAdminPut(updateAddressRequest: UpdateAddressRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<AddressResponse>>;
-    apiAddressUpdateByAdminPut(updateAddressRequest: UpdateAddressRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<AddressResponse>>;
-    apiAddressUpdateByAdminPut(updateAddressRequest: UpdateAddressRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiAddressUpdateByAdminPut(request: ApiAddressUpdateByAdminPutParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<AddressResponse>;
+    apiAddressUpdateByAdminPut(request: ApiAddressUpdateByAdminPutParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<AddressResponse>>;
+    apiAddressUpdateByAdminPut(request: ApiAddressUpdateByAdminPutParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<AddressResponse>>;
+    apiAddressUpdateByAdminPut(request: ApiAddressUpdateByAdminPutParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { updateAddressRequest } = request;
         const url = `${this.basePath}/api/Address/UpdateByAdmin`;
 
         let headers: HttpHeaders;
