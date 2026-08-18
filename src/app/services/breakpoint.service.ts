@@ -40,7 +40,9 @@ export class BreakpointService {
     .pipe(
       map((result) => {
         const activeBreakPoint = Object.entries(result.breakpoints).find(([, value]) => value)!;
-        return MEDIA_QUERY_TO_NAME.get(activeBreakPoint[0])!;
+        if (activeBreakPoint && activeBreakPoint[0] && MEDIA_QUERY_TO_NAME.get(activeBreakPoint[0]))
+          return MEDIA_QUERY_TO_NAME.get(activeBreakPoint[0])!;
+        return 'Large';
       }),
     );
 
