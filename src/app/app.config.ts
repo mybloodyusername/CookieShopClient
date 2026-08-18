@@ -11,6 +11,7 @@ import { type HttpInterceptorFn, provideHttpClient, withInterceptors } from '@an
 import { routes } from './app.routes';
 import { provideNgOpenapi } from '../api';
 import { BreakpointService } from './services/breakpoint.service';
+import { MatIconRegistry } from '@angular/material/icon';
 
 // attach the auth cookie (JWT) to every cross-origin request
 export const withCredentialsInterceptor: HttpInterceptorFn = (req, next) =>
@@ -27,6 +28,7 @@ export const appConfig: ApplicationConfig = {
     }),
     provideAppInitializer(() => {
       const breakpointService = inject(BreakpointService);
+      const matIconRegistry = inject(MatIconRegistry);
     }),
   ],
 };

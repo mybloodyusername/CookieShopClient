@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import {
   MatCard,
@@ -8,6 +8,7 @@ import {
   MatCardTitle,
 } from '@angular/material/card';
 import { ProductResponse } from '../../../../api';
+import { CurrentUserService } from '../../../services/current-user.service';
 
 @Component({
   selector: 'cookie-product-card',
@@ -17,4 +18,10 @@ import { ProductResponse } from '../../../../api';
 })
 export class ProductCard {
   product = input.required<ProductResponse>();
+
+  private readonly currentUserService = inject(CurrentUserService);
+
+  protected addToCart() {
+    this.currentUserService.addToCart(this.product());
+  }
 }
