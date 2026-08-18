@@ -1,0 +1,17 @@
+@let item = product();
+
+<mat-card style="width: 100%; height: 100%">
+  <mat-card-header>
+    <span matCardTitle>{{ item.name }}</span>
+  </mat-card-header>
+  <mat-card-content style="flex-grow: 1">
+    <p>{{ item.description }}</p>
+    <div style="display: flex; justify-content: space-between; align-items: center">
+      <span>Price: {{ item.price }}</span>
+      <span>Remaining: {{ item.stockQuantity }}</span>
+    </div>
+  </mat-card-content>
+  <mat-card-actions style="margin-block-start: auto">
+    <button mat-flat-button>Add</button>
+  </mat-card-actions>
+</mat-card>

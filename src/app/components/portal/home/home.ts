@@ -1,28 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { ApiProductService, ApiUserService } from '../../../../api';
-import {
-  MatCard,
-  MatCardActions,
-  MatCardContent,
-  MatCardHeader,
-  MatCardTitle,
-} from '@angular/material/card';
-import { MatButton } from '@angular/material/button';
-import { MatGridList, MatGridTile } from '@angular/material/grid-list';
 import { StoreService } from '../../../services/store.service';
+import { ProductCard } from '../../shared/product-card/product-card';
 
 @Component({
   selector: 'cookie-home',
-  imports: [
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardActions,
-    MatButton,
-    MatGridList,
-    MatGridTile,
-  ],
+  imports: [ProductCard],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

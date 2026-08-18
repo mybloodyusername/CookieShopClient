@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  inject,
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
@@ -9,6 +10,7 @@ import { type HttpInterceptorFn, provideHttpClient, withInterceptors } from '@an
 
 import { routes } from './app.routes';
 import { provideNgOpenapi } from '../api';
+import { BreakpointService } from './services/breakpoint.service';
 
 // attach the auth cookie (JWT) to every cross-origin request
 export const withCredentialsInterceptor: HttpInterceptorFn = (req, next) =>
@@ -23,6 +25,8 @@ export const appConfig: ApplicationConfig = {
     provideNgOpenapi({
       basePath: 'http://localhost:5265',
     }),
-    provideAppInitializer(() => {}),
+    provideAppInitializer(() => {
+      const breakpointService = inject(BreakpointService);
+    }),
   ],
 };

@@ -8,6 +8,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { map } from 'rxjs/operators';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { BreakpointService } from '../../services/breakpoint.service';
 
 @Component({
   selector: 'cookie-panel',
@@ -24,10 +25,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   ],
 })
 export class Panel {
-  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly breakpointService = inject(BreakpointService);
 
-  readonly isHandset = toSignal(
-    this.breakpointObserver.observe(Breakpoints.Handset).pipe(map((result) => result.matches)),
-    { initialValue: false },
-  );
+  protected readonly isHandset = this.breakpointService.isHandset;
 }
