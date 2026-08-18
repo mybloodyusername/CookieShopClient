@@ -34,7 +34,7 @@ export interface CartItemResponse {
 
 export interface CartResponse {
     id: string;
-    items: Array<CartItemResponse>;
+      items: Array<CartItemResponse>;
     totalAmount: number | string;
 }
 

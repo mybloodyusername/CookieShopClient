@@ -5,10 +5,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthDialog } from '../shared/auth/auth-dialog';
 import { CurrentUserService } from '../../services/current-user.service';
 import { MatIcon } from '@angular/material/icon';
+import { MatBadge } from '@angular/material/badge';
 
 @Component({
   selector: 'cookie-portal',
-  imports: [RouterOutlet, RouterLink, MatButton, MatIcon, MatIconButton],
+  imports: [RouterOutlet, RouterLink, MatButton, MatIcon, MatIconButton, MatBadge],
   templateUrl: './portal.html',
   styleUrl: './portal.scss',
 })

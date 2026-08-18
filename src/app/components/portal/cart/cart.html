@@ -1,0 +1,70 @@
+<h2>Cart</h2>
+
+@if (orderComplete()) {
+  <p class="success">Order Submitted!</p>
+  <p>You will be redirected to order page...</p>
+} @else {
+  <mat-stepper orientation="vertical" [linear]="false" #stepper>
+    <mat-step label="View Cart Items">
+      <mat-card>
+        <mat-card-content>
+          <mat-list>
+            @for (item of cartItems(); track item.productId) {
+              <mat-list-item>
+                <div class="info">
+                  <span>{{ item.productName }}</span>
+                  <span>{{ item.originalPrice }}</span>
+                  <span>{{ item.unitPrice }} * {{ item.quantity }}</span>
+                  <span>Total: {{ item.total }}</span>
+                </div>
+              </mat-list-item>
+            }
+          </mat-list>
+          <p class="total">Total Amount: {{ totalAmount() }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button (click)="stepper.next()">Submit</button>
+          <button mat-button (click)="cancelCart()">Cancel</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-step>
+    <mat-step label="Select Address">
+      <mat-card>
+        <mat-card-content>
+          <mat-action-list>
+            @for (item of address.value(); track item.id) {
+              <mat-list-item
+                (click)="selectedAddress.set(item)"
+                [class.active]="selectedAddress()?.id === item.id"
+              >
+                <div class="info">
+                  <span>
+                    @if (selectedAddress()?.id === item.id) {
+                      <mat-icon fontIcon="check" />
+                    }
+                    {{ item.title }}
+                  </span>
+                  <span>{{ item.phoneNumber }}</span>
+                  <span>{{ item.addressLine1 }}</span>
+                  <span>{{ item.addressLine2 }}</span>
+                </div>
+              </mat-list-item>
+            }
+          </mat-action-list>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button (click)="stepper.next()">Submit</button>
+          <button mat-button (click)="stepper.previous()">Back</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-step>
+    <mat-step label="View Order">
+      <mat-card>
+        <mat-card-content> </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button (click)="submitCart()">Submit Order</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-step>
+  </mat-stepper>
+}

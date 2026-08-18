@@ -1,0 +1,30 @@
+@use 'utils' as utils;
+
+.info {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  @include utils.media-Small {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+mat-list-item {
+  border-block-end: 1px solid;
+  &.active {
+    background-color: var(--mat-sys-primary-container);
+  }
+}
+
+.total {
+  font: var(--mat-sys-headline-small);
+}
+
+.success {
+  font: var(--mat-sys-headline-large);
+}
