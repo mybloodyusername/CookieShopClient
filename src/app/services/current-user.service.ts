@@ -6,6 +6,7 @@ import {
   ApiOrderService,
   ApiUserService,
   CartResponse,
+  OrderResponse,
   ProductResponse,
   UserResponse,
 } from '../../api';
@@ -45,9 +46,19 @@ export class CurrentUserService {
     defaultValue: [],
   });
 
+  private readonly _orders = resource<OrderResponse[], never>({
+    loader: (param) => {
+      return firstValueFrom(
+        this.apiOrderService.apiOrderGet().pipe(takeUntil(fromEvent(param.abortSignal, 'abort'))),
+      );
+    },
+    defaultValue: [],
+  });
+
   readonly me = this._me.asReadonly();
   readonly cart = this._cart.asReadonly();
   readonly address = this._address.asReadonly();
+  readonly orders = this._orders.asReadonly();
 
   addToCart(product: ProductResponse) {
     this.apiCartService

@@ -76,7 +76,7 @@ export class Cart {
       next: (order) => {
         this.orderComplete.set(true);
         setTimeout(() => {
-          this.router.navigate(['order', order.id]);
+          this.router.navigate(['orders', order.id]);
         }, 3000);
       },
       error: (error) => {

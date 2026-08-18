@@ -1,0 +1,30 @@
+@if (order.error()) {
+  <p>Error occurred during fetching this order</p>
+  <p>{{ order.error()?.message }}</p>
+} @else {
+  @if (order.isLoading()) {
+    <mat-progress-bar mode="indeterminate" />
+  } @else {
+    @let orderValue = order.value()!;
+    <mat-card>
+      <mat-card-content>
+        <p>
+          <span>Status: </span>
+          <span>{{ orderValue.status }}</span>
+        </p>
+        <p>
+          <span>Created At: </span>
+          <span>{{ orderValue.createdAt }}</span>
+        </p>
+        <p>
+          <span>Updated At: </span>
+          <span>{{ orderValue.updatedAt }}</span>
+        </p>
+        <p>
+          <span>Total Amount: </span>
+          <span>{{ orderValue.totalAmount }}</span>
+        </p>
+      </mat-card-content>
+    </mat-card>
+  }
+}

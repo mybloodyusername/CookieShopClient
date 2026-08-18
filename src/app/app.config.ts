@@ -4,7 +4,7 @@ import {
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideClientHydration } from '@angular/platform-browser';
 import { type HttpInterceptorFn, provideHttpClient, withInterceptors } from '@angular/common/http';
 
@@ -20,7 +20,7 @@ export const withCredentialsInterceptor: HttpInterceptorFn = (req, next) =>
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
+    provideRouter(routes, withComponentInputBinding()),
     provideClientHydration(),
     provideHttpClient(withInterceptors([withCredentialsInterceptor])),
     provideNgOpenapi({

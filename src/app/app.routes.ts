@@ -48,8 +48,17 @@ export const routes: Routes = [
       },
       {
         path: 'cart',
-        loadComponent: () => import('./components/portal/cart/cart').then(c => c.Cart),
-      }
+        loadComponent: () => import('./components/portal/cart/cart').then((c) => c.Cart),
+      },
+      {
+        path: 'orders',
+        loadComponent: () => import('./components/portal/orders/orders').then((c) => c.Orders),
+      },
+      {
+        path: 'orders/:orderId',
+        loadComponent: () =>
+          import('./components/portal/orders/order-view/order-view').then((c) => c.OrderView),
+      },
     ],
   },
   {
