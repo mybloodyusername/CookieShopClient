@@ -1,59 +1,47 @@
-# CookieShopClient
+# Sori · ثوری
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.3.
+Persian, RTL cookie storefront built with Angular 22.2. Prices are whole **Toman** (`IRT`) throughout; no rial conversion is applied.
 
-## Development server
+## Run
 
-To start a local development server, run:
-
-```bash
-ng serve
+```sh
+pnpm install
+pnpm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open `http://localhost:4200`. Run the CookieShop .NET API at `http://localhost:5265`. The frontend origin must match the API CORS configuration; use `localhost`, not `127.0.0.1`.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```sh
+pnpm openapi     # regenerate src/api from the running API
+pnpm build      # production browser and Node server bundles
+pnpm test       # Playwright desktop/mobile browser tests (installed Chrome required)
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+The browser tests read the live sample catalog. Authenticated cart, address, checkout, and cancellation tests use intercepted responses and do not mutate store data. The suite includes axe WCAG A/AA scans and horizontal overflow checks. Screenshots and traces appear in ignored `test-results/`.
 
-```bash
-ng generate --help
-```
+## Pages
 
-## Building
+- `/`: brand storefront and featured products
+- `/shop`: search, categories, and paginated products
+- `/shop/:id`: product details, availability, and image gallery
+- `/account`: registration, login, logout, and account links
+- `/cart`: server cart and quantity controls
+- `/checkout`: saved/new delivery addresses and order submission
+- `/orders`: order history, details, and pending-order cancellation
+- `/about`: Sori’s story
 
-To build the project run:
+The old components, services, guards, and admin panel were removed as requested. This implementation is the customer storefront; it does not include an owner dashboard.
 
-```bash
-ng build
-```
+## API and deployment
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+`src/app/shop/config.ts` defines the API origin. Set it to the deployed API origin before a production build. `src/app/shop/money.ts` resolves relative API image URLs against the same origin. Update the OpenAPI input in `openapi.config.ts` when generating against another environment.
 
-## Running unit tests
+Authentication uses the API’s HttpOnly cookie. Every mutation fetches/sends `X-CSRF-TOKEN`; tokens are refreshed after authentication changes. No authentication credentials are stored in browser storage. Serve the API and storefront over HTTPS on the same site, matching the backend’s cookie and CORS settings.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Checkout creates a pending order and reserves stock. **There is no payment gateway in the backend.** The UI explicitly says that creating an order is not payment. Payment, recovery, and verification capabilities require backend support.
 
-```bash
-ng test
-```
+The compiler currently requires a pnpm override for `@angular/compiler-cli > @jridgewell/sourcemap-codec` to version 1.6+: Angular 22.2.3 imports `encodeRangeMappings`, but its broad dependency range can retain an older incompatible version.
 
-## Running end-to-end tests
+## Assets
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Vazirmatn is hosted locally with its SIL Open Font License in `public/fonts/OFL.txt`. The homepage atmospheric cookie image was AI generated for this storefront; inventory images and descriptions come from the API. The cookie illustration is a fallback for missing product media.

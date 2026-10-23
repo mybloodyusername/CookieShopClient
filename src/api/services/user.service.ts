@@ -12,7 +12,7 @@ import { inject, Service } from "@angular/core";
 import { Observable } from "rxjs";
 import { BASE_PATH_DEFAULT, CLIENT_CONTEXT_TOKEN_DEFAULT } from "../tokens";
 import { HttpParamsBuilder } from "../utils/http-params-builder";
-import { ApiUserUpdatePutParams, RequestOptions, UserResponse, ApiUserCreateByAdminPostParams, ApiUserUpdateByAdminIdPostParams, ApiUserGetByIdByAdminIdGetParams, ApiUserGetByPhoneNumberByAdminPhoneNumberGetParams } from "../models";
+import { ApiUserUpdatePutParams, RequestOptions, UserResponse, ApiUserChangePasswordPostParams, ApiUserCreateByAdminPostParams, ApiUserUpdateByAdminIdPostParams, ApiUserGetByIdByAdminIdGetParams, ApiUserGetByPhoneNumberByAdminPhoneNumberGetParams, ApiUserGetAllByAdminGetParams } from "../models";
 
 @Service()
 export class ApiUserService {
@@ -57,10 +57,11 @@ export class ApiUserService {
         });
     }
 
-    apiUserChangePasswordPost(observe?: 'body', options?: RequestOptions<'json'>): Observable<any>;
-    apiUserChangePasswordPost(observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<any>>;
-    apiUserChangePasswordPost(observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<any>>;
-    apiUserChangePasswordPost(observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiUserChangePasswordPost(request: ApiUserChangePasswordPostParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<any>;
+    apiUserChangePasswordPost(request: ApiUserChangePasswordPostParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<any>>;
+    apiUserChangePasswordPost(request: ApiUserChangePasswordPostParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<any>>;
+    apiUserChangePasswordPost(request: ApiUserChangePasswordPostParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { changePasswordRequest } = request;
         const url = `${this.basePath}/api/User/ChangePassword`;
 
         let headers: HttpHeaders;
@@ -69,9 +70,13 @@ export class ApiUserService {
         } else {
             headers = new HttpHeaders(options?.headers);
         }
+        // Set Content-Type for JSON requests if not already set
+        if (!headers.has('Content-Type')) {
+            headers = headers.set('Content-Type', 'application/json');
+        }
 
         return this.httpClient.request('post', url, {
-            body: null,
+            body: changePasswordRequest,
             observe,
             headers,
             reportProgress: options?.reportProgress,
@@ -224,11 +229,20 @@ export class ApiUserService {
         });
     }
 
-    apiUserGetAllByAdminGet(observe?: 'body', options?: RequestOptions<'json'>): Observable<any>;
-    apiUserGetAllByAdminGet(observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<any>>;
-    apiUserGetAllByAdminGet(observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<any>>;
-    apiUserGetAllByAdminGet(observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    apiUserGetAllByAdminGet(request?: ApiUserGetAllByAdminGetParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<any>;
+    apiUserGetAllByAdminGet(request?: ApiUserGetAllByAdminGetParams, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<any>>;
+    apiUserGetAllByAdminGet(request?: ApiUserGetAllByAdminGetParams, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<any>>;
+    apiUserGetAllByAdminGet(request?: ApiUserGetAllByAdminGetParams, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const { page, pageSize } = request ?? {};
         const url = `${this.basePath}/api/User/GetAllByAdmin`;
+
+        let params = new HttpParams();
+        if (page != null) {
+            params = HttpParamsBuilder.addToHttpParams(params, page, 'page');
+        }
+        if (pageSize != null) {
+            params = HttpParamsBuilder.addToHttpParams(params, pageSize, 'pageSize');
+        }
 
         let headers: HttpHeaders;
         if (options?.headers instanceof HttpHeaders) {
@@ -240,6 +254,7 @@ export class ApiUserService {
         return this.httpClient.request('get', url, {
             observe,
             headers,
+            params,
             reportProgress: options?.reportProgress,
             withCredentials: options?.withCredentials,
             context: this.createContextWithClientId(options?.context)

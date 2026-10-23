@@ -12,7 +12,7 @@ import { inject, Service } from "@angular/core";
 import { Observable } from "rxjs";
 import { BASE_PATH_DEFAULT, CLIENT_CONTEXT_TOKEN_DEFAULT } from "../tokens";
 import { HttpParamsBuilder } from "../utils/http-params-builder";
-import { ApiAuthLoginPostParams, RequestOptions, UserResponse, ApiAuthRegisterPostParams, RegisterResponse } from "../models";
+import { RequestOptions, ApiAuthLoginPostParams, UserResponse, ApiAuthRegisterPostParams, RegisterResponse } from "../models";
 
 @Service()
 export class ApiAuthService {
@@ -23,6 +23,51 @@ export class ApiAuthService {
     private createContextWithClientId(existingContext?: HttpContext): HttpContext {
         const context = existingContext || new HttpContext();
         return context.set(this.clientContextToken, 'default');
+    }
+
+    apiAuthCsrfGet(observe?: 'body', options?: RequestOptions<'json'>): Observable<any>;
+    apiAuthCsrfGet(observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<any>>;
+    apiAuthCsrfGet(observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<any>>;
+    apiAuthCsrfGet(observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const url = `${this.basePath}/api/Auth/Csrf`;
+
+        let headers: HttpHeaders;
+        if (options?.headers instanceof HttpHeaders) {
+            headers = options.headers;
+        } else {
+            headers = new HttpHeaders(options?.headers);
+        }
+
+        return this.httpClient.request('get', url, {
+            observe,
+            headers,
+            reportProgress: options?.reportProgress,
+            withCredentials: options?.withCredentials,
+            context: this.createContextWithClientId(options?.context)
+        });
+    }
+
+    apiAuthLogoutPost(observe?: 'body', options?: RequestOptions<'json'>): Observable<any>;
+    apiAuthLogoutPost(observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<any>>;
+    apiAuthLogoutPost(observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<any>>;
+    apiAuthLogoutPost(observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const url = `${this.basePath}/api/Auth/Logout`;
+
+        let headers: HttpHeaders;
+        if (options?.headers instanceof HttpHeaders) {
+            headers = options.headers;
+        } else {
+            headers = new HttpHeaders(options?.headers);
+        }
+
+        return this.httpClient.request('post', url, {
+            body: null,
+            observe,
+            headers,
+            reportProgress: options?.reportProgress,
+            withCredentials: options?.withCredentials,
+            context: this.createContextWithClientId(options?.context)
+        });
     }
 
     apiAuthLoginPost(request: ApiAuthLoginPostParams, observe?: 'body', options?: RequestOptions<'json'>): Observable<UserResponse>;

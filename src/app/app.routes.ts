@@ -1,68 +1,48 @@
 import { Routes } from '@angular/router';
-import { Portal } from './components/portal/portal';
-import { NotFound } from './components/shared/not-found/not-found';
-import { Panel } from './components/panel/panel';
-import { roleGuard } from './guards/role.guard';
-
 export const routes: Routes = [
   {
-    path: 'panel',
-    component: Panel,
-    canActivate: [roleGuard('admin')],
-    children: [
-      {
-        path: '',
-        loadComponent: () =>
-          import('./components/panel/dashboard/dashboard').then((c) => c.Dashboard),
-      },
-      {
-        path: 'products',
-        loadComponent: () => import('./components/panel/products/products').then((c) => c.Products),
-      },
-      {
-        path: 'orders',
-        loadComponent: () => import('./components/panel/orders/orders').then((c) => c.Orders),
-      },
-      {
-        path: 'setting',
-        loadComponent: () => import('./components/panel/setting/setting').then((c) => c.Setting),
-      },
-      {
-        path: '**',
-        pathMatch: 'full',
-        redirectTo: '',
-      },
-    ],
+    path: '',
+    title: 'ثوری | یک تکه حال خوب',
+    loadComponent: () => import('./shop/storefront').then((m) => m.StorefrontComponent),
   },
   {
-    path: '',
-    component: Portal,
-    children: [
-      {
-        path: '',
-        loadComponent: () => import('./components/portal/home/home').then((c) => c.Home),
-      },
-      {
-        path: 'about',
-        loadComponent: () => import('./components/portal/about/about').then((c) => c.About),
-      },
-      {
-        path: 'cart',
-        loadComponent: () => import('./components/portal/cart/cart').then((c) => c.Cart),
-      },
-      {
-        path: 'orders',
-        loadComponent: () => import('./components/portal/orders/orders').then((c) => c.Orders),
-      },
-      {
-        path: 'orders/:orderId',
-        loadComponent: () =>
-          import('./components/portal/orders/order-view/order-view').then((c) => c.OrderView),
-      },
-    ],
+    path: 'shop',
+    title: 'فروشگاه کوکی | ثوری',
+    loadComponent: () => import('./shop/catalog').then((m) => m.CatalogComponent),
+  },
+  {
+    path: 'shop/:id',
+    title: 'جزئیات کوکی | ثوری',
+    loadComponent: () => import('./shop/product').then((m) => m.ProductComponent),
+  },
+  {
+    path: 'account',
+    title: 'حساب من | ثوری',
+    loadComponent: () => import('./shop/account').then((m) => m.AccountComponent),
+  },
+  {
+    path: 'cart',
+    title: 'سبد خرید | ثوری',
+    loadComponent: () => import('./shop/basket').then((m) => m.BasketComponent),
+  },
+  {
+    path: 'checkout',
+    title: 'ثبت سفارش | ثوری',
+    loadComponent: () => import('./shop/basket').then((m) => m.BasketComponent),
+  },
+  {
+    path: 'orders',
+    title: 'سفارش‌های من | ثوری',
+    loadComponent: () => import('./shop/orders').then((m) => m.OrdersComponent),
+  },
+  {
+    path: 'about',
+    title: 'داستان ثوری',
+    loadComponent: () => import('./shop/about').then((m) => m.AboutComponent),
   },
   {
     path: '**',
-    component: NotFound,
+    title: 'صفحه پیدا نشد | ثوری',
+    loadComponent: () => import('./shop/not-found').then((m) => m.NotFoundComponent),
   },
 ];

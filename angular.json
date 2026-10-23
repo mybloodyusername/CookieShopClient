@@ -13,7 +13,6 @@
           "style": "scss",
           "skipTests": true,
           "addTypeToClassName": true,
-          "changeDetection": "OnPush",
           "path": "src/app/components",
           "prefix": "cookie"
         },

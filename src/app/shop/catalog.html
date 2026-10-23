@@ -1,0 +1,75 @@
+<section class="page-banner">
+  <span class="eyebrow">ویترین خوشمزه‌ی ثوری</span>
+  <h1>حال خوب، با طعم دلخواه شما.</h1>
+  <p>کوکی مورد علاقه‌ات را پیدا کن.</p>
+</section>
+<section class="container section">
+  <form
+    class="search-form"
+    (submit)="filter(searchInput.value, category()); $event.preventDefault()"
+  >
+    <label class="sr-only" for="search">جست‌وجوی کوکی</label
+    ><input
+      id="search"
+      #searchInput
+      type="search"
+      placeholder="دنبال چه طعمی می‌گردی؟"
+      [value]="search()"
+    /><button class="button primary" type="submit">جست‌وجو</button>
+  </form>
+  <div class="category-links">
+    <button
+      class="chip"
+      [class.selected]="!category()"
+      [attr.aria-pressed]="!category()"
+      (click)="filter(search(), '')"
+    >
+      همه‌ی کوکی‌ها
+    </button>
+    @for (c of data.categories(); track c.id) {
+      <button
+        class="chip"
+        [class.selected]="category() === c.id"
+        [attr.aria-pressed]="category() === c.id"
+        (click)="filter(search(), c.id)"
+      >
+        {{ c.name }}
+      </button>
+    }
+  </div>
+  @if (data.loading()) {
+    <p class="empty-state" role="status">در حال چیدن کوکی‌ها…</p>
+  } @else if (data.error()) {
+    <div class="empty-state">
+      <h2>دریافت محصولات ممکن نشد</h2>
+      <button class="button primary" (click)="load()">تلاش دوباره</button>
+    </div>
+  } @else {
+    <div class="product-grid">
+      @for (p of data.products(); track p.id) {
+        <sori-cookie-card [product]="p" />
+      } @empty {
+        <div class="empty-state">
+          <h2>هنوز کوکی‌ای با این مشخصات نداریم.</h2>
+          <button class="button primary" (click)="filter('', '')">دیدن همه‌ی کوکی‌ها</button>
+        </div>
+      }
+    </div>
+    <nav class="pagination" aria-label="صفحه‌بندی محصولات">
+      <button
+        class="button outline"
+        [disabled]="page() <= 1"
+        (click)="filter(search(), category(), page() - 1)"
+      >
+        صفحه قبل</button
+      ><span>صفحه {{ page().toLocaleString('fa-IR') }}</span
+      ><button
+        class="button outline"
+        [disabled]="page() * 12 >= data.total()"
+        (click)="filter(search(), category(), page() + 1)"
+      >
+        صفحه بعد
+      </button>
+    </nav>
+  }
+</section>

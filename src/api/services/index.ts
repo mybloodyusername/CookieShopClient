@@ -11,6 +11,7 @@ export { ApiAddressService } from "./address.service";
 export { ApiAuthService } from "./auth.service";
 export { ApiCartService } from "./cart.service";
 export { ApiCategoryService } from "./category.service";
+export { ApiImagesService } from "./images.service";
 export { ApiOrderService } from "./order.service";
 export { ApiProductService } from "./product.service";
 export { ApiUserService } from "./user.service";

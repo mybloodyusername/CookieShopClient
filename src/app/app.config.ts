@@ -1,34 +1,21 @@
-import {
-  ApplicationConfig,
-  inject,
-  provideAppInitializer,
-  provideBrowserGlobalErrorListeners,
-} from '@angular/core';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { provideClientHydration } from '@angular/platform-browser';
-import { type HttpInterceptorFn, provideHttpClient, withInterceptors } from '@angular/common/http';
-
+import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { routes } from './app.routes';
 import { provideNgOpenapi } from '../api';
-import { BreakpointService } from './services/breakpoint.service';
-import { MatIconRegistry } from '@angular/material/icon';
-
-// attach the auth cookie (JWT) to every cross-origin request
-export const withCredentialsInterceptor: HttpInterceptorFn = (req, next) =>
-  next(req.clone({ withCredentials: true }));
-
+import { apiSecurity } from './shop/security';
+import { API_ORIGIN } from './shop/config';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes, withComponentInputBinding()),
+    provideRouter(
+      routes,
+      withComponentInputBinding(),
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),
+    ),
     provideClientHydration(),
-    provideHttpClient(withInterceptors([withCredentialsInterceptor])),
-    provideNgOpenapi({
-      basePath: 'http://localhost:5265',
-    }),
-    provideAppInitializer(() => {
-      const breakpointService = inject(BreakpointService);
-      const matIconRegistry = inject(MatIconRegistry);
-    }),
+    provideHttpClient(withInterceptors([apiSecurity]), withInterceptorsFromDi()),
+    provideNgOpenapi({ basePath: API_ORIGIN }),
   ],
 };

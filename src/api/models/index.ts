@@ -34,13 +34,19 @@ export interface CartItemResponse {
 
 export interface CartResponse {
     id: string;
-      items: Array<CartItemResponse>;
+    items: Array<CartItemResponse>;
     totalAmount: number | string;
+    currency?: string | null;
 }
 
 export interface CategoryResponse {
     id: string;
     name: string;
+}
+
+export interface ChangePasswordRequest {
+    currentPassword: string;
+    newPassword: string;
 }
 
 export interface CreateAddressRequest {
@@ -80,6 +86,13 @@ export interface CreateUserRequest {
     password: string;
 }
 
+export type IFormFile = Blob;
+
+export interface ImageMetadataRequest {
+    alt: string;
+    album: string | null;
+}
+
 export interface LoginRequest {
     phoneNumber: string;
     password: string;
@@ -95,6 +108,7 @@ export interface OrderDetailResponse {
     updatedAt: Date;
     address: AddressResponse;
     items: Array<OrderItemResponse>;
+    currency?: string | null;
 }
 
 export interface OrderItemResponse {
@@ -113,6 +127,7 @@ export interface OrderResponse {
     note: string | null;
     createdAt: Date;
     updatedAt: Date;
+    currency?: string | null;
 }
 
 export type OrderStatus = number;
@@ -145,6 +160,20 @@ export interface ProductDetailResponse {
     category: CategoryResponse;
     createdAt: Date;
     updatedAt: Date;
+    currency?: string | null;
+    images?: Array<ProductImageResponse>;
+}
+
+export interface ProductImageRequest {
+    alt: string | null;
+    sortOrder: number | string;
+}
+
+export interface ProductImageResponse {
+    imageId: string;
+    url: string;
+    alt: string;
+    sortOrder: number | string;
 }
 
 export interface ProductResponse {
@@ -158,6 +187,8 @@ export interface ProductResponse {
     stockQuantity: number | string;
     isAvailable: boolean;
     categoryId: string;
+    currency?: string | null;
+    images?: Array<ProductImageResponse>;
 }
 
 export interface RegisterRequest {

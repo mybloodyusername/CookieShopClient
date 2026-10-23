@@ -1,0 +1,119 @@
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="kicker"><span aria-hidden="true">✦</span> خوش آمدید به خانه‌ی کوکی ثوری</span>
+      <h1>یک کوکی،<br />یک تکه <span>حال خوب.</span></h1>
+      <p>
+        گاهی تمام چیزی که یک روز معمولی کم دارد،<br class="desktop-only" />
+        عطر کوکی و یک گاز خوشحالی‌ست.
+      </p>
+      <div class="hero-buttons">
+        <a class="button primary" routerLink="/shop"
+          >کوکی‌تو پیدا کن <span aria-hidden="true">↖</span></a
+        ><a class="text-link" routerLink="/about">داستان ما <span aria-hidden="true">←</span></a>
+      </div>
+      <div class="hero-footnote">
+        <span class="little-cookie" aria-hidden="true">✺</span
+        ><span>کوچک، دوست‌داشتنی، پر از حس خوب</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <span class="orbit-word" aria-hidden="true">BAKED WITH LOVE · SORI</span>
+      <div class="hero-image">
+        <img
+          ngSrc="/images/hero-cookies.jpg"
+          alt="کوکی‌های شکلاتی در کنار یک فنجان، برای یک عصر دلپذیر"
+          fill
+          priority
+          sizes="(max-width: 760px) 90vw, 50vw"
+        />
+      </div>
+      <div class="round-stamp"><span>با عشق</span><strong>ثوری</strong><span>برای شما</span></div>
+      <span class="hero-doodle" aria-hidden="true">✳</span>
+      <div class="image-caption"><span aria-hidden="true">♡</span> خوشحالی، همین نزدیکی‌ست.</div>
+    </div>
+  </div>
+</section>
+<div class="ticker" aria-hidden="true">
+  <span>یک گاز خوشحالی</span>✳<span>با عشق، از ثوری</span>✳<span>برای لحظه‌های شیرین</span>✳<span
+    >یک گاز خوشحالی</span
+  >✳<span>با عشق، از ثوری</span>
+</div>
+<section class="section container">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">از بین طعم‌ها، حال خوبت را انتخاب کن</span>
+      <h2>کوکی‌های دوست‌داشتنی ما <span aria-hidden="true">✳</span></h2>
+    </div>
+    <a routerLink="/shop" class="text-link">دیدن همه‌ی کوکی‌ها <span aria-hidden="true">←</span></a>
+  </div>
+  <div class="category-links">
+    <a routerLink="/shop" class="chip selected">همه‌ی خوشمزه‌ها</a>
+    @for (category of data.categories(); track category.id) {
+      <a class="chip" routerLink="/shop" [queryParams]="{ category: category.id }">{{
+        category.name
+      }}</a>
+    }
+  </div>
+  @if (data.loading()) {
+    <div class="loading-grid" aria-label="در حال دریافت کوکی‌ها" aria-busy="true">
+      @for (i of [1, 2, 3, 4]; track i) {
+        <div class="skeleton"></div>
+      }
+    </div>
+  } @else if (data.error()) {
+    <div class="empty-state">
+      <h3>کوکی‌ها هنوز به ویترین نرسیده‌اند</h3>
+      <p>دریافت محصولات ممکن نشد. دوباره تلاش کنید.</p>
+      <button class="button primary" (click)="data.load('', '', 1, 4)">تلاش دوباره</button>
+    </div>
+  } @else {
+    <div class="product-grid">
+      @for (product of data.products(); track product.id) {
+        <sori-cookie-card [product]="product" />
+      } @empty {
+        <p class="empty-state">به‌زودی طعم‌های تازه به ویترین اضافه می‌شوند.</p>
+      }
+    </div>
+  }
+</section>
+<section class="story-band container">
+  <div class="story-art">
+    <span aria-hidden="true">✺</span>
+    <p>کوکی بهانه‌ست،<br /><strong>حال خوب اصل ماجراست.</strong></p>
+    <span class="story-signature">با عشق، ثوری</span>
+  </div>
+  <div class="story-copy">
+    <span class="eyebrow">پشت هر کوکی، یک قصه‌ست</span>
+    <h2>چیزهای کوچک،<br />خوشحالی‌های بزرگ.</h2>
+    <p>
+      ثوری برای ما اسم یک حس است؛ حس یک مکث کوتاه میان شلوغی روز، یک فنجان چای و یک کوکی که با کسی
+      که دوستش دارید قسمت می‌کنید.
+    </p>
+    <a routerLink="/about" class="text-link"
+      >بیشتر با ما آشنا شوید <span aria-hidden="true">←</span></a
+    >
+  </div>
+</section>
+<section class="container moments">
+  <span class="eyebrow">بهانه‌ای برای با هم بودن</span>
+  <h2>هر لحظه، یک طعم شیرین.</h2>
+  <div class="moment-grid">
+    <a routerLink="/shop"
+      ><span aria-hidden="true">☕</span>
+      <h3>کنار چای و قهوه</h3>
+      <p>یک مکث کوچک برای خودت</p>
+      <span class="text-link">انتخاب کوکی ←</span></a
+    ><a routerLink="/shop"
+      ><span aria-hidden="true">✿</span>
+      <h3>برای کسی که دوستش داری</h3>
+      <p>شیرینیِ یک «به یادت بودم»</p>
+      <span class="text-link">پیدا کردن یک طعم ←</span></a
+    ><a routerLink="/shop"
+      ><span aria-hidden="true">✦</span>
+      <h3>وسط یک روز معمولی</h3>
+      <p>گاهی بهانه لازم نیست</p>
+      <span class="text-link">یک گاز خوشحالی ←</span></a
+    >
+  </div>
+</section>
