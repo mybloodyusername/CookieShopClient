@@ -1,4 +1,13 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { DomSanitizer } from '@angular/platform-browser';
+import { persianPaginator } from './shop/material-locale';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideAppInitializer,
+  inject,
+} from '@angular/core';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
@@ -9,6 +18,12 @@ import { API_ORIGIN } from './shop/config';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
+    { provide: MatPaginatorIntl, useFactory: persianPaginator },
+    provideAppInitializer(() => {
+      inject(MatIconRegistry).addSvgIconSet(
+        inject(DomSanitizer).bypassSecurityTrustResourceUrl('/sori-icons.svg'),
+      );
+    }),
     provideRouter(
       routes,
       withComponentInputBinding(),

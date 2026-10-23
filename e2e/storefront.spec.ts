@@ -3,6 +3,9 @@ import AxeBuilder from '@axe-core/playwright';
 
 async function accessible(page: Page) {
   await page.evaluate(() => document.fonts.ready);
+  await expect(
+    page.locator('.mat-mdc-snack-bar-container [aria-hidden="true"] button'),
+  ).toHaveCount(0);
   const result = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
     .analyze();
@@ -163,7 +166,7 @@ test('authenticated cart refresh, CSRF, address, checkout, and cancellation', as
   await page.goto('/cart');
   await expect(page.locator('.cart-item')).toHaveCount(1);
   await page.getByRole('button', { name: 'افزایش تعداد ' + product.name }).click();
-  await expect(page.locator('.quantity span')).toHaveText('۲');
+  await expect(page.locator('.quantity > span')).toHaveText('۲');
   await accessible(page);
   await page.getByRole('link', { name: 'ادامه و انتخاب نشانی' }).click();
   await expect(page.getByRole('heading', { name: 'نهایی کردن سفارش' })).toBeVisible();
@@ -185,6 +188,9 @@ test('authenticated cart refresh, CSRF, address, checkout, and cancellation', as
   await expect(page.locator('.order-details')).toBeVisible();
   await accessible(page);
   await page.getByRole('button', { name: 'لغو سفارش', exact: true }).click();
+  await expect(page.getByRole('dialog', { name: 'تأیید لغو سفارش' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'خیر', exact: true })).toBeFocused();
+  await accessible(page);
   await page.getByRole('button', { name: 'بله، لغو شود' }).click();
   await expect(page.locator('.status-tag')).toHaveText('لغوشده');
 });
@@ -232,7 +238,7 @@ test('registration, login validation, fresh CSRF after login, and logout', async
     await route.fulfill({ json: [] });
   });
   await page.goto('/account');
-  await page.getByRole('button', { name: 'ثبت‌نام', exact: true }).click();
+  await page.getByRole('tab', { name: 'ثبت‌نام', exact: true }).click();
   await page.getByLabel('شماره موبایل', { exact: true }).fill('123');
   await page.getByLabel('ایمیل', { exact: true }).fill('test@example.com');
   await page.getByLabel('رمز عبور', { exact: true }).fill('StrongPassword123');

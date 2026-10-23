@@ -1,6 +1,6 @@
 # Sori · ثوری
 
-Persian, RTL cookie storefront built with Angular 22.2. Prices are whole **Toman** (`IRT`) throughout; no rial conversion is applied.
+Persian, RTL cookie storefront built with Angular 22.2 and Angular Material 22.2. Prices are whole **Toman** (`IRT`) throughout; no rial conversion is applied.
 
 ## Run
 
@@ -18,6 +18,10 @@ pnpm test       # Playwright desktop/mobile browser tests (installed Chrome requ
 ```
 
 The browser tests read the live sample catalog. Authenticated cart, address, checkout, and cancellation tests use intercepted responses and do not mutate store data. The suite includes axe WCAG A/AA scans and horizontal overflow checks. Screenshots and traces appear in ignored `test-results/`.
+
+## UI
+
+Angular Material supplies the toolbar, buttons, locally hosted SVG icons, badges, product/order cards, category chips, search and signal-form fields, account tabs, Persian paginator, delivery radio buttons, loading indicators, snackbars, and cancellation dialog. The UI uses the unmodified, prebuilt Material 3 Azure/Blue theme and Material system typography utilities. Application CSS only handles layout and responsive placement; there are no component theme overrides, custom control styles, or Material token assignments. The cancellation dialog manages focus and restores it when closed.
 
 ## Pages
 
@@ -44,4 +48,4 @@ The compiler currently requires a pnpm override for `@angular/compiler-cli > @jr
 
 ## Assets
 
-Vazirmatn is hosted locally with its SIL Open Font License in `public/fonts/OFL.txt`. The homepage atmospheric cookie image was AI generated for this storefront; inventory images and descriptions come from the API. The cookie illustration is a fallback for missing product media.
+The homepage atmospheric cookie image was AI generated for this storefront; inventory images and descriptions come from the API. The cookie illustration is a fallback for missing product media.

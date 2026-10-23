@@ -1,99 +1,138 @@
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NgTemplateOutlet } from '@angular/common';
 import { form, FormField, required, email, pattern, submit } from '@angular/forms/signals';
 import { firstValueFrom } from 'rxjs';
 import { Session } from './session';
 @Component({
   selector: 'sori-account',
-  imports: [FormField, RouterLink],
+  imports: [
+    NgTemplateOutlet,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTabsModule,
+    FormField,
+    RouterLink,
+  ],
   template: ` <section class="container account-section">
     <div class="account-story">
       <span aria-hidden="true">✺</span>
-      <h1>به جمع شیرین<br />ثوری خوش آمدید.</h1>
+      <h1 class="mat-font-headline-lg">به جمع شیرین<br />ثوری خوش آمدید.</h1>
       <p>یک حساب، برای همه‌ی لحظه‌های خوشمزه‌ات.</p>
     </div>
-    <div class="form-card">
-      @if (session.user(); as user) {
-        <span class="eyebrow">خانه‌ی شما در ثوری</span>
-        <h2>سلام {{ user.fullName || 'دوست ثوری' }}!</h2>
-        <p>از اینجا خرید و سفارش‌های خود را دنبال کنید.</p>
-        <a routerLink="/orders" class="button primary">سفارش‌های من</a
-        ><a routerLink="/cart" class="button outline">سبد خرید من</a
-        ><button class="text-link" [disabled]="session.busy()" (click)="session.logout()">
-          خروج از حساب
-        </button>
-      } @else {
-        <div class="account-tabs">
-          <button
-            [class.active]="!register()"
-            [attr.aria-pressed]="!register()"
-            (click)="register.set(false)"
-          >
-            ورود به حساب</button
-          ><button
-            [class.active]="register()"
-            [attr.aria-pressed]="register()"
-            (click)="register.set(true)"
-          >
-            ثبت‌نام
-          </button>
-        </div>
-        <h2>{{ register() ? 'اولین سلام به ثوری' : 'خوش برگشتید!' }}</h2>
-        <p class="muted">
-          {{
-            register() ? 'برای شروع، اطلاعات زیر را وارد کنید.' : 'برای ادامه، وارد حساب خود شوید.'
-          }}
-        </p>
-        <form (submit)="send(); $event.preventDefault()" novalidate>
-          <label for="phone">شماره موبایل</label
-          ><input
-            id="phone"
-            type="tel"
-            dir="ltr"
-            autocomplete="tel"
-            placeholder="09123456789"
-            [formField]="fields.phoneNumber"
-          />
-          <p class="field-hint">شماره را با ارقام انگلیسی و با ۰۹ وارد کنید.</p>
-          @for (
-            e of fields.phoneNumber().touched() ? fields.phoneNumber().errors() : [];
-            track e.kind
-          ) {
-            <p class="field-error">{{ e.message }}</p>
+    <mat-card appearance="outlined"
+      ><mat-card-content
+        ><div class="account-content">
+          @if (session.user(); as user) {
+            <span>خانه‌ی شما در ثوری</span>
+            <h2 class="mat-font-headline-sm">سلام {{ user.fullName || 'دوست ثوری' }}!</h2>
+            <p>از اینجا خرید و سفارش‌های خود را دنبال کنید.</p>
+            <a mat-flat-button routerLink="/orders">سفارش‌های من</a
+            ><a mat-stroked-button routerLink="/cart">سبد خرید من</a
+            ><button mat-button [disabled]="session.busy()" (click)="session.logout()">
+              خروج از حساب
+            </button>
+          } @else {
+            <mat-tab-group
+              class="account-tabs"
+              [selectedIndex]="register() ? 1 : 0"
+              (selectedIndexChange)="register.set($event === 1)"
+              animationDuration="0ms"
+            >
+              <mat-tab label="ورود به حساب"
+                ><ng-template matTabContent
+                  ><ng-container [ngTemplateOutlet]="credentials" /></ng-template
+              ></mat-tab>
+              <mat-tab label="ثبت‌نام"
+                ><ng-template matTabContent
+                  ><ng-container [ngTemplateOutlet]="credentials" /></ng-template
+              ></mat-tab>
+            </mat-tab-group>
+            <ng-template #credentials>
+              <h2 class="mat-font-headline-sm">
+                {{ register() ? 'اولین سلام به ثوری' : 'خوش برگشتید!' }}
+              </h2>
+              <p>
+                {{
+                  register()
+                    ? 'برای شروع، اطلاعات زیر را وارد کنید.'
+                    : 'برای ادامه، وارد حساب خود شوید.'
+                }}
+              </p>
+              <form class="form-stack" (submit)="send(); $event.preventDefault()" novalidate>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic"
+                  ><mat-label>شماره موبایل</mat-label
+                  ><input
+                    matInput
+                    id="phone"
+                    type="tel"
+                    dir="ltr"
+                    autocomplete="tel"
+                    placeholder="09123456789"
+                    [formField]="fields.phoneNumber"
+                  /><mat-hint>شماره را با ارقام انگلیسی و با ۰۹ وارد کنید.</mat-hint>
+                  @for (
+                    e of fields.phoneNumber().touched() ? fields.phoneNumber().errors() : [];
+                    track e.kind
+                  ) {
+                    <mat-error>{{ e.message }}</mat-error>
+                  }
+                </mat-form-field>
+                @if (register()) {
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic"
+                    ><mat-label>ایمیل</mat-label
+                    ><input
+                      matInput
+                      id="email"
+                      type="email"
+                      dir="ltr"
+                      autocomplete="email"
+                      [formField]="fields.email"
+                    />
+                    @for (
+                      e of fields.email().touched() ? fields.email().errors() : [];
+                      track e.kind
+                    ) {
+                      <mat-error>{{ e.message }}</mat-error>
+                    }
+                  </mat-form-field>
+                }
+                <mat-form-field appearance="outline" subscriptSizing="dynamic"
+                  ><mat-label>رمز عبور</mat-label
+                  ><input
+                    matInput
+                    id="password"
+                    type="password"
+                    dir="ltr"
+                    [autocomplete]="register() ? 'new-password' : 'current-password'"
+                    [formField]="fields.password"
+                  />
+                  @if (register()) {
+                    <mat-hint>حداقل ۱۲ نویسه شامل حرف بزرگ و کوچک انگلیسی و عدد.</mat-hint>
+                  }
+                  @for (
+                    e of fields.password().touched() ? fields.password().errors() : [];
+                    track e.kind
+                  ) {
+                    <mat-error>{{ e.message }}</mat-error>
+                  }
+                </mat-form-field>
+                <button mat-flat-button type="submit" [disabled]="session.busy()">
+                  {{ session.busy() ? 'کمی صبر کنید…' : register() ? 'ساخت حساب' : 'ورود به ثوری' }}
+                </button>
+              </form>
+            </ng-template>
           }
-          @if (register()) {
-            <label for="email">ایمیل</label
-            ><input
-              id="email"
-              type="email"
-              dir="ltr"
-              autocomplete="email"
-              [formField]="fields.email"
-            />
-            @for (e of fields.email().touched() ? fields.email().errors() : []; track e.kind) {
-              <p class="field-error">{{ e.message }}</p>
-            }
-          }
-          <label for="password">رمز عبور</label
-          ><input
-            id="password"
-            type="password"
-            dir="ltr"
-            [autocomplete]="register() ? 'new-password' : 'current-password'"
-            [formField]="fields.password"
-          />
-          @if (register()) {
-            <p class="field-hint">حداقل ۱۲ نویسه شامل حرف بزرگ و کوچک انگلیسی و عدد.</p>
-          }
-          @for (e of fields.password().touched() ? fields.password().errors() : []; track e.kind) {
-            <p class="field-error">{{ e.message }}</p>
-          }
-          <button class="button primary full" type="submit" [disabled]="session.busy()">
-            {{ session.busy() ? 'کمی صبر کنید…' : register() ? 'ساخت حساب' : 'ورود به ثوری' }}
-          </button>
-        </form>
-      }
-    </div>
+        </div></mat-card-content
+      ></mat-card
+    >
   </section>`,
 })
 export class AccountComponent {

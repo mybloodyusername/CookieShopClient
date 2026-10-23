@@ -1,3 +1,9 @@
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmOrderComponent } from './confirm-order';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Component, inject, signal, effect, untracked } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -6,95 +12,104 @@ import { TomanPipe } from './money';
 import { Session } from './session';
 @Component({
   selector: 'sori-orders',
-  imports: [RouterLink, TomanPipe],
+  imports: [
+    MatButtonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatProgressSpinnerModule,
+    RouterLink,
+    TomanPipe,
+  ],
   template: ` <section class="page-banner">
-      <span class="eyebrow">از ثوری تا خانه‌ی شما</span>
-      <h1>سفارش‌های من</h1>
+      <span>از ثوری تا خانه‌ی شما</span>
+      <h1 class="mat-font-headline-lg">سفارش‌های من</h1>
     </section>
     <section class="container section narrow">
-      @if (!session.ready()) {
-        <p class="empty-state" role="status">در حال بررسی حساب…</p>
-      } @else if (!session.user()) {
-        <div class="empty-state">
-          <h2>برای دیدن سفارش‌ها وارد شوید</h2>
-          <a class="button primary" routerLink="/account">ورود به حساب</a>
-        </div>
-      } @else if (loading()) {
-        <p class="empty-state" role="status">در حال دریافت سفارش‌ها…</p>
-      } @else if (error()) {
-        <div class="empty-state">
-          <h2>دریافت سفارش‌ها ممکن نشد</h2>
-          <button class="button primary" (click)="load()">تلاش دوباره</button>
-        </div>
-      } @else {
-        @for (order of orders(); track order.id) {
-          <article class="order-card">
-            <div class="order-header">
-              <div>
-                <span class="eyebrow">{{ date(order.createdAt) }}</span>
-                <h2>
-                  سفارش <bdi>{{ order.id.slice(0, 8) }}</bdi>
-                </h2>
-              </div>
-              <span class="status-tag">{{ status(order.status) }}</span>
-            </div>
-            <div class="order-actions">
-              <strong>{{ order.totalAmount | toman }}</strong
-              ><button
-                class="button outline"
-                [disabled]="session.busy()"
-                (click)="details(order.id)"
-                [attr.aria-expanded]="detail()?.id === order.id"
-              >
-                {{ detail()?.id === order.id ? 'بستن جزئیات' : 'جزئیات سفارش' }}
-              </button>
-              @if (order.status.toLowerCase() === 'pending') {
-                <button
-                  class="text-link"
-                  [disabled]="session.busy()"
-                  (click)="confirmId.set(order.id)"
-                >
-                  لغو سفارش
-                </button>
-              }
-            </div>
-            @if (confirmId() === order.id) {
-              <div class="cancel-confirm" role="group" aria-label="تأیید لغو سفارش">
-                <p>این سفارش لغو شود؟</p>
-                <button
-                  class="button outline"
-                  [disabled]="session.busy()"
-                  (click)="cancel(order.id)"
-                >
-                  بله، لغو شود</button
-                ><button class="button primary" (click)="confirmId.set('')">خیر</button>
-              </div>
-            }
-            @if (detail(); as d) {
-              @if (d.id === order.id) {
-                <div class="order-details">
-                  @for (item of d.items; track item.productId) {
-                    <p>
-                      {{ item.productName }} × {{ (+item.quantity).toLocaleString('fa-IR') }}
-                      <strong>{{ item.lineTotal | toman }}</strong>
-                    </p>
-                  }
-                  <p>نشانی: {{ d.address.addressLine1 }} {{ d.address.addressLine2 }}</p>
-                  <p>گیرنده: {{ d.address.phoneNumber }}</p>
-                  @if (d.note) {
-                    <p>یادداشت: {{ d.note }}</p>
+      <div class="orders-list">
+        @if (!session.ready()) {
+          <div class="loading-state" role="status">
+            <mat-spinner diameter="36" aria-label="در حال بررسی حساب" />
+            <p>در حال بررسی حساب…</p>
+          </div>
+        } @else if (!session.user()) {
+          <div class="empty-state">
+            <h2 class="mat-font-headline-sm">برای دیدن سفارش‌ها وارد شوید</h2>
+            <a mat-flat-button routerLink="/account">ورود به حساب</a>
+          </div>
+        } @else if (loading()) {
+          <div class="loading-state" role="status">
+            <mat-spinner diameter="36" aria-label="در حال دریافت سفارش‌ها" />
+            <p>در حال دریافت سفارش‌ها…</p>
+          </div>
+        } @else if (error()) {
+          <div class="empty-state">
+            <h2 class="mat-font-headline-sm">دریافت سفارش‌ها ممکن نشد</h2>
+            <button mat-flat-button (click)="load()">تلاش دوباره</button>
+          </div>
+        } @else {
+          @for (order of orders(); track order.id) {
+            <mat-card class="order-card" appearance="outlined" role="article"
+              ><mat-card-content>
+                <div class="order-header">
+                  <div>
+                    <span>{{ date(order.createdAt) }}</span>
+                    <h2 class="mat-font-headline-sm">
+                      سفارش <bdi>{{ order.id.slice(0, 8) }}</bdi>
+                    </h2>
+                  </div>
+                  <mat-chip-set aria-label="حالة سفارش"
+                    ><mat-chip class="status-tag">{{
+                      status(order.status)
+                    }}</mat-chip></mat-chip-set
+                  >
+                </div>
+                <div class="order-actions">
+                  <strong>{{ order.totalAmount | toman }}</strong
+                  ><button
+                    mat-stroked-button
+                    [disabled]="session.busy()"
+                    (click)="details(order.id)"
+                    [attr.aria-expanded]="detail()?.id === order.id"
+                  >
+                    {{ detail()?.id === order.id ? 'بستن جزئیات' : 'جزئیات سفارش' }}
+                  </button>
+                  @if (order.status.toLowerCase() === 'pending') {
+                    <button
+                      mat-button
+                      [disabled]="session.busy()"
+                      (click)="confirmCancel(order.id)"
+                    >
+                      لغو سفارش
+                    </button>
                   }
                 </div>
-              }
-            }
-          </article>
-        } @empty {
-          <div class="empty-state">
-            <h2>اولین سفارش شیرین شما هنوز ثبت نشده</h2>
-            <a class="button primary" routerLink="/shop">رفتن به فروشگاه</a>
-          </div>
+                @if (detail(); as d) {
+                  @if (d.id === order.id) {
+                    <div class="order-details">
+                      @for (item of d.items; track item.productId) {
+                        <p>
+                          {{ item.productName }} × {{ (+item.quantity).toLocaleString('fa-IR') }}
+                          <strong>{{ item.lineTotal | toman }}</strong>
+                        </p>
+                      }
+                      <p>نشانی: {{ d.address.addressLine1 }} {{ d.address.addressLine2 }}</p>
+                      <p>گیرنده: {{ d.address.phoneNumber }}</p>
+                      @if (d.note) {
+                        <p>یادداشت: {{ d.note }}</p>
+                      }
+                    </div>
+                  }
+                }
+              </mat-card-content></mat-card
+            >
+          } @empty {
+            <div class="empty-state">
+              <h2 class="mat-font-headline-sm">اولین سفارش شیرین شما هنوز ثبت نشده</h2>
+              <a mat-flat-button routerLink="/shop">رفتن به فروشگاه</a>
+            </div>
+          }
         }
-      }
+      </div>
     </section>`,
 })
 export class OrdersComponent {
@@ -102,7 +117,7 @@ export class OrdersComponent {
   readonly api = inject(ApiOrderService);
   readonly orders = signal<OrderResponse[]>([]);
   readonly detail = signal<OrderDetailResponse | null>(null);
-  readonly confirmId = signal('');
+  private readonly dialog = inject(MatDialog);
   readonly loading = signal(true);
   readonly error = signal(false);
   constructor() {
@@ -133,10 +148,23 @@ export class OrdersComponent {
       this.detail.set(await firstValueFrom(this.api.apiOrderGetByIdIdGet({ id }))),
     );
   }
-  async cancel(id: string) {
+  async confirmCancel(id: string) {
+    const confirmed = await firstValueFrom(
+      this.dialog
+        .open(ConfirmOrderComponent, {
+          direction: 'rtl',
+          width: '420px',
+          maxWidth: 'calc(100vw - 40px)',
+          ariaLabel: 'تأیید لغو سفارش',
+          autoFocus: '[data-keep-order]',
+        })
+        .afterClosed(),
+    );
+    if (confirmed === true) await this.cancel(id);
+  }
+  private async cancel(id: string) {
     const ok = await this.session.run(async () => {
       await firstValueFrom(this.api.apiOrderCancelIdPut({ id }));
-      this.confirmId.set('');
       this.detail.set(null);
       this.session.notice.set('سفارش لغو شد.');
     });

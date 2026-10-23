@@ -1,3 +1,9 @@
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -5,7 +11,15 @@ import { CatalogData } from './catalog-data';
 import { CookieCard } from './cookie-card';
 @Component({
   selector: 'sori-catalog',
-  imports: [CookieCard],
+  imports: [
+    MatButtonModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    CookieCard,
+  ],
   providers: [CatalogData],
   templateUrl: './catalog.html',
 })

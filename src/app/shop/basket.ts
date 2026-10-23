@@ -1,3 +1,10 @@
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Component, inject, signal, effect, untracked } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
@@ -8,7 +15,19 @@ import { Session } from './session';
 import { imageUrl, TomanPipe } from './money';
 @Component({
   selector: 'sori-basket',
-  imports: [RouterLink, NgOptimizedImage, TomanPipe, FormField],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRadioModule,
+    MatProgressSpinnerModule,
+    RouterLink,
+    NgOptimizedImage,
+    TomanPipe,
+    FormField,
+  ],
   templateUrl: './basket.html',
 })
 export class BasketComponent {

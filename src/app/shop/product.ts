@@ -1,3 +1,6 @@
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Component, inject, input, effect, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -7,11 +10,21 @@ import { Session } from './session';
 import { imageUrl, TomanPipe } from './money';
 @Component({
   selector: 'sori-product',
-  imports: [NgOptimizedImage, RouterLink, TomanPipe],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    NgOptimizedImage,
+    RouterLink,
+    TomanPipe,
+  ],
   template: ` <section class="container section">
-    <a routerLink="/shop" class="text-link">فروشگاه / جزئیات کوکی</a>
+    <a mat-button routerLink="/shop">فروشگاه / جزئیات کوکی</a>
     @if (loading()) {
-      <p class="empty-state" role="status">در حال دریافت محصول…</p>
+      <div class="loading-state" role="status">
+        <mat-spinner diameter="36" aria-label="در حال دریافت محصول" />
+        <p>در حال دریافت محصول…</p>
+      </div>
     } @else if (product(); as p) {
       <div class="product-detail">
         <div>
@@ -25,20 +38,21 @@ import { imageUrl, TomanPipe } from './money';
             />
           </div>
           <div class="gallery">
-            @for (img of p.images ?? []; track img.imageId) {
+            @for (img of p.images ?? []; track img.imageId; let index = $index) {
               <button
+                mat-stroked-button
                 (click)="selected.set(img.url)"
                 [attr.aria-label]="'نمایش ' + (img.alt || p.name)"
-                [class.selected]="selected() === img.url"
+                [attr.aria-pressed]="(selected() || p.imageUrl) === img.url"
               >
-                <img [ngSrc]="image(img.url)" [alt]="img.alt" width="88" height="88" />
+                تصویر {{ (index + 1).toLocaleString('fa-IR') }}
               </button>
             }
           </div>
         </div>
         <div class="detail-copy">
-          <span class="eyebrow">{{ p.category.name }} · ثوری</span>
-          <h1>{{ p.name }}</h1>
+          <span>{{ p.category.name }} · ثوری</span>
+          <h1 class="mat-font-headline-lg">{{ p.name }}</h1>
           <p class="description">{{ p.description }}</p>
           <div class="detail-price">
             @if (p.isOnSale && p.salePrice) {
@@ -54,14 +68,16 @@ import { imageUrl, TomanPipe } from './money';
             }}
           </p>
           <button
-            class="button primary"
+            mat-flat-button
             [disabled]="session.busy() || !p.isAvailable || +p.stockQuantity < 1"
             (click)="session.add(p.id)"
           >
-            افزودن به سبد خرید +
+            افزودن به سبد خرید <mat-icon svgIcon="add" />
           </button>
           @if (!session.user()) {
-            <p><a class="text-link" routerLink="/account">برای خرید، وارد حساب خود شوید ←</a></p>
+            <p>
+              <a mat-button routerLink="/account">برای خرید، وارد حساب خود شوید ←</a>
+            </p>
           }
           <div class="detail-note">
             مواد تشکیل‌دهنده و حساسیت‌های غذایی را در توضیحات محصول بررسی کنید.
@@ -70,9 +86,9 @@ import { imageUrl, TomanPipe } from './money';
       </div>
     } @else {
       <div class="empty-state">
-        <h1>این کوکی پیدا نشد</h1>
+        <h1 class="mat-font-headline-lg">این کوکی پیدا نشد</h1>
         <p>ممکن است محصول حذف شده باشد یا اتصال برقرار نباشد.</p>
-        <a routerLink="/shop" class="button primary">بازگشت به فروشگاه</a>
+        <a mat-flat-button routerLink="/shop">بازگشت به فروشگاه</a>
       </div>
     }
   </section>`,

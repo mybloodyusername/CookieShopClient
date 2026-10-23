@@ -1,69 +1,65 @@
-<a class="skip" href="#main-content">رفتن به محتوای اصلی</a>
-<div class="announcement">
-  کوکی‌های کوچک، لحظه‌های شیرین <span aria-hidden="true">✦</span> از فر ثوری، با عشق
-</div>
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" routerLink="/" aria-label="ثوری، صفحه اصلی"
-      ><span class="brand-mark">ثوری<span class="brand-spark" aria-hidden="true">✦</span></span
-      ><span class="brand-caption">SORI COOKIE HOUSE</span></a
-    >
-    <nav class="desktop-nav" aria-label="منوی اصلی">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-        >خانه</a
-      ><a routerLink="/shop" routerLinkActive="active">کوکی‌های ما</a
-      ><a routerLink="/about" routerLinkActive="active">داستان ثوری</a
-      ><a routerLink="/orders" routerLinkActive="active">سفارش‌های من</a>
-    </nav>
-    <div class="header-actions">
-      <a class="account-link" routerLink="/account"
-        ><span aria-hidden="true">♙</span
-        ><span>{{ session.user() ? 'حساب من' : 'ورود / ثبت‌نام' }}</span></a
-      ><a class="cart-link" routerLink="/cart" aria-label="سبد خرید"
-        ><svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M5 8h14l1 13H4L5 8Zm3 0V6a4 4 0 0 1 8 0v2" /></svg
-        ><span class="count">{{ count().toLocaleString('fa-IR') }}</span></a
-      >
-    </div>
-  </div>
+<a mat-button class="skip" href="#main-content">رفتن به محتوای اصلی</a>
+<header>
+  <mat-toolbar
+    ><div class="header-layout">
+      <a mat-button routerLink="/" aria-label="ثوری، صفحه اصلی">ثوری · Sori</a>
+      <nav class="desktop-nav" aria-label="منوی اصلی">
+        <a
+          mat-button
+          routerLink="/"
+          routerLinkActive
+          #home="routerLinkActive"
+          [routerLinkActiveOptions]="{ exact: true }"
+          [attr.aria-current]="home.isActive ? 'page' : null"
+          >خانه</a
+        ><a mat-button routerLink="/shop">کوکی‌های ما</a
+        ><a mat-button routerLink="/about">داستان ثوری</a
+        ><a mat-button routerLink="/orders">سفارش‌های من</a>
+      </nav>
+      <div class="header-actions">
+        <a mat-icon-button routerLink="/account" aria-label="حساب من" matTooltip="حساب من"
+          ><mat-icon svgIcon="person" /></a
+        ><a mat-icon-button routerLink="/cart" aria-label="سبد خرید" matTooltip="سبد خرید"
+          ><mat-icon
+            svgIcon="bag"
+            [matBadge]="count().toLocaleString('fa-IR')"
+            [matBadgeHidden]="!count()"
+            matBadgeSize="small"
+            [matBadgeDescription]="'تعداد محصولات سبد: ' + count().toLocaleString('fa-IR')"
+        /></a>
+      </div></div
+  ></mat-toolbar>
 </header>
 <main id="main-content" tabindex="-1"><router-outlet /></main>
-<footer class="site-footer">
-  <div class="container footer-grid">
+<footer class="container section">
+  <div class="footer-grid">
     <div>
-      <a class="brand footer-brand" routerLink="/">ثوری <span lang="en">SORI</span></a>
+      <h2 class="mat-font-title-lg">ثوری · Sori</h2>
       <p>برای لحظه‌هایی که کمی شیرینی کم دارند.</p>
-      <p class="muted">کوکی، بهانه‌ی قشنگ کنار هم بودن.</p>
+      <p>همه قیمت‌ها به تومان است.</p>
     </div>
-    <div>
-      <h2>یک سر به ثوری بزنید</h2>
-      <a routerLink="/shop">فروشگاه کوکی</a><a routerLink="/about">داستان ما</a>
+    <div class="footer-links">
+      <a mat-button routerLink="/shop">فروشگاه کوکی</a
+      ><a mat-button routerLink="/about">داستان ما</a>
     </div>
-    <div>
-      <h2>همراه شما</h2>
-      <a routerLink="/account">حساب کاربری</a><a routerLink="/orders">پیگیری سفارش</a
-      ><a routerLink="/cart">سبد خرید</a>
+    <div class="footer-links">
+      <a mat-button routerLink="/account">حساب کاربری</a
+      ><a mat-button routerLink="/orders">پیگیری سفارش</a
+      ><a mat-button routerLink="/cart">سبد خرید</a>
     </div>
-    <div class="footer-note">
-      <span aria-hidden="true">✺</span>
-      <p>یک کوکی، یک لبخند<br />یک تکه حال خوب.</p>
-    </div>
-  </div>
-  <div class="container footer-bottom">
-    <span>با عشق، ثوری © {{ '۲۰۲۶' }}</span
-    ><span>همه قیمت‌ها به تومان است.</span>
   </div>
 </footer>
 <nav class="mobile-nav" aria-label="منوی موبایل">
-  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-    ><span aria-hidden="true">⌂</span>خانه</a
-  ><a routerLink="/shop" routerLinkActive="active"><span aria-hidden="true">✿</span>کوکی‌ها</a
-  ><a routerLink="/cart" routerLinkActive="active"><span aria-hidden="true">▱</span>سبد خرید</a
-  ><a routerLink="/account" routerLinkActive="active"><span aria-hidden="true">♙</span>حساب من</a>
+  <mat-toolbar
+    ><div class="mobile-nav-links">
+      <a mat-icon-button routerLink="/" aria-label="خانه" matTooltip="خانه"
+        ><mat-icon svgIcon="home" /></a
+      ><a mat-icon-button routerLink="/shop" aria-label="کوکی‌ها" matTooltip="کوکی‌ها"
+        ><mat-icon svgIcon="cookie" /></a
+      ><a mat-icon-button routerLink="/cart" aria-label="سبد خرید" matTooltip="سبد خرید"
+        ><mat-icon svgIcon="bag" /></a
+      ><a mat-icon-button routerLink="/account" aria-label="حساب من" matTooltip="حساب من"
+        ><mat-icon svgIcon="person"
+      /></a></div
+  ></mat-toolbar>
 </nav>
-@if (session.notice()) {
-  <div class="toast" role="status">
-    <span>{{ session.notice() }}</span
-    ><button type="button" (click)="session.notice.set('')" aria-label="بستن پیام">×</button>
-  </div>
-}
