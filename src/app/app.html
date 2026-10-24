@@ -1,67 +1,98 @@
 <a mat-button class="skip" href="#main-content">رفتن به محتوای اصلی</a>
-<header>
-  <mat-toolbar
-    ><div class="header-layout">
-      <a mat-button routerLink="/" aria-label="ثوری، صفحه اصلی"
-        ><mat-icon svgIcon="cookie" />ثوری · Sori</a
+@if (!adminPage()) {
+  <header class="store-header">
+    <div class="announcement">ثوری؛ یک مکث کوچک، یک طعم دوست‌داشتنی</div>
+    <mat-toolbar>
+      <div class="header-layout container">
+        <a mat-button class="brand" routerLink="/" aria-label="ثوری، صفحه اصلی"
+          ><mat-icon svgIcon="cookie" />ثوری · Sori</a
+        >
+        <nav class="desktop-nav" aria-label="منوی اصلی">
+          <a
+            mat-button
+            routerLink="/"
+            routerLinkActive="nav-active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            ariaCurrentWhenActive="page"
+            >خانه</a
+          >
+          <a
+            mat-button
+            routerLink="/shop"
+            routerLinkActive="nav-active"
+            ariaCurrentWhenActive="page"
+            >کوکی‌های ما</a
+          >
+          <a
+            mat-button
+            routerLink="/about"
+            routerLinkActive="nav-active"
+            ariaCurrentWhenActive="page"
+            >داستان ثوری</a
+          >
+          <a
+            mat-button
+            routerLink="/orders"
+            routerLinkActive="nav-active"
+            ariaCurrentWhenActive="page"
+            >سفارش‌های من</a
+          >
+        </nav>
+        <div class="header-actions">
+          @if (session.isAdmin()) {
+            <a mat-button routerLink="/admin">پنل مدیریت</a>
+          }
+          <a mat-icon-button routerLink="/account" aria-label="حساب من" matTooltip="حساب من"
+            ><mat-icon svgIcon="person"
+          /></a>
+          <a mat-icon-button routerLink="/cart" aria-label="سبد خرید" matTooltip="سبد خرید"
+            ><mat-icon
+              svgIcon="shopping_bag"
+              [matBadge]="count().toLocaleString('fa-IR')"
+              [matBadgeHidden]="!count()"
+              matBadgeSize="small"
+              [matBadgeDescription]="'تعداد محصولات سبد: ' + count().toLocaleString('fa-IR')"
+          /></a>
+        </div>
+      </div>
+    </mat-toolbar>
+  </header>
+}
+<main id="main-content" tabindex="-1" [class.admin-main]="adminPage()"><router-outlet /></main>
+@if (!adminPage()) {
+  <footer class="store-footer">
+    <div class="container footer-grid">
+      <div>
+        <span class="eyebrow">یک تکه حال خوب</span>
+        <h2 class="mat-font-headline-sm">ثوری · Sori</h2>
+        <p>برای لحظه‌هایی که کمی شیرینی کم دارند.</p>
+        <p class="muted">همه قیمت‌ها به تومان است.</p>
+      </div>
+      <div class="footer-links">
+        <h3 class="mat-font-title-md">دنیای ثوری</h3>
+        <a mat-button routerLink="/shop">فروشگاه کوکی</a
+        ><a mat-button routerLink="/about">داستان ما</a>
+      </div>
+      <div class="footer-links">
+        <h3 class="mat-font-title-md">همراه شما</h3>
+        <a mat-button routerLink="/account">حساب کاربری</a
+        ><a mat-button routerLink="/orders">پیگیری سفارش</a
+        ><a mat-button routerLink="/cart">سبد خرید</a>
+      </div>
+    </div>
+  </footer>
+  <nav class="mobile-nav" aria-label="منوی موبایل">
+    @for (item of navigation; track item.path) {
+      <a
+        mat-button
+        [routerLink]="item.path"
+        routerLinkActive="nav-active"
+        [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+        ariaCurrentWhenActive="page"
+        ><span class="mobile-nav-item"
+          ><mat-icon [svgIcon]="item.icon" /><span>{{ item.label }}</span></span
+        ></a
       >
-      <nav class="desktop-nav" aria-label="منوی اصلی">
-        <a
-          mat-button
-          routerLink="/"
-          routerLinkActive
-          #home="routerLinkActive"
-          [routerLinkActiveOptions]="{ exact: true }"
-          [attr.aria-current]="home.isActive ? 'page' : null"
-          >خانه</a
-        ><a mat-button routerLink="/shop">کوکی‌های ما</a
-        ><a mat-button routerLink="/about">داستان ثوری</a
-        ><a mat-button routerLink="/orders">سفارش‌های من</a>
-      </nav>
-      <div class="header-actions">
-        <a mat-icon-button routerLink="/account" aria-label="حساب من" matTooltip="حساب من"
-          ><mat-icon svgIcon="person" /></a
-        ><a mat-icon-button routerLink="/cart" aria-label="سبد خرید" matTooltip="سبد خرید"
-          ><mat-icon
-            svgIcon="shopping_bag"
-            [matBadge]="count().toLocaleString('fa-IR')"
-            [matBadgeHidden]="!count()"
-            matBadgeSize="small"
-            [matBadgeDescription]="'تعداد محصولات سبد: ' + count().toLocaleString('fa-IR')"
-        /></a>
-      </div></div
-  ></mat-toolbar>
-</header>
-<main id="main-content" tabindex="-1"><router-outlet /></main>
-<footer class="container section">
-  <div class="footer-grid">
-    <div>
-      <h2 class="mat-font-title-lg">ثوری · Sori</h2>
-      <p>برای لحظه‌هایی که کمی شیرینی کم دارند.</p>
-      <p>همه قیمت‌ها به تومان است.</p>
-    </div>
-    <div class="footer-links">
-      <a mat-button routerLink="/shop">فروشگاه کوکی</a
-      ><a mat-button routerLink="/about">داستان ما</a>
-    </div>
-    <div class="footer-links">
-      <a mat-button routerLink="/account">حساب کاربری</a
-      ><a mat-button routerLink="/orders">پیگیری سفارش</a
-      ><a mat-button routerLink="/cart">سبد خرید</a>
-    </div>
-  </div>
-</footer>
-<nav class="mobile-nav" aria-label="منوی موبایل">
-  <mat-toolbar
-    ><div class="mobile-nav-links">
-      <a mat-icon-button routerLink="/" aria-label="خانه" matTooltip="خانه"
-        ><mat-icon svgIcon="home" /></a
-      ><a mat-icon-button routerLink="/shop" aria-label="کوکی‌ها" matTooltip="کوکی‌ها"
-        ><mat-icon svgIcon="cookie" /></a
-      ><a mat-icon-button routerLink="/cart" aria-label="سبد خرید" matTooltip="سبد خرید"
-        ><mat-icon svgIcon="shopping_bag" /></a
-      ><a mat-icon-button routerLink="/account" aria-label="حساب من" matTooltip="حساب من"
-        ><mat-icon svgIcon="person"
-      /></a></div
-  ></mat-toolbar>
-</nav>
+    }
+  </nav>
+}

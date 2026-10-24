@@ -1,0 +1,257 @@
+@if (!session.ready()) {
+  <div class="loading-state" role="status">
+    <mat-spinner diameter="40" aria-label="در حال بررسی دسترسی" />
+    <h1 class="mat-font-headline-sm">در حال بررسی دسترسی…</h1>
+  </div>
+} @else if (!session.isAdmin()) {
+  <section class="container section">
+    <div class="empty-state">
+      <mat-icon svgIcon="person" />
+      <h1 class="mat-font-headline-md">پنل مدیریت ثوری</h1>
+      <p>
+        {{
+          session.user()
+            ? 'این بخش فقط برای مدیر فروشگاه در دسترس است.'
+            : 'برای مدیریت فروشگاه، با حساب مدیر وارد شوید.'
+        }}
+      </p>
+      <a mat-flat-button routerLink="/account">حساب کاربری</a
+      ><a mat-button routerLink="/">بازگشت به فروشگاه</a>
+    </div>
+  </section>
+} @else {
+  <mat-sidenav-container class="admin-container">
+    <mat-sidenav
+      #drawer
+      [mode]="desktop() ? 'side' : 'over'"
+      [opened]="desktop() || menuOpen()"
+      (closedStart)="menuOpen.set(false)"
+      class="admin-sidebar"
+    >
+      <div class="sidebar-brand">
+        <mat-icon svgIcon="cookie" />
+        <div><strong>ثوری · Sori</strong><span>پنل مدیریت فروشگاه</span></div>
+      </div>
+      <nav aria-label="منوی مدیریت">
+        <mat-nav-list>
+          @for (link of links; track link.id) {
+            <a
+              mat-list-item
+              routerLink="/admin"
+              [queryParams]="{ view: link.id }"
+              [activated]="panel().id === link.id"
+              (click)="menuOpen.set(false)"
+              [attr.aria-current]="panel().id === link.id ? 'page' : null"
+              ><mat-icon matListItemIcon [svgIcon]="link.icon" /><span matListItemTitle>{{
+                link.label
+              }}</span></a
+            >
+          }
+        </mat-nav-list>
+      </nav>
+      <div class="sidebar-footer">
+        <p class="muted">مدیریت با طعم آرامش</p>
+        <a mat-stroked-button routerLink="/"><mat-icon svgIcon="arrow_back" />مشاهده فروشگاه</a
+        ><a mat-button routerLink="/account">حساب کاربری</a>
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar class="admin-toolbar">
+        @if (!desktop()) {
+          <button
+            mat-icon-button
+            (click)="menuOpen.set(!menuOpen())"
+            aria-label="باز کردن منوی مدیریت"
+            [attr.aria-expanded]="menuOpen()"
+          >
+            <mat-icon svgIcon="menu" />
+          </button>
+        }
+        <span class="toolbar-title">مدیریت فروشگاه</span><span class="toolbar-spacer"></span>
+        <a mat-icon-button routerLink="/" aria-label="مشاهده فروشگاه"
+          ><mat-icon svgIcon="home"
+        /></a>
+        <a mat-icon-button routerLink="/account" aria-label="حساب مدیر"
+          ><mat-icon svgIcon="person"
+        /></a>
+      </mat-toolbar>
+      <div class="panel-content">
+        <div class="panel-heading">
+          <div>
+            <span class="eyebrow">ثوری / مدیریت</span>
+            <h1 class="mat-font-headline-lg">{{ panel().label }}</h1>
+            <p class="muted">{{ panel().description }}</p>
+          </div>
+          <div class="panel-actions">
+            <button mat-stroked-button (click)="load()" [disabled]="loading()">به‌روزرسانی</button>
+            @if (panel().id === 'products') {
+              <button mat-flat-button (click)="edit()" [disabled]="loading() || error()">
+                <mat-icon svgIcon="add" />محصول جدید
+              </button>
+            }
+          </div>
+        </div>
+        @if (loading()) {
+          <div class="loading-state" role="status">
+            <mat-spinner diameter="40" aria-label="در حال دریافت اطلاعات" />
+            <p>در حال دریافت اطلاعات…</p>
+          </div>
+        } @else if (error()) {
+          <div class="empty-state" role="alert">
+            <h2 class="mat-font-headline-sm">دریافت اطلاعات ممکن نشد</h2>
+            <p>اتصال و دسترسی حساب را بررسی کنید و دوباره تلاش کنید.</p>
+            <button mat-flat-button (click)="load()">تلاش دوباره</button>
+          </div>
+        } @else {
+          @if (panel().id === 'overview') {
+            <section class="welcome-panel">
+              <div>
+                <span class="eyebrow">به پنل ثوری خوش آمدید</span>
+                <h2 class="mat-font-headline-sm">
+                  سلام {{ session.user()?.fullName || 'مدیر ثوری' }}!
+                </h2>
+                <p>محصولات و سفارش‌ها را از همین‌جا دنبال کنید.</p>
+              </div>
+              <a mat-flat-button routerLink="/admin" [queryParams]="{ view: 'products' }"
+                >مدیریت محصولات<mat-icon svgIcon="arrow_back"
+              /></a>
+            </section>
+            <div class="stats-grid">
+              @for (stat of stats(); track stat.view) {
+                <mat-card appearance="outlined"
+                  ><mat-card-content
+                    ><div class="stat-label">
+                      <span>{{ stat.label }}</span
+                      ><mat-icon [svgIcon]="stat.icon" />
+                    </div>
+                    <strong class="stat-value">{{ stat.value }}</strong></mat-card-content
+                  ><mat-card-actions
+                    ><a mat-button routerLink="/admin" [queryParams]="{ view: stat.view }"
+                      >مشاهده<mat-icon svgIcon="arrow_back" /></a></mat-card-actions
+                ></mat-card>
+              }
+            </div>
+          }
+          @if (panel().id === 'overview' || panel().id === 'orders') {
+            <mat-card appearance="outlined" class="data-panel"
+              ><mat-card-header
+                ><mat-card-title
+                  ><h2 class="mat-font-title-lg">
+                    {{ panel().id === 'overview' ? 'آخرین سفارش‌ها' : 'همه سفارش‌ها' }}
+                  </h2></mat-card-title
+                ></mat-card-header
+              ><mat-card-content>
+                @for (order of orders(); track order.id) {
+                  <article class="data-row order-row">
+                    <div>
+                      <strong
+                        >سفارش <bdi>{{ order.id.slice(0, 8) }}</bdi></strong
+                      >
+                      <p class="muted">{{ date(order.createdAt) }}</p>
+                    </div>
+                    <mat-chip-set aria-label="وضعیت سفارش"
+                      ><mat-chip>{{ status(order.status) }}</mat-chip></mat-chip-set
+                    ><strong>{{ order.totalAmount | toman }}</strong
+                    ><button
+                      mat-stroked-button
+                      (click)="details(order)"
+                      [attr.aria-label]="'جزئیات سفارش ' + order.id.slice(0, 8)"
+                    >
+                      جزئیات
+                    </button>
+                  </article>
+                } @empty {
+                  <div class="empty-state">
+                    <mat-icon svgIcon="shopping_bag" />
+                    <h3 class="mat-font-title-lg">هنوز سفارشی ثبت نشده است</h3>
+                    <p>سفارش‌های مشتریان در این بخش نمایش داده می‌شوند.</p>
+                  </div>
+                }
+              </mat-card-content>
+              @if (panel().id === 'orders') {
+                <mat-paginator
+                  aria-label="صفحه‌بندی سفارش‌ها"
+                  [length]="orderCount()"
+                  [pageIndex]="page()"
+                  [pageSize]="12"
+                  [hidePageSize]="true"
+                  (page)="paginate($event.pageIndex)"
+                />
+              } @else {
+                <mat-card-actions
+                  ><a mat-button routerLink="/admin" [queryParams]="{ view: 'orders' }"
+                    >مشاهده همه سفارش‌ها<mat-icon svgIcon="arrow_back" /></a
+                ></mat-card-actions>
+              }
+            </mat-card>
+          }
+          @if (panel().id === 'products') {
+            <form class="admin-search" (submit)="filter(term.value); $event.preventDefault()">
+              <mat-form-field appearance="outline" subscriptSizing="dynamic"
+                ><mat-label>جست‌وجوی محصول</mat-label
+                ><input matInput #term type="search" [value]="search()" /></mat-form-field
+              ><button mat-flat-button type="submit"><mat-icon svgIcon="search" />جست‌وجو</button>
+            </form>
+            <mat-card appearance="outlined" class="data-panel"
+              ><mat-card-content>
+                @for (product of products(); track product.id) {
+                  <article class="data-row product-row">
+                    <div class="product-name">
+                      <span class="product-symbol"><mat-icon svgIcon="cookie" /></span>
+                      <div>
+                        <h2 class="mat-font-title-md">{{ product.name }}</h2>
+                        <span class="muted">موجودی: {{ number(product.stockQuantity) }}</span>
+                      </div>
+                    </div>
+                    <strong>{{ product.price | toman }}</strong
+                    ><mat-chip-set aria-label="وضعیت محصول"
+                      ><mat-chip>{{
+                        product.isAvailable && +product.stockQuantity > 0 ? 'موجود' : 'ناموجود'
+                      }}</mat-chip></mat-chip-set
+                    ><button
+                      mat-stroked-button
+                      (click)="edit(product)"
+                      [attr.aria-label]="'ویرایش ' + product.name"
+                    >
+                      ویرایش
+                    </button>
+                  </article>
+                } @empty {
+                  <div class="empty-state">
+                    <h2 class="mat-font-title-lg">محصولی پیدا نشد</h2>
+                    <p>جست‌وجوی دیگری را امتحان کنید یا محصول جدید بسازید.</p>
+                  </div>
+                }</mat-card-content
+              ><mat-paginator
+                aria-label="صفحه‌بندی محصولات مدیریت"
+                [length]="productCount()"
+                [pageIndex]="page()"
+                [pageSize]="12"
+                [hidePageSize]="true"
+                (page)="paginate($event.pageIndex)"
+            /></mat-card>
+          }
+          @if (panel().id === 'categories') {
+            <div class="category-grid">
+              @for (category of categories(); track category.id) {
+                <mat-card appearance="outlined"
+                  ><mat-card-header
+                    ><mat-icon mat-card-avatar svgIcon="redeem" /><mat-card-title
+                      ><h2 class="mat-font-title-lg">{{ category.name }}</h2></mat-card-title
+                    ></mat-card-header
+                  ><mat-card-actions
+                    ><a mat-button routerLink="/shop" [queryParams]="{ category: category.id }"
+                      >مشاهده محصولات<mat-icon svgIcon="arrow_back" /></a></mat-card-actions
+                ></mat-card>
+              } @empty {
+                <div class="empty-state">
+                  <h2 class="mat-font-title-lg">هنوز دسته‌بندی‌ای ثبت نشده است</h2>
+                </div>
+              }
+            </div>
+          }
+        }
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+}

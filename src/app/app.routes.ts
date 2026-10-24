@@ -41,6 +41,11 @@ export const routes: Routes = [
     loadComponent: () => import('./shop/about').then((m) => m.AboutComponent),
   },
   {
+    path: 'admin',
+    title: 'پنل مدیریت | ثوری',
+    loadComponent: () => import('./admin/admin-panel.component').then((m) => m.AdminPanelComponent),
+  },
+  {
     path: '**',
     title: 'صفحه پیدا نشد | ثوری',
     loadComponent: () => import('./shop/not-found').then((m) => m.NotFoundComponent),

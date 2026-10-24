@@ -19,7 +19,7 @@ import { TomanPipe, imageUrl } from './money';
     RouterLink,
     TomanPipe,
   ],
-  template: ` <mat-card appearance="outlined" role="article">
+  template: ` <mat-card class="cookie-card" appearance="outlined" role="article">
     <a
       class="product-photo"
       [routerLink]="['/shop', product().id]"
@@ -29,7 +29,7 @@ import { TomanPipe, imageUrl } from './money';
         [ngSrc]="image(product().imageUrl)"
         [alt]="product().images?.[0]?.alt || product().name"
         fill
-        sizes="(max-width: 700px) 90vw, (max-width: 1100px) 45vw, 25vw"
+        sizes="(max-width: 599px) 90vw, (max-width: 1100px) 45vw, 25vw"
         (error)="fallback($event)"
       />
     </a>

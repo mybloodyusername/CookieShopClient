@@ -4,7 +4,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { Component, afterNextRender, computed, inject, effect, untracked } from '@angular/core';
+import {
+  Component,
+  afterNextRender,
+  computed,
+  inject,
+  effect,
+  untracked,
+  signal,
+} from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DOCUMENT } from '@angular/common';
@@ -27,6 +35,14 @@ import { Session } from './shop/session';
 })
 export class App {
   readonly session = inject(Session);
+  private readonly router = inject(Router);
+  readonly adminPage = signal(this.router.url.startsWith('/admin'));
+  readonly navigation = [
+    { path: '/', label: 'خانه', icon: 'home' },
+    { path: '/shop', label: 'کوکی‌ها', icon: 'cookie' },
+    { path: '/cart', label: 'سبد خرید', icon: 'shopping_bag' },
+    { path: '/account', label: 'حساب من', icon: 'person' },
+  ];
   readonly count = computed(
     () => this.session.cart()?.items.reduce((sum, item) => sum + Number(item.quantity), 0) ?? 0,
   );
@@ -52,6 +68,8 @@ export class App {
     inject(Router)
       .events.pipe(takeUntilDestroyed())
       .subscribe((event) => {
+        if (event instanceof NavigationEnd)
+          this.adminPage.set(event.urlAfterRedirects.startsWith('/admin'));
         if (event instanceof NavigationEnd && event.id > 1) {
           setTimeout(() => {
             const main = this.document.getElementById('main-content');

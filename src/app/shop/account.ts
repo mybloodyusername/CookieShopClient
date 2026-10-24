@@ -36,6 +36,9 @@ import { Session } from './session';
             <span>خانه‌ی شما در ثوری</span>
             <h2 class="mat-font-headline-sm">سلام {{ user.fullName || 'دوست ثوری' }}!</h2>
             <p>از اینجا خرید و سفارش‌های خود را دنبال کنید.</p>
+            @if (session.isAdmin()) {
+              <a mat-flat-button routerLink="/admin">ورود به پنل مدیریت</a>
+            }
             <a mat-flat-button routerLink="/orders">سفارش‌های من</a
             ><a mat-stroked-button routerLink="/cart">سبد خرید من</a
             ><button mat-button [disabled]="session.busy()" (click)="session.logout()">

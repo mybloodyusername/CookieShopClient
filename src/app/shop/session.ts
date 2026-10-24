@@ -1,4 +1,4 @@
-import { Service, inject, signal } from '@angular/core';
+import { Service, inject, signal, computed } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ApiAuthService, ApiCartService, ApiUserService } from '../../api';
 import type { CartResponse, UserResponse } from '../../api';
@@ -8,6 +8,7 @@ export class Session {
   readonly auth = inject(ApiAuthService);
   readonly cartApi = inject(ApiCartService);
   readonly user = signal<UserResponse | null>(null);
+  readonly isAdmin = computed(() => this.user()?.role?.toLowerCase() === 'admin');
   readonly ready = signal(false);
   readonly cart = signal<CartResponse | null>(null);
   readonly cartError = signal(false);
