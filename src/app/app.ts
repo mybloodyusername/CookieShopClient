@@ -64,9 +64,7 @@ export class App {
     { path: '/cart', label: 'سبد خرید', icon: 'shopping_bag' },
     { path: '/account', label: 'حساب من', icon: 'person' },
   ];
-  readonly count = computed(
-    () => this.session.cart()?.items.reduce((total, item) => total + Number(item.quantity), 0) ?? 0,
-  );
+  readonly count = computed(() => this.session.cart()?.items.length ?? 0);
   private readonly document = inject(DOCUMENT);
   private readonly snackBar = inject(MatSnackBar);
   constructor() {
@@ -111,5 +109,7 @@ export class App {
     else if (current < this.lastScrollY - 4) this.navHidden.set(false);
     this.lastScrollY = current;
   }
-  goBack() { this.location.back(); }
+  goBack() {
+    this.location.back();
+  }
 }

@@ -3,16 +3,6 @@
   <header class="store-header" [class.nav-hidden]="navHidden()">
     <mat-toolbar>
       <div class="header-layout container">
-        <div class="header-title">
-          @if (canGoBack()) {
-            <button mat-icon-button type="button" (click)="goBack()" aria-label="بازگشت">
-              <mat-icon svgIcon="arrow_back" />
-            </button>
-          } @else {
-            <mat-icon class="brand-mark" svgIcon="cookie" />
-          }
-          <a class="brand" routerLink="/" aria-label="ثوری، صفحه اصلی">{{ pageTitle() }}</a>
-        </div>
         <nav class="desktop-nav" aria-label="منوی اصلی">
           <a
             mat-button
@@ -48,18 +38,40 @@
           @if (session.isAdmin()) {
             <a mat-button routerLink="/admin">پنل مدیریت</a>
           }
-          <a mat-icon-button routerLink="/cart" routerLinkActive="nav-active"
-            ariaCurrentWhenActive="page" aria-label="سبد خرید" matTooltip="سبد خرید"
-            [matBadge]="count().toLocaleString('fa-IR')" [matBadgeHidden]="!count()"
-            matBadgeSize="small"
+          <a
+            mat-icon-button
+            routerLink="/cart"
+            routerLinkActive="nav-active"
+            ariaCurrentWhenActive="page"
+            aria-label="سبد خرید"
+            matTooltip="سبد خرید"
+            [matBadge]="count().toLocaleString('fa-IR')"
+            [matBadgeHidden]="!count()"
+            matBadgeOverlap
+            matBadgePosition="before"
+            matBadgeSize="medium"
             [matBadgeDescription]="'تعداد اقلام سبد: ' + count().toLocaleString('fa-IR')"
-            ><mat-icon svgIcon="shopping_bag" /></a>
+          >
+            <mat-icon svgIcon="shopping_bag" />
+          </a>
+        </div>
+        <div class="header-title">
+          <a class="brand" routerLink="/" aria-label="ثوری، صفحه اصلی">{{ pageTitle() }}</a>
+          @if (canGoBack()) {
+            <button mat-icon-button type="button" (click)="goBack()" aria-label="بازگشت">
+              <mat-icon svgIcon="arrow_back" />
+            </button>
+          } @else {
+            <mat-icon class="brand-mark" svgIcon="cookie" />
+          }
         </div>
       </div>
     </mat-toolbar>
   </header>
 }
-<main id="main-content" tabindex="-1" [class.admin-main]="adminPage()"><router-outlet /></main>
+<main id="main-content" tabindex="-1" [class.admin-main]="adminPage()">
+  <router-outlet />
+</main>
 @if (!adminPage()) {
   <footer class="store-footer">
     <div class="container footer-grid">
@@ -71,14 +83,33 @@
       </div>
       <div class="footer-links">
         <h3 class="mat-font-title-md">دنیای ثوری</h3>
-        <a mat-button routerLink="/shop" routerLinkActive="nav-active" ariaCurrentWhenActive="page">فروشگاه کوکی</a
-        ><a mat-button routerLink="/about" routerLinkActive="nav-active" ariaCurrentWhenActive="page">داستان ما</a>
+        <a mat-button routerLink="/shop" routerLinkActive="nav-active" ariaCurrentWhenActive="page"
+          >فروشگاه کوکی</a
+        ><a
+          mat-button
+          routerLink="/about"
+          routerLinkActive="nav-active"
+          ariaCurrentWhenActive="page"
+          >داستان ما</a
+        >
       </div>
       <div class="footer-links">
         <h3 class="mat-font-title-md">همراه شما</h3>
-        <a mat-button routerLink="/account" routerLinkActive="nav-active" ariaCurrentWhenActive="page">حساب کاربری</a
-        ><a mat-button routerLink="/orders" routerLinkActive="nav-active" ariaCurrentWhenActive="page">پیگیری سفارش</a
-        ><a mat-button routerLink="/cart" routerLinkActive="nav-active" ariaCurrentWhenActive="page">سبد خرید</a>
+        <a
+          mat-button
+          routerLink="/account"
+          routerLinkActive="nav-active"
+          ariaCurrentWhenActive="page"
+          >حساب کاربری</a
+        ><a
+          mat-button
+          routerLink="/orders"
+          routerLinkActive="nav-active"
+          ariaCurrentWhenActive="page"
+          >پیگیری سفارش</a
+        ><a mat-button routerLink="/cart" routerLinkActive="nav-active" ariaCurrentWhenActive="page"
+          >سبد خرید</a
+        >
       </div>
     </div>
   </footer>

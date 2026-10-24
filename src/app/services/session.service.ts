@@ -49,7 +49,6 @@ export class SessionService {
           this.cartApi.apiCartAddItemPost({ addCartItemRequest: { productId: id, quantity: 1 } }),
         ),
       );
-      this.notice.set('به سبد خرید شما اضافه شد.');
     });
   }
   async quantity(id: string, quantity: number) {
