@@ -1,7 +1,40 @@
 @use '@angular/material' as mat;
 @use './theme-colors' as theme;
 
+@font-face {
+  font-family: 'Pelak';
+  src: url('/fonts/PELAK/Pelak FontFamily/webfonts/woff2/Pelak-Regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pelak';
+  src: url('/fonts/PELAK/Pelak FontFamily/webfonts/woff2/Pelak-Medium.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pelak';
+  src: url('/fonts/PELAK/Pelak FontFamily/webfonts/woff2/Pelak-SemiBold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pelak';
+  src: url('/fonts/PELAK/Pelak FontFamily/webfonts/woff2/Pelak-Bold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
 html {
+  font-size: 20px;
   color-scheme: light;
   @include mat.theme(
     (
@@ -10,8 +43,8 @@ html {
         tertiary: theme.$tertiary-palette,
       ),
       typography: (
-        plain-family: 'Tahoma, Arial, sans-serif',
-        brand-family: 'Tahoma, Arial, sans-serif',
+        plain-family: 'Pelak, sans-serif',
+        brand-family: 'Pelak, sans-serif',
       ),
       density: 0,
     )
