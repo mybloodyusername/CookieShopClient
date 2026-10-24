@@ -21,7 +21,7 @@
     </div>
   } @else if (!session.cart()?.items?.length) {
     <div class="empty-state">
-      <span aria-hidden="true">✺</span>
+      <mat-icon svgIcon="cookie" />
       <h2 class="mat-font-headline-sm">جای یک کوکی اینجا خالی‌ست!</h2>
       <p>یک طعم دوست‌داشتنی به سبدتان اضافه کنید.</p>
       <a mat-flat-button routerLink="/shop">انتخاب کوکی</a>
@@ -95,7 +95,7 @@
               (change)="addressId.set($event.value)"
             >
               @for (address of addresses(); track address.id) {
-                <mat-radio-button class="address-option" [value]="address.id"
+                <mat-radio-button [value]="address.id"
                   ><strong>{{ address.title }}</strong
                   ><br />{{ address.addressLine1 }} {{ address.addressLine2 }}<br />{{
                     address.phoneNumber
@@ -165,7 +165,7 @@
           </section>
         }
       </div>
-      <aside class="summary-layout">
+      <aside>
         <mat-card appearance="outlined"
           ><mat-card-content
             ><div class="summary-content">
@@ -175,11 +175,11 @@
                 <span>مبلغ محصولات</span><strong>{{ session.cart()?.totalAmount | toman }}</strong>
               </div>
               <p>مبلغ نمایش‌داده‌شده از سبد خرید فروشگاه دریافت می‌شود.</p>
-              <div class="summary-line total">
+              <div class="summary-line">
                 <span>جمع سفارش</span><strong>{{ session.cart()?.totalAmount | toman }}</strong>
               </div>
               @if (checkout) {
-                <p class="checkout-note">
+                <p>
                   با ثبت سفارش، موجودی برای شما رزرو می‌شود. پرداخت آنلاین هنوز در دسترس نیست؛ ثبت
                   سفارش به معنی پرداخت نیست.
                 </p>
@@ -191,7 +191,7 @@
                   {{ session.busy() ? 'در حال ثبت…' : 'ثبت سفارش' }}
                 </button>
               } @else {
-                <a mat-flat-button routerLink="/checkout">ادامه و انتخاب نشانی ←</a>
+                <a mat-flat-button routerLink="/checkout">ادامه و انتخاب نشانی</a>
               }
               <a mat-button routerLink="/shop">ادامه خرید</a>
             </div></mat-card-content

@@ -54,11 +54,13 @@ import { imageUrl, TomanPipe } from './money';
           <span>{{ p.category.name }} · ثوری</span>
           <h1 class="mat-font-headline-lg">{{ p.name }}</h1>
           <p class="description">{{ p.description }}</p>
-          <div class="detail-price">
+          <div>
             @if (p.isOnSale && p.salePrice) {
               <del>{{ p.price | toman }}</del>
             }
-            <strong>{{ (p.isOnSale && p.salePrice ? p.salePrice : p.price) | toman }}</strong>
+            <strong class="mat-font-headline-sm">{{
+              (p.isOnSale && p.salePrice ? p.salePrice : p.price) | toman
+            }}</strong>
           </div>
           <p>
             {{
@@ -76,12 +78,10 @@ import { imageUrl, TomanPipe } from './money';
           </button>
           @if (!session.user()) {
             <p>
-              <a mat-button routerLink="/account">برای خرید، وارد حساب خود شوید ←</a>
+              <a mat-button routerLink="/account">برای خرید، وارد حساب خود شوید</a>
             </p>
           }
-          <div class="detail-note">
-            مواد تشکیل‌دهنده و حساسیت‌های غذایی را در توضیحات محصول بررسی کنید.
-          </div>
+          <div>مواد تشکیل‌دهنده و حساسیت‌های غذایی را در توضیحات محصول بررسی کنید.</div>
         </div>
       </div>
     } @else {

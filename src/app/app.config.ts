@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
     { provide: MatPaginatorIntl, useFactory: persianPaginator },
     provideAppInitializer(() => {
       inject(MatIconRegistry).addSvgIconSet(
-        inject(DomSanitizer).bypassSecurityTrustResourceUrl('/sori-icons.svg'),
+        inject(DomSanitizer).bypassSecurityTrustResourceUrl('/material-icons.svg'),
       );
     }),
     provideRouter(

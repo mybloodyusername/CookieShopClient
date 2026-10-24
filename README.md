@@ -21,7 +21,7 @@ The browser tests read the live sample catalog. Authenticated cart, address, che
 
 ## UI
 
-Angular Material supplies the toolbar, buttons, locally hosted SVG icons, badges, product/order cards, category chips, search and signal-form fields, account tabs, Persian paginator, delivery radio buttons, loading indicators, snackbars, and cancellation dialog. The UI uses the unmodified, prebuilt Material 3 Azure/Blue theme and Material system typography utilities. Application CSS only handles layout and responsive placement; there are no component theme overrides, custom control styles, or Material token assignments. The cancellation dialog manages focus and restores it when closed.
+Angular Material supplies the toolbar, buttons, locally hosted official Google Material SVG icons, badges, product/order cards, category chips, search and signal-form fields, account tabs, Persian paginator, delivery radio buttons, loading indicators, snackbars, and cancellation dialog. The UI uses the unmodified, prebuilt Material 3 Rose/Red theme and Material system typography utilities. Application CSS only handles layout and responsive placement; there are no component theme overrides, custom control styles, or Material token assignments. The cancellation dialog manages focus and restores it when closed.
 
 ## Pages
 
@@ -49,3 +49,5 @@ The compiler currently requires a pnpm override for `@angular/compiler-cli > @jr
 ## Assets
 
 The homepage atmospheric cookie image was AI generated for this storefront; inventory images and descriptions come from the API. The cookie illustration is a fallback for missing product media.
+
+Material icons are distributed under Apache 2.0; their license is included in `public/material-icons-LICENSE.txt`.

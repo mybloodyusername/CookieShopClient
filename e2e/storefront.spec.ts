@@ -20,6 +20,7 @@ test('live storefront, categories, product galleries, and all public routes', as
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('/');
   await expect(page.locator('sori-cookie-card')).toHaveCount(4);
+  await expect(page.locator('mat-icon:not(:has(svg))')).toHaveCount(0);
   await expect(page.locator('html')).toHaveAttribute('lang', 'fa');
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
   await accessible(page);
@@ -262,6 +263,7 @@ test('small mobile and tablet layouts have no overflow or axe violations', async
     await page.setViewportSize({ width, height: 1000 });
     await page.goto('/');
     await expect(page.locator('sori-cookie-card')).toHaveCount(4);
+    await expect(page.locator('mat-icon:not(:has(svg))')).toHaveCount(0);
     await accessible(page);
   }
 });

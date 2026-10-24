@@ -52,8 +52,15 @@ export class App {
     inject(Router)
       .events.pipe(takeUntilDestroyed())
       .subscribe((event) => {
-        if (event instanceof NavigationEnd)
-          setTimeout(() => this.document.getElementById('main-content')?.focus(), 0);
+        if (event instanceof NavigationEnd && event.id > 1) {
+          setTimeout(() => {
+            const main = this.document.getElementById('main-content');
+            const heading = main?.querySelector<HTMLElement>('h1, h2');
+            const target = heading ?? main;
+            target?.setAttribute('tabindex', '-1');
+            target?.focus({ preventScroll: true });
+          }, 0);
+        }
       });
   }
 }

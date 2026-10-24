@@ -1,3 +1,4 @@
+import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,6 +13,7 @@ import { Session } from './session';
 @Component({
   selector: 'sori-account',
   imports: [
+    MatIconModule,
     NgTemplateOutlet,
     MatButtonModule,
     MatCardModule,
@@ -23,7 +25,7 @@ import { Session } from './session';
   ],
   template: ` <section class="container account-section">
     <div class="account-story">
-      <span aria-hidden="true">✺</span>
+      <mat-icon svgIcon="cookie" />
       <h1 class="mat-font-headline-lg">به جمع شیرین<br />ثوری خوش آمدید.</h1>
       <p>یک حساب، برای همه‌ی لحظه‌های خوشمزه‌ات.</p>
     </div>
@@ -41,7 +43,6 @@ import { Session } from './session';
             </button>
           } @else {
             <mat-tab-group
-              class="account-tabs"
               [selectedIndex]="register() ? 1 : 0"
               (selectedIndexChange)="register.set($event === 1)"
               animationDuration="0ms"

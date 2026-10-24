@@ -1,3 +1,4 @@
+import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,6 +13,7 @@ import { CookieCard } from './cookie-card';
 @Component({
   selector: 'sori-catalog',
   imports: [
+    MatIconModule,
     MatButtonModule,
     MatChipsModule,
     MatFormFieldModule,

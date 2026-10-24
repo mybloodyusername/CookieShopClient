@@ -2,7 +2,9 @@
 <header>
   <mat-toolbar
     ><div class="header-layout">
-      <a mat-button routerLink="/" aria-label="ثوری، صفحه اصلی">ثوری · Sori</a>
+      <a mat-button routerLink="/" aria-label="ثوری، صفحه اصلی"
+        ><mat-icon svgIcon="cookie" />ثوری · Sori</a
+      >
       <nav class="desktop-nav" aria-label="منوی اصلی">
         <a
           mat-button
@@ -21,7 +23,7 @@
           ><mat-icon svgIcon="person" /></a
         ><a mat-icon-button routerLink="/cart" aria-label="سبد خرید" matTooltip="سبد خرید"
           ><mat-icon
-            svgIcon="bag"
+            svgIcon="shopping_bag"
             [matBadge]="count().toLocaleString('fa-IR')"
             [matBadgeHidden]="!count()"
             matBadgeSize="small"
@@ -57,7 +59,7 @@
       ><a mat-icon-button routerLink="/shop" aria-label="کوکی‌ها" matTooltip="کوکی‌ها"
         ><mat-icon svgIcon="cookie" /></a
       ><a mat-icon-button routerLink="/cart" aria-label="سبد خرید" matTooltip="سبد خرید"
-        ><mat-icon svgIcon="bag" /></a
+        ><mat-icon svgIcon="shopping_bag" /></a
       ><a mat-icon-button routerLink="/account" aria-label="حساب من" matTooltip="حساب من"
         ><mat-icon svgIcon="person"
       /></a></div

@@ -8,53 +8,6 @@
   "projects": {
     "CookieShopClient": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss",
-          "skipTests": true,
-          "addTypeToClassName": true,
-          "path": "src/app/components",
-          "prefix": "cookie"
-        },
-        "@schematics/angular:class": {
-          "skipTests": true,
-          "path": "src/app/classes"
-        },
-        "@schematics/angular:directive": {
-          "skipTests": true,
-          "path": "src/app/directives",
-          "addTypeToClassName": true
-        },
-        "@schematics/angular:guard": {
-          "skipTests": true,
-          "path": "src/app/guards",
-          "typeSeparator": ".",
-          "functional": true
-        },
-        "@schematics/angular:interceptor": {
-          "skipTests": true,
-          "path": "src/app/interceptors",
-          "typeSeparator": ".",
-          "functional": true
-        },
-        "@schematics/angular:pipe": {
-          "skipTests": true,
-          "path": "src/app/pipes",
-          "typeSeparator": "."
-        },
-        "@schematics/angular:resolver": {
-          "skipTests": true,
-          "path": "src/app/resolvers",
-          "typeSeparator": ".",
-          "functional": true
-        },
-        "@schematics/angular:service": {
-          "skipTests": true,
-          "path": "src/app/services",
-          "type": "service",
-          "addTypeToClassName": true
-        }
-      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -71,10 +24,7 @@
                 "input": "public"
               }
             ],
-            "styles": ["@angular/material/prebuilt-themes/azure-blue.css", "src/styles.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["src/styles"]
-            },
+            "styles": ["@angular/material/prebuilt-themes/rose-red.css", "src/styles.scss"],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "security": {

@@ -19,55 +19,53 @@ import { TomanPipe, imageUrl } from './money';
     RouterLink,
     TomanPipe,
   ],
-  template: ` <mat-card class="cookie-card" appearance="outlined" role="article">
-    <div class="product-visual">
-      <a
-        class="product-photo"
-        [routerLink]="['/shop', product().id]"
-        [attr.aria-label]="product().name"
-      >
-        <img
-          [ngSrc]="image(product().imageUrl)"
-          [alt]="product().images?.[0]?.alt || product().name"
-          fill
-          sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 25vw"
-          (error)="fallback($event)"
-        />
-      </a>
+  template: ` <mat-card appearance="outlined" role="article">
+    <a
+      class="product-photo"
+      [routerLink]="['/shop', product().id]"
+      [attr.aria-label]="product().name"
+    >
+      <img
+        [ngSrc]="image(product().imageUrl)"
+        [alt]="product().images?.[0]?.alt || product().name"
+        fill
+        sizes="(max-width: 700px) 90vw, (max-width: 1100px) 45vw, 25vw"
+        (error)="fallback($event)"
+      />
+    </a>
+    <mat-card-header>
+      <h3 mat-card-title>
+        <a mat-button [routerLink]="['/shop', product().id]">{{ product().name }}</a>
+      </h3>
+      <mat-card-subtitle>
+        @if (product().isOnSale && product().salePrice) {
+          <del>{{ product().price | toman }}</del>
+        }
+        {{
+          (product().isOnSale && product().salePrice ? product().salePrice : product().price)
+            | toman
+        }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
       @if (product().isOnSale && product().salePrice) {
-        <mat-chip-set class="tag"><mat-chip>شیرین‌تر از همیشه</mat-chip></mat-chip-set>
+        <mat-chip-set aria-label="وضعیت تخفیف"><mat-chip>تخفیف ویژه</mat-chip></mat-chip-set>
       }
       @if (!product().isAvailable || +product().stockQuantity < 1) {
-        <mat-chip-set class="tag"><mat-chip>فعلاً ناموجود</mat-chip></mat-chip-set>
+        <mat-chip-set aria-label="وضعیت موجودی"><mat-chip>فعلاً ناموجود</mat-chip></mat-chip-set>
       }
-    </div>
-    <mat-card-content class="product-info">
-      <span>یک انتخاب خوشمزه</span>
-      <h3 class="mat-font-title-lg">
-        <a [routerLink]="['/shop', product().id]">{{ product().name }}</a>
-      </h3>
-      <p>{{ product().description }}</p>
-      <div class="product-bottom">
-        <div>
-          @if (product().isOnSale && product().salePrice) {
-            <del>{{ product().price | toman }}</del>
-          }
-          <strong>{{
-            (product().isOnSale && product().salePrice ? product().salePrice : product().price)
-              | toman
-          }}</strong>
-        </div>
-        <button
-          mat-icon-button
-          type="button"
-          [disabled]="session.busy() || !product().isAvailable || +product().stockQuantity < 1"
-          (click)="session.add(product().id)"
-          [attr.aria-label]="'افزودن ' + product().name + ' به سبد خرید'"
-        >
-          <mat-icon svgIcon="add" />
-        </button>
-      </div>
     </mat-card-content>
+    <mat-card-actions align="end">
+      <button
+        mat-flat-button
+        type="button"
+        [disabled]="session.busy() || !product().isAvailable || +product().stockQuantity < 1"
+        (click)="session.add(product().id)"
+        [attr.aria-label]="'افزودن ' + product().name + ' به سبد خرید'"
+      >
+        <mat-icon svgIcon="add" /> افزودن به سبد
+      </button>
+    </mat-card-actions>
   </mat-card>`,
 })
 export class CookieCard {

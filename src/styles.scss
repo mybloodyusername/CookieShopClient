@@ -24,7 +24,6 @@ body {
 .header-actions,
 .desktop-nav,
 .hero-buttons,
-.product-bottom,
 .quantity,
 .order-actions {
   display: flex;
@@ -59,7 +58,6 @@ body {
   object-fit: cover;
 }
 .hero-copy,
-.story-copy,
 .account-story,
 .account-content,
 .detail-copy,
@@ -70,13 +68,11 @@ body {
   gap: 16px;
   min-width: 0;
 }
-.hero-buttons,
-.hero-footnote {
+.hero-buttons {
   margin-top: 16px;
 }
 .page-banner,
 .story-art,
-.moments,
 .empty-state {
   text-align: center;
 }
@@ -100,32 +96,21 @@ body {
   margin-bottom: 24px;
 }
 .category-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-bottom: 24px;
 }
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
-  align-items: start;
+  align-items: stretch;
   gap: 24px;
-}
-.product-visual {
-  position: relative;
 }
 .product-photo {
   display: block;
   position: relative;
   aspect-ratio: 1;
-}
-.tag {
-  margin: 8px 16px;
-}
-.product-bottom {
-  justify-content: space-between;
-  margin-top: 16px;
-}
-.product-bottom strong,
-.product-bottom del {
-  display: block;
 }
 .story-band,
 .about-content {
@@ -260,6 +245,7 @@ body {
     width: 100%;
   }
 }
+
 @media (max-width: 700px) {
   .container {
     width: calc(100% - 32px);
@@ -281,4 +267,31 @@ body {
   .search-form {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+// Content rhythm and responsive composition; component appearance stays stock.
+.hero-copy > * {
+  margin-block: 0;
+}
+.hero-copy {
+  gap: 24px;
+}
+.icon-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+sori-cookie-card {
+  display: grid;
+  min-width: 0;
+}
+.page-banner {
+  display: grid;
+  gap: 16px;
+}
+.page-banner > * {
+  margin-block: 0;
+}
+.section-heading h2 {
+  margin-block: 8px 0;
 }

@@ -1,16 +1,17 @@
+import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 @Component({
   selector: 'sori-about',
-  imports: [MatButtonModule, RouterLink],
+  imports: [MatIconModule, MatButtonModule, RouterLink],
   template: `<section class="page-banner">
       <span>سلام، ما ثوری هستیم</span>
       <h1 class="mat-font-headline-lg">یک قصه‌ی کوچک و شیرین.</h1>
     </section>
     <section class="container section about-content">
       <div class="story-art">
-        <span aria-hidden="true">✺</span>
+        <mat-icon svgIcon="cookie" />
         <p>کوکی بهانه‌ست،<br /><strong>حال خوب اصل ماجراست.</strong></p>
         <span>با عشق، ثوری</span>
       </div>
@@ -29,7 +30,7 @@ import { RouterLink } from '@angular/router';
           در صفحه‌ی هر محصول می‌توانید توضیحات، قیمت، موجودی و اطلاعات مواد تشکیل‌دهنده را بررسی
           کنید. اگر حساسیت غذایی دارید، پیش از سفارش توضیحات محصول را بخوانید.
         </p>
-        <a mat-flat-button routerLink="/shop">یک گاز خوشحالی ←</a>
+        <a mat-flat-button routerLink="/shop">یک گاز خوشحالی</a>
       </div>
     </section>`,
 })

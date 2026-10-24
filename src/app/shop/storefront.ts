@@ -1,5 +1,5 @@
+import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Component, inject } from '@angular/core';
@@ -10,8 +10,8 @@ import { CatalogData } from './catalog-data';
 @Component({
   selector: 'sori-storefront',
   imports: [
+    MatIconModule,
     MatButtonModule,
-    MatChipsModule,
     MatCardModule,
     MatProgressSpinnerModule,
     RouterLink,
