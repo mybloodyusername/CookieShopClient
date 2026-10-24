@@ -34,7 +34,7 @@
 }
 
 html {
-  font-size: 20px;
+  font-size: 16px;
   color-scheme: light;
   @include mat.theme(
     (
@@ -128,9 +128,10 @@ main {
   top: 0;
   z-index: 20;
   border-bottom: 1px solid var(--mat-sys-outline-variant);
+  transition: transform 180ms ease;
 }
 .store-header mat-toolbar {
-  height: 72px;
+  height: 60px;
   background: var(--mat-sys-surface);
   padding: 0;
 }
@@ -140,6 +141,9 @@ main {
   justify-content: space-between;
   gap: 8px;
 }
+.header-title { display: flex; align-items: center; min-width: 0; gap: 4px; }
+.header-title .brand { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-decoration: none; }
+.brand-mark { flex: 0 0 auto; }
 .brand {
   font-size: 20px;
 }
@@ -436,23 +440,62 @@ sori-cookie-card {
 }
 .cart-item-layout {
   display: flex;
-  align-items: start;
-  flex-wrap: wrap;
-  gap: 16px;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 12px;
 }
 .cart-item-layout img {
-  border-radius: 16px;
+  display: block;
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 12px;
 }
 .cart-item-info {
-  flex: 1 1 160px;
+  flex: 1 1 auto;
   min-width: 0;
 }
+.cart-item-info h2 { font-size: 1rem; margin: 0 0 4px; }
+.cart-item-info p { margin: 0; font-size: 0.85rem; }
 .cart-item-total {
   display: flex;
   flex-direction: column;
   align-items: start;
   gap: 8px;
+  font-size: 0.85rem;
 }
+.cookie-card { position: relative; overflow: hidden; }
+.sale-ribbon {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 12px;
+  inset-inline-start: 12px;
+  padding: 5px 12px;
+  border-radius: 0 0 10px 10px;
+  background: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+.cookie-card mat-card-actions .product-quantity {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+  width: 100%;
+  margin-inline-start: auto;
+}
+.cookie-card mat-card-actions .product-quantity button {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  flex: 0 0 36px;
+  padding: 0;
+}
+.cookie-card mat-card-actions .product-quantity button mat-icon { margin: 0; }
+.product-quantity span { min-width: 1.5rem; text-align: center; font-variant-numeric: tabular-nums; }
 .address-section,
 .address-form {
   margin-block: 24px;
@@ -509,27 +552,44 @@ sori-cookie-card {
 .mobile-nav {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 4px;
+  gap: 0;
   position: fixed;
   inset-inline: 0;
   bottom: 0;
   z-index: 30;
-  padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+  padding: 4px 8px calc(4px + env(safe-area-inset-bottom));
   background: var(--mat-sys-surface-container);
   border-top: 1px solid var(--mat-sys-outline-variant);
+  transition: transform 180ms ease;
 }
+.store-header.nav-hidden { transform: translateY(-100%); }
+.mobile-nav.nav-hidden { transform: translateY(110%); }
 .mobile-nav a {
   min-width: 0;
-  height: 64px;
-  padding: 4px;
-  border-radius: 20px;
+  height: 52px;
+  padding: 2px;
+  border-radius: 16px;
 }
 .mobile-nav-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  font: var(--mat-sys-label-medium);
+  gap: 0;
+  font-size: 0.625rem;
+  line-height: 1.2;
+}
+.mobile-nav-item mat-icon { width: 20px; height: 20px; font-size: 20px; }
+@media (max-width: 1023px) {
+  html { font-size: 16px; scroll-padding-block: 84px 64px; }
+  main { padding-bottom: 64px; }
+  .store-header mat-toolbar { height: 56px; }
+  .brand { font-size: 16px; }
+}
+@media (max-width: 480px) {
+  .cart-item-layout { gap: 8px; }
+  .cart-item-layout img { width: 60px; height: 60px; }
+  .cart-item-total { gap: 2px; }
+  .cart-item-total .mat-mdc-button { min-width: 40px; padding-inline: 6px; }
 }
 a.skip.skip {
   position: fixed;
@@ -589,6 +649,7 @@ a.skip.skip:focus {
   }
 }
 @media (min-width: 1024px) {
+  html { font-size: 20px; }
   .desktop-nav {
     display: flex;
   }

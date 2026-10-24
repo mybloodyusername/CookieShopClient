@@ -17,9 +17,11 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } fro
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DOCUMENT } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Location } from '@angular/common';
 import { Session } from './shop/session';
 @Component({
   selector: 'app-root',
+  host: { '(window:scroll)': 'onWindowScroll()' },
   imports: [
     MatButtonModule,
     MatIconModule,
@@ -37,6 +39,24 @@ export class App {
   readonly session = inject(Session);
   private readonly router = inject(Router);
   readonly adminPage = signal(this.router.url.startsWith('/admin'));
+  readonly navHidden = signal(false);
+  private readonly currentUrl = signal(this.router.url);
+  readonly pageTitle = computed(() => {
+    const url = this.currentUrl().split('?')[0].split('/').filter(Boolean);
+    if (url.length === 0) return 'ثوری · Sori';
+    if (url[0] === 'shop') return url.length > 1 ? 'جزئیات کوکی' : 'کوکی‌های ما';
+    const titles: Record<string, string> = {
+      cart: 'سبد خرید',
+      account: 'حساب کاربری',
+      orders: 'سفارش‌های من',
+      about: 'داستان ثوری',
+      admin: 'پنل مدیریت',
+    };
+    return titles[url[0]] ?? 'ثوری · Sori';
+  });
+  readonly canGoBack = computed(() => this.currentUrl().split('?')[0] !== '/');
+  private lastScrollY = 0;
+  private readonly location = inject(Location);
   readonly navigation = [
     { path: '/', label: 'خانه', icon: 'home' },
     { path: '/shop', label: 'کوکی‌ها', icon: 'cookie' },
@@ -44,7 +64,7 @@ export class App {
     { path: '/account', label: 'حساب من', icon: 'person' },
   ];
   readonly count = computed(
-    () => this.session.cart()?.items.reduce((sum, item) => sum + Number(item.quantity), 0) ?? 0,
+    () => this.session.cart()?.items.reduce((total, item) => total + Number(item.quantity), 0) ?? 0,
   );
   private readonly document = inject(DOCUMENT);
   private readonly snackBar = inject(MatSnackBar);
@@ -68,8 +88,10 @@ export class App {
     inject(Router)
       .events.pipe(takeUntilDestroyed())
       .subscribe((event) => {
-        if (event instanceof NavigationEnd)
+        if (event instanceof NavigationEnd) {
+          this.currentUrl.set(event.urlAfterRedirects);
           this.adminPage.set(event.urlAfterRedirects.startsWith('/admin'));
+        }
         if (event instanceof NavigationEnd && event.id > 1) {
           setTimeout(() => {
             const main = this.document.getElementById('main-content');
@@ -81,4 +103,12 @@ export class App {
         }
       });
   }
+  onWindowScroll() {
+    const current = window.scrollY;
+    if (current < 24) this.navHidden.set(false);
+    else if (current > this.lastScrollY + 4) this.navHidden.set(true);
+    else if (current < this.lastScrollY - 4) this.navHidden.set(false);
+    this.lastScrollY = current;
+  }
+  goBack() { this.location.back(); }
 }

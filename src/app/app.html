@@ -1,11 +1,18 @@
 <a mat-button class="skip" href="#main-content">رفتن به محتوای اصلی</a>
 @if (!adminPage()) {
-  <header class="store-header">
+  <header class="store-header" [class.nav-hidden]="navHidden()">
     <mat-toolbar>
       <div class="header-layout container">
-        <a mat-button class="brand" routerLink="/" aria-label="ثوری، صفحه اصلی"
-          ><mat-icon svgIcon="cookie" />ثوری · Sori</a
-        >
+        <div class="header-title">
+          @if (canGoBack()) {
+            <button mat-icon-button type="button" (click)="goBack()" aria-label="بازگشت">
+              <mat-icon svgIcon="arrow_back" />
+            </button>
+          } @else {
+            <mat-icon class="brand-mark" svgIcon="cookie" />
+          }
+          <a class="brand" routerLink="/" aria-label="ثوری، صفحه اصلی">{{ pageTitle() }}</a>
+        </div>
         <nav class="desktop-nav" aria-label="منوی اصلی">
           <a
             mat-button
@@ -41,17 +48,12 @@
           @if (session.isAdmin()) {
             <a mat-button routerLink="/admin">پنل مدیریت</a>
           }
-          <a mat-icon-button routerLink="/account" aria-label="حساب من" matTooltip="حساب من"
-            ><mat-icon svgIcon="person"
-          /></a>
-          <a mat-icon-button routerLink="/cart" aria-label="سبد خرید" matTooltip="سبد خرید"
-            ><mat-icon
-              svgIcon="shopping_bag"
-              [matBadge]="count().toLocaleString('fa-IR')"
-              [matBadgeHidden]="!count()"
-              matBadgeSize="small"
-              [matBadgeDescription]="'تعداد محصولات سبد: ' + count().toLocaleString('fa-IR')"
-          /></a>
+          <a mat-icon-button routerLink="/cart" routerLinkActive="nav-active"
+            ariaCurrentWhenActive="page" aria-label="سبد خرید" matTooltip="سبد خرید"
+            [matBadge]="count().toLocaleString('fa-IR')" [matBadgeHidden]="!count()"
+            matBadgeSize="small"
+            [matBadgeDescription]="'تعداد اقلام سبد: ' + count().toLocaleString('fa-IR')"
+            ><mat-icon svgIcon="shopping_bag" /></a>
         </div>
       </div>
     </mat-toolbar>
@@ -69,18 +71,18 @@
       </div>
       <div class="footer-links">
         <h3 class="mat-font-title-md">دنیای ثوری</h3>
-        <a mat-button routerLink="/shop">فروشگاه کوکی</a
-        ><a mat-button routerLink="/about">داستان ما</a>
+        <a mat-button routerLink="/shop" routerLinkActive="nav-active" ariaCurrentWhenActive="page">فروشگاه کوکی</a
+        ><a mat-button routerLink="/about" routerLinkActive="nav-active" ariaCurrentWhenActive="page">داستان ما</a>
       </div>
       <div class="footer-links">
         <h3 class="mat-font-title-md">همراه شما</h3>
-        <a mat-button routerLink="/account">حساب کاربری</a
-        ><a mat-button routerLink="/orders">پیگیری سفارش</a
-        ><a mat-button routerLink="/cart">سبد خرید</a>
+        <a mat-button routerLink="/account" routerLinkActive="nav-active" ariaCurrentWhenActive="page">حساب کاربری</a
+        ><a mat-button routerLink="/orders" routerLinkActive="nav-active" ariaCurrentWhenActive="page">پیگیری سفارش</a
+        ><a mat-button routerLink="/cart" routerLinkActive="nav-active" ariaCurrentWhenActive="page">سبد خرید</a>
       </div>
     </div>
   </footer>
-  <nav class="mobile-nav" aria-label="منوی موبایل">
+  <nav class="mobile-nav" [class.nav-hidden]="navHidden()" aria-label="منوی موبایل">
     @for (item of navigation; track item.path) {
       <a
         mat-button

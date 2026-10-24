@@ -5,6 +5,65 @@
     "packageManager": "pnpm"
   },
   "newProjectRoot": "projects",
+  "schematics": {
+    "@schematics/angular:application": {
+      "zoneless": true,
+      "skipTests": true,
+      "standalone": true,
+      "prefix": "cs",
+      "inlineStyle": false,
+      "inlineTemplate": false,
+      "fileNameStyleGuide": "2025"
+    },
+    "@schematics/angular:component": {
+      "prefix": "cs",
+      "changeDetection": "OnPush",
+      "standalone": true,
+      "skipTests": true,
+      "inlineTemplate": false,
+      "inlineStyle": false,
+      "path": "src/app/components",
+      "flat": false
+    },
+    "@schematics/angular:directive": {
+      "standalone": true,
+      "prefix": "cs",
+      "addTypeToClassName": true,
+      "type": "directive",
+      "skipTests": true,
+      "path": "src/app/directives"
+    },
+    "@schematics/angular:guard": {
+      "skipTests": true,
+      "functional": true,
+      "typeSeparator": ".",
+      "path": "src/app/guards"
+    },
+    "@schematics/angular:interceptor": {
+      "skipTests": true,
+      "typeSeparator": ".",
+      "functional": true,
+      "path": "src/app/interceptors"
+    },
+    "@schematics/angular:pipe": {
+      "skipTests": true,
+      "typeSeparator": ".",
+      "standalone": true,
+      "path": "src/app/pipes"
+    },
+    "@schematics/angular:resolver": {
+      "skipTests": true,
+      "functional": true,
+      "typeSeparator": ".",
+      "path": "src/app/resolvers"
+    },
+    "@schematics/angular:service": {
+      "skipTests": true,
+      "type": "service",
+      "addTypeToClassName": true,
+      "path": "src/app/services"
+    }
+  },
   "projects": {
     "CookieShopClient": {
       "projectType": "application",

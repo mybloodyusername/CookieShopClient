@@ -1,7 +1,6 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
 import { Component, input, inject, computed } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -14,12 +13,14 @@ import { TomanPipe, imageUrl } from './money';
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    MatChipsModule,
     NgOptimizedImage,
     RouterLink,
     TomanPipe,
   ],
   template: ` <mat-card class="cookie-card" appearance="outlined" role="article">
+    @if (available() && product().isOnSale && product().salePrice) {
+      <span class="sale-ribbon">تخفیف ویژه</span>
+    }
     @if (available()) {
       <a class="product-photo" [routerLink]="['/shop', product().id]" [attr.aria-label]="product().name">
         <img
@@ -58,21 +59,25 @@ import { TomanPipe, imageUrl } from './money';
         }
       </mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content>
-      @if (available() && product().isOnSale && product().salePrice) {
-        <mat-chip-set aria-label="وضعیت تخفیف"><mat-chip>تخفیف ویژه</mat-chip></mat-chip-set>
-      }
-    </mat-card-content>
     <mat-card-actions align="end">
-      <button
-        mat-flat-button
-        type="button"
-        [disabled]="session.busy() || !product().isAvailable || +product().stockQuantity < 1"
-        (click)="session.add(product().id)"
-        [attr.aria-label]="'افزودن ' + product().name + ' به سبد خرید'"
-      >
-        <mat-icon svgIcon="add" /> افزودن به سبد
-      </button>
+      @if (inCart()) {
+        <div class="product-quantity" [attr.aria-label]="'تعداد ' + product().name + ' در سبد خرید'">
+          <button mat-icon-button type="button" [disabled]="session.busy() || quantity() >= +product().stockQuantity"
+            (click)="session.quantity(product().id, quantity() + 1)" [attr.aria-label]="'افزایش تعداد ' + product().name">
+            <mat-icon svgIcon="add" />
+          </button>
+          <span aria-live="polite">{{ quantity().toLocaleString('fa-IR') }}</span>
+          <button mat-icon-button type="button" [disabled]="session.busy()"
+            (click)="session.quantity(product().id, quantity() - 1)" [attr.aria-label]="'کاهش تعداد ' + product().name">
+            <mat-icon svgIcon="remove" />
+          </button>
+        </div>
+      } @else {
+        <button mat-flat-button type="button" [disabled]="session.busy() || !available()"
+          (click)="session.add(product().id)" [attr.aria-label]="'افزودن ' + product().name + ' به سبد خرید'">
+          <mat-icon svgIcon="add" /> افزودن به سبد
+        </button>
+      }
     </mat-card-actions>
   </mat-card>`,
 })
@@ -80,6 +85,8 @@ export class CookieCard {
   readonly product = input.required<ProductResponse>();
   readonly available = computed(() => this.product().isAvailable && +this.product().stockQuantity > 0);
   readonly session = inject(Session);
+  readonly quantity = computed(() => Number(this.session.cart()?.items.find((item) => item.productId === this.product().id)?.quantity ?? 0));
+  readonly inCart = computed(() => this.quantity() > 0);
   readonly image = imageUrl;
   fallback(event: Event) {
     const img = event.target as HTMLImageElement;
