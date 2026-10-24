@@ -1,0 +1,23 @@
+.about-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+}
+
+.story-art {
+  display: grid;
+  place-items: center;
+  padding: 48px 24px;
+  border-radius: 28px;
+  background: var(--mat-sys-tertiary-container);
+  color: var(--mat-sys-on-tertiary-container);
+  text-align: center;
+  font: var(--mat-sys-headline-small);
+}
+
+.story-art mat-icon { width: 64px; height: 64px; }
+
+@media (min-width: 840px) {
+  .about-content { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; }
+}

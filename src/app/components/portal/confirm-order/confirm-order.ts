@@ -5,5 +5,6 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'cs-confirm-order',
   imports: [MatDialogModule, MatButtonModule],
   templateUrl: './confirm-order.html',
+  styleUrl: './confirm-order.scss',
 })
 export class ConfirmOrderComponent {}

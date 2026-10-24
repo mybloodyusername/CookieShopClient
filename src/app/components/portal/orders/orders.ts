@@ -21,6 +21,7 @@ import { SessionService } from '../../../services/session.service';
     TomanPipe,
   ],
   templateUrl: './orders.html',
+  styleUrl: './orders.scss',
 })
 export class OrdersComponent {
   readonly session = inject(SessionService);

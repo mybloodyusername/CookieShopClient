@@ -22,29 +22,7 @@ import { SessionService } from '../../../services/session.service';
     MatCheckboxModule,
   ],
   templateUrl: './product-editor.html',
-  styles: `
-    .editor-fields {
-      display: grid;
-      gap: 8px;
-      padding-top: 8px;
-    }
-    .field-pair {
-      display: grid;
-      gap: 8px;
-    }
-    mat-form-field {
-      width: 100%;
-      min-width: 0;
-    }
-    .editor-error {
-      color: var(--mat-sys-error);
-    }
-    @media (min-width: 600px) {
-      .field-pair {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-  `,
+  styleUrl: './product-editor.scss',
 })
 export class ProductEditorComponent {
   readonly data = inject<{ product?: ProductResponse; categories: CategoryResponse[] }>(

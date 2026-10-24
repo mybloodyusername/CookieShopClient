@@ -30,6 +30,7 @@ import { imageUrl } from '../../../utils/image-url';
     FormField,
   ],
   templateUrl: './basket.html',
+  styleUrl: './basket.scss',
 })
 export class BasketComponent {
   readonly session = inject(SessionService);

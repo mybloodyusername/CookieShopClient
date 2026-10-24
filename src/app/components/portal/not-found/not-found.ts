@@ -5,5 +5,6 @@ import { RouterLink } from '@angular/router';
   selector: 'cs-not-found',
   imports: [MatButtonModule, RouterLink],
   templateUrl: './not-found.html',
+  styleUrl: './not-found.scss',
 })
 export class NotFoundComponent {}

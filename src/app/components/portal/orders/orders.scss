@@ -1,0 +1,21 @@
+.orders-list { display: grid; gap: 24px; }
+
+.order-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.order-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.order-details { margin-top: 24px; border-top: 1px solid var(--mat-sys-outline-variant); padding-top: 16px; }
+
+.order-details p {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.narrow { max-width: 900px; }

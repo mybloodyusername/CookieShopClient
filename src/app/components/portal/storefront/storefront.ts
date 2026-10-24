@@ -20,6 +20,7 @@ import { CatalogDataService } from '../../../services/catalog-data.service';
   ],
   providers: [CatalogDataService],
   templateUrl: './storefront.html',
+  styleUrl: './storefront.scss',
 })
 export class StorefrontComponent {
   readonly data = inject(CatalogDataService);

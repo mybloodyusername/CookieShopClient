@@ -1,0 +1,8 @@
+.editor-fields { display: grid; gap: 8px; padding-top: 8px; }
+.field-pair { display: grid; gap: 8px; }
+mat-form-field { width: 100%; min-width: 0; }
+.editor-error { color: var(--mat-sys-error); }
+
+@media (min-width: 600px) {
+  .field-pair { grid-template-columns: 1fr 1fr; }
+}

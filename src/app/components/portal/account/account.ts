@@ -24,6 +24,7 @@ import { SessionService } from '../../../services/session.service';
     RouterLink,
   ],
   templateUrl: './account.html',
+  styleUrl: './account.scss',
 })
 export class AccountComponent {
   readonly session = inject(SessionService);

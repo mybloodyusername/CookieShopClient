@@ -19,6 +19,7 @@ import { imageUrl } from '../../../utils/image-url';
     TomanPipe,
   ],
   templateUrl: './cookie-card.html',
+  styleUrl: './cookie-card.scss',
 })
 export class CookieCard {
   readonly product = input.required<ProductResponse>();

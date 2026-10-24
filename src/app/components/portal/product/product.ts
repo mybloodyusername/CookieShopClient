@@ -20,6 +20,7 @@ import { imageUrl } from '../../../utils/image-url';
     TomanPipe,
   ],
   templateUrl: './product.html',
+  styleUrl: './product.scss',
 })
 export class ProductComponent {
   readonly id = input.required<string>();

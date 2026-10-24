@@ -1,0 +1,15 @@
+.search-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  max-width: 720px;
+  margin: 0 auto 24px;
+  padding: 16px;
+  border-radius: 24px;
+  background: var(--mat-sys-surface-container-low);
+}
+
+@media (min-width: 600px) {
+  .search-form { grid-template-columns: minmax(0, 1fr) auto; }
+}

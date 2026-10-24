@@ -47,7 +47,7 @@ type Panel = 'overview' | 'products' | 'orders' | 'categories';
     TomanPipe,
   ],
   templateUrl: './admin-panel.html',
-  styleUrl: './admin-panel.css',
+  styleUrl: './admin-panel.scss',
 })
 export class AdminPanelComponent {
   readonly session = inject(SessionService);

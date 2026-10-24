@@ -22,6 +22,7 @@ import { CookieCard } from '../../shared/cookie-card/cookie-card';
   ],
   providers: [CatalogDataService],
   templateUrl: './catalog.html',
+  styleUrl: './catalog.scss',
 })
 export class CatalogComponent {
   readonly data = inject(CatalogDataService);

@@ -19,23 +19,7 @@ import { SessionService } from '../../../services/session.service';
     TomanPipe,
   ],
   templateUrl: './order-detail.html',
-  styles: `
-    .item {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      padding-block: 16px;
-      border-bottom: 1px solid var(--mat-sys-outline-variant);
-    }
-    mat-form-field {
-      width: 100%;
-      margin-top: 16px;
-    }
-    .error {
-      color: var(--mat-sys-error);
-    }
-  `,
+  styleUrl: './order-detail.scss',
 })
 export class OrderDetailComponent {
   readonly id = inject<string>(MAT_DIALOG_DATA);
