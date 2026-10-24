@@ -68,7 +68,7 @@ html {
 * {
   box-sizing: border-box;
 }
-app-root {
+cs-root {
   display: flex;
   min-height: 100vh;
   min-height: 100svh;
@@ -277,7 +277,7 @@ main {
   align-items: stretch;
   gap: 20px;
 }
-sori-cookie-card {
+cs-cookie-card {
   display: grid;
   min-width: 0;
 }

@@ -18,9 +18,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DOCUMENT } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
-import { Session } from './shop/session';
+import { SessionService } from './services/session.service';
 @Component({
-  selector: 'app-root',
+  selector: 'cs-root',
   host: { '(window:scroll)': 'onWindowScroll()' },
   imports: [
     MatButtonModule,
@@ -36,7 +36,7 @@ import { Session } from './shop/session';
   templateUrl: './app.html',
 })
 export class App {
-  readonly session = inject(Session);
+  readonly session = inject(SessionService);
   private readonly router = inject(Router);
   readonly adminPage = signal(this.router.url.startsWith('/admin'));
   readonly navHidden = signal(false);

@@ -1,0 +1,60 @@
+    <h2 mat-dialog-title>جزئیات سفارش</h2>
+    <mat-dialog-content>
+      @if (loading()) {
+        <div class="loading-state" role="status">
+          <mat-spinner diameter="32" aria-label="در حال دریافت سفارش" />
+        </div>
+      } @else if (order(); as detail) {
+        <p>
+          شناسه: <bdi>{{ detail.id.slice(0, 8) }}</bdi>
+        </p>
+        <h3 class="mat-font-title-md">اقلام سفارش</h3>
+        @for (item of detail.items; track item.productId) {
+          <div class="item">
+            <span>{{ item.productName }} × {{ number(item.quantity) }}</span
+            ><strong>{{ item.lineTotal | toman }}</strong>
+          </div>
+        }
+        <div class="item">
+          <strong>مبلغ کل</strong><strong>{{ detail.totalAmount | toman }}</strong>
+        </div>
+        <h3 class="mat-font-title-md">نشانی ارسال</h3>
+        <p>{{ detail.address.addressLine1 }} {{ detail.address.addressLine2 }}</p>
+        <p>
+          شماره تماس: <bdi>{{ detail.address.phoneNumber }}</bdi>
+        </p>
+        @if (detail.note) {
+          <p>یادداشت: {{ detail.note }}</p>
+        }
+        <mat-form-field appearance="outline"
+          ><mat-label>وضعیت سفارش</mat-label
+          ><mat-select
+            [value]="status()"
+            (selectionChange)="status.set($event.value)"
+            [disabled]="saving()"
+          >
+            @for (option of statuses; track option.value) {
+              <mat-option [value]="option.value">{{ option.label }}</mat-option>
+            }
+          </mat-select></mat-form-field
+        >
+      }
+      @if (error()) {
+        <p role="alert" class="error">{{ error() }}</p>
+        @if (!order()) {
+          <button mat-button (click)="load()">تلاش دوباره</button>
+        }
+      }
+    </mat-dialog-content>
+    <mat-dialog-actions align="end"
+      ><button mat-button [disabled]="saving()" (click)="dialog.close(changed)">بستن</button>
+      @if (order()) {
+        <button
+          mat-flat-button
+          [disabled]="saving() || status() === order()?.status"
+          (click)="save()"
+        >
+          {{ saving() ? 'در حال ذخیره…' : 'ذخیره وضعیت' }}
+        </button>
+      }
+    </mat-dialog-actions>

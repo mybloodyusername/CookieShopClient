@@ -1,0 +1,74 @@
+ <section class="container section">
+    <a mat-button routerLink="/shop">فروشگاه / جزئیات کوکی</a>
+    @if (loading()) {
+      <div class="loading-state" role="status">
+        <mat-spinner diameter="36" aria-label="در حال دریافت محصول" />
+        <p>در حال دریافت محصول…</p>
+      </div>
+    } @else if (product(); as p) {
+      <div class="product-detail">
+        <div>
+          <div class="detail-photo">
+            <img
+              [ngSrc]="image(selected() || p.imageUrl)"
+              [alt]="p.name"
+              fill
+              sizes="(max-width:760px) 90vw, 45vw"
+              priority
+            />
+          </div>
+          <div class="gallery">
+            @for (img of p.images ?? []; track img.imageId; let index = $index) {
+              <button
+                mat-stroked-button
+                (click)="selected.set(img.url)"
+                [attr.aria-label]="'نمایش ' + (img.alt || p.name)"
+                [attr.aria-pressed]="(selected() || p.imageUrl) === img.url"
+              >
+                تصویر {{ (index + 1).toLocaleString('fa-IR') }}
+              </button>
+            }
+          </div>
+        </div>
+        <div class="detail-copy">
+          <span>{{ p.category.name }} · ثوری</span>
+          <h1 class="mat-font-headline-lg">{{ p.name }}</h1>
+          <p class="description">{{ p.description }}</p>
+          <div>
+            @if (p.isOnSale && p.salePrice) {
+              <del>{{ p.price | toman }}</del>
+            }
+            <strong class="mat-font-headline-sm">{{
+              (p.isOnSale && p.salePrice ? p.salePrice : p.price) | toman
+            }}</strong>
+          </div>
+          <p>
+            {{
+              p.isAvailable && +p.stockQuantity > 0
+                ? 'آماده برای یک لحظه‌ی شیرین'
+                : 'این طعم فعلاً موجود نیست'
+            }}
+          </p>
+          <button
+            mat-flat-button
+            [disabled]="session.busy() || !p.isAvailable || +p.stockQuantity < 1"
+            (click)="session.add(p.id)"
+          >
+            افزودن به سبد خرید <mat-icon svgIcon="add" />
+          </button>
+          @if (!session.user()) {
+            <p>
+              <a mat-button routerLink="/account">برای خرید، وارد حساب خود شوید</a>
+            </p>
+          }
+          <div>مواد تشکیل‌دهنده و حساسیت‌های غذایی را در توضیحات محصول بررسی کنید.</div>
+        </div>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <h1 class="mat-font-headline-lg">این کوکی پیدا نشد</h1>
+        <p>ممکن است محصول حذف شده باشد یا اتصال برقرار نباشد.</p>
+        <a mat-flat-button routerLink="/shop">بازگشت به فروشگاه</a>
+      </div>
+    }
+  </section>

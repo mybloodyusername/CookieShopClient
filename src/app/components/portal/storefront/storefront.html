@@ -1,0 +1,133 @@
+<section class="container hero-grid">
+  <div class="hero-copy">
+    <span class="mat-font-label-lg mat-text-primary">ثوری · شیرینیِ لحظه‌های ساده</span>
+    <h1 class="mat-font-display-md">یک کوکی،<br />یک تکه حال خوب.</h1>
+    <p class="mat-font-body-lg">
+      از طعم‌های آشنا تا یک انتخاب تازه؛ کوکی دلخواهت را پیدا کن و روزت را کمی شیرین‌تر بساز.
+    </p>
+    <div class="hero-buttons">
+      <a mat-flat-button routerLink="/shop"><mat-icon svgIcon="shopping_bag" />انتخاب کوکی</a>
+      <a mat-stroked-button routerLink="/about">داستان ثوری</a>
+    </div>
+    <p class="icon-line mat-font-body-md">
+      <mat-icon svgIcon="favorite" />برای خودت، یا کسی که دوستش داری.
+    </p>
+  </div>
+  <mat-card class="hero-card" appearance="outlined">
+    <div class="hero-image">
+      <img
+        ngSrc="/images/hero-cookies.jpg"
+        alt="کوکی‌های شکلاتی در کنار یک فنجان، برای یک عصر دلپذیر"
+        fill
+        priority
+        sizes="(max-width: 700px) 90vw, 50vw"
+      />
+    </div>
+    <mat-card-header>
+      <mat-icon mat-card-avatar svgIcon="local_cafe" />
+      <mat-card-title>یک مکث خوشمزه</mat-card-title>
+      <mat-card-subtitle>چای، کوکی و چند دقیقه برای خودت</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions
+      ><a mat-button routerLink="/shop">طعم دلخواهت را پیدا کن<mat-icon svgIcon="arrow_back" /></a
+    ></mat-card-actions>
+  </mat-card>
+</section>
+<section class="section container">
+  <div class="section-heading">
+    <div>
+      <span class="mat-font-label-lg mat-text-primary">ویترین ثوری</span>
+      <h2 class="mat-font-headline-lg">کوکی‌های دوست‌داشتنی ما</h2>
+    </div>
+    <a mat-stroked-button routerLink="/shop">همه‌ی کوکی‌ها<mat-icon svgIcon="arrow_back" /></a>
+  </div>
+  <nav class="category-links" aria-label="دسته‌بندی کوکی‌ها">
+    <a mat-stroked-button routerLink="/shop">همه‌ی خوشمزه‌ها</a>
+    @for (category of data.categories(); track category.id) {
+      <a mat-stroked-button routerLink="/shop" [queryParams]="{ category: category.id }">{{
+        category.name
+      }}</a>
+    }
+  </nav>
+  @if (data.loading()) {
+    <div class="loading-state" role="status">
+      <mat-spinner diameter="36" aria-label="در حال دریافت کوکی‌ها" />
+      <p>در حال دریافت کوکی‌ها…</p>
+    </div>
+  } @else if (data.error()) {
+    <div class="empty-state">
+      <mat-icon svgIcon="cookie" />
+      <h3 class="mat-font-title-lg">کوکی‌ها هنوز به ویترین نرسیده‌اند</h3>
+      <p>دریافت محصولات ممکن نشد. دوباره تلاش کنید.</p>
+      <button mat-flat-button (click)="data.load('', '', 4)">تلاش دوباره</button>
+    </div>
+  } @else {
+    <div class="product-grid">
+      @for (product of data.products(); track product.id) {
+        <cs-cookie-card [product]="product" />
+      } @empty {
+        <p class="empty-state">به‌زودی طعم‌های تازه به ویترین اضافه می‌شوند.</p>
+      }
+    </div>
+  }
+</section>
+<section class="container section">
+  <div class="section-heading">
+    <div>
+      <span class="mat-font-label-lg mat-text-primary">بهانه‌ای برای با هم بودن</span>
+      <h2 class="mat-font-headline-lg">هر لحظه، یک طعم شیرین.</h2>
+    </div>
+  </div>
+  <div class="moment-grid">
+    <mat-card appearance="outlined">
+      <mat-card-header
+        ><mat-icon mat-card-avatar svgIcon="local_cafe" /><mat-card-title
+          >کنار چای و قهوه</mat-card-title
+        ><mat-card-subtitle>یک مکث کوچک برای خودت</mat-card-subtitle></mat-card-header
+      >
+      <mat-card-actions
+        ><a mat-button routerLink="/shop">انتخاب کوکی<mat-icon svgIcon="arrow_back" /></a
+      ></mat-card-actions>
+    </mat-card>
+    <mat-card appearance="outlined">
+      <mat-card-header
+        ><mat-icon mat-card-avatar svgIcon="redeem" /><mat-card-title
+          >برای کسی که دوستش داری</mat-card-title
+        ><mat-card-subtitle>شیرینیِ یک «به یادت بودم»</mat-card-subtitle></mat-card-header
+      >
+      <mat-card-actions
+        ><a mat-button routerLink="/shop">پیدا کردن یک طعم<mat-icon svgIcon="arrow_back" /></a
+      ></mat-card-actions>
+    </mat-card>
+    <mat-card appearance="outlined">
+      <mat-card-header
+        ><mat-icon mat-card-avatar svgIcon="auto_awesome" /><mat-card-title
+          >وسط یک روز معمولی</mat-card-title
+        ><mat-card-subtitle>گاهی بهانه لازم نیست</mat-card-subtitle></mat-card-header
+      >
+      <mat-card-actions
+        ><a mat-button routerLink="/shop">یک گاز خوشحالی<mat-icon svgIcon="arrow_back" /></a
+      ></mat-card-actions>
+    </mat-card>
+  </div>
+</section>
+<section class="container section">
+  <mat-card appearance="outlined">
+    <mat-card-content
+      ><div class="story-band">
+        <div>
+          <span class="mat-font-label-lg mat-text-primary">پشت هر کوکی، یک قصه‌ست</span>
+          <h2 class="mat-font-headline-lg">چیزهای کوچک، خوشحالی‌های بزرگ.</h2>
+        </div>
+        <div>
+          <p>
+            ثوری برای ما اسم یک حس است؛ حس یک مکث کوتاه میان شلوغی روز، یک فنجان چای و یک کوکی که با
+            کسی که دوستش دارید قسمت می‌کنید.
+          </p>
+          <a mat-button routerLink="/about"
+            >بیشتر با ما آشنا شوید<mat-icon svgIcon="arrow_back"
+          /></a>
+        </div></div
+    ></mat-card-content>
+  </mat-card>
+</section>

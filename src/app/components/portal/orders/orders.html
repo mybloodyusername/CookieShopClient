@@ -1,0 +1,91 @@
+ <section class="page-banner">
+      <span>از ثوری تا خانه‌ی شما</span>
+      <h1 class="mat-font-headline-lg">سفارش‌های من</h1>
+    </section>
+    <section class="container section narrow">
+      <div class="orders-list">
+        @if (!session.ready()) {
+          <div class="loading-state" role="status">
+            <mat-spinner diameter="36" aria-label="در حال بررسی حساب" />
+            <p>در حال بررسی حساب…</p>
+          </div>
+        } @else if (!session.user()) {
+          <div class="empty-state">
+            <h2 class="mat-font-headline-sm">برای دیدن سفارش‌ها وارد شوید</h2>
+            <a mat-flat-button routerLink="/account">ورود به حساب</a>
+          </div>
+        } @else if (loading()) {
+          <div class="loading-state" role="status">
+            <mat-spinner diameter="36" aria-label="در حال دریافت سفارش‌ها" />
+            <p>در حال دریافت سفارش‌ها…</p>
+          </div>
+        } @else if (error()) {
+          <div class="empty-state">
+            <h2 class="mat-font-headline-sm">دریافت سفارش‌ها ممکن نشد</h2>
+            <button mat-flat-button (click)="load()">تلاش دوباره</button>
+          </div>
+        } @else {
+          @for (order of orders(); track order.id) {
+            <mat-card class="order-card" appearance="outlined" role="article"
+              ><mat-card-content>
+                <div class="order-header">
+                  <div>
+                    <span>{{ date(order.createdAt) }}</span>
+                    <h2 class="mat-font-headline-sm">
+                      سفارش <bdi>{{ order.id.slice(0, 8) }}</bdi>
+                    </h2>
+                  </div>
+                  <mat-chip-set aria-label="حالة سفارش"
+                    ><mat-chip class="status-tag">{{
+                      status(order.status)
+                    }}</mat-chip></mat-chip-set
+                  >
+                </div>
+                <div class="order-actions">
+                  <strong>{{ order.totalAmount | toman }}</strong
+                  ><button
+                    mat-stroked-button
+                    [disabled]="session.busy()"
+                    (click)="details(order.id)"
+                    [attr.aria-expanded]="detail()?.id === order.id"
+                  >
+                    {{ detail()?.id === order.id ? 'بستن جزئیات' : 'جزئیات سفارش' }}
+                  </button>
+                  @if (order.status.toLowerCase() === 'pending') {
+                    <button
+                      mat-button
+                      [disabled]="session.busy()"
+                      (click)="confirmCancel(order.id)"
+                    >
+                      لغو سفارش
+                    </button>
+                  }
+                </div>
+                @if (detail(); as d) {
+                  @if (d.id === order.id) {
+                    <div class="order-details">
+                      @for (item of d.items; track item.productId) {
+                        <p>
+                          {{ item.productName }} × {{ (+item.quantity).toLocaleString('fa-IR') }}
+                          <strong>{{ item.lineTotal | toman }}</strong>
+                        </p>
+                      }
+                      <p>نشانی: {{ d.address.addressLine1 }} {{ d.address.addressLine2 }}</p>
+                      <p>گیرنده: {{ d.address.phoneNumber }}</p>
+                      @if (d.note) {
+                        <p>یادداشت: {{ d.note }}</p>
+                      }
+                    </div>
+                  }
+                }
+              </mat-card-content></mat-card
+            >
+          } @empty {
+            <div class="empty-state">
+              <h2 class="mat-font-headline-sm">اولین سفارش شیرین شما هنوز ثبت نشده</h2>
+              <a mat-flat-button routerLink="/shop">رفتن به فروشگاه</a>
+            </div>
+          }
+        }
+      </div>
+    </section>
