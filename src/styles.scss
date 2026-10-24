@@ -68,8 +68,16 @@ html {
 * {
   box-sizing: border-box;
 }
+app-root {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100svh;
+  flex-direction: column;
+}
 body {
   margin: 0;
+  min-height: 100vh;
+  font-weight: 500;
 }
 a,
 button,
@@ -96,7 +104,8 @@ p {
   outline-offset: 4px;
 }
 main {
-  min-height: 50vh;
+  flex: 1 0 auto;
+  min-height: 0;
   padding-bottom: 32px;
 }
 .container {
@@ -119,13 +128,6 @@ main {
   top: 0;
   z-index: 20;
   border-bottom: 1px solid var(--mat-sys-outline-variant);
-}
-.announcement {
-  background: var(--mat-sys-primary);
-  color: var(--mat-sys-on-primary);
-  text-align: center;
-  padding: 8px 16px;
-  font: var(--mat-sys-label-medium);
 }
 .store-header mat-toolbar {
   height: 72px;
@@ -278,6 +280,8 @@ sori-cookie-card {
 .cookie-card {
   height: 100%;
   overflow: hidden;
+  background: var(--mat-sys-surface-container-low);
+  border-color: var(--mat-sys-outline-variant);
   transition: box-shadow 180ms ease;
 }
 .cookie-card:hover {
@@ -288,13 +292,43 @@ sori-cookie-card {
   position: relative;
   aspect-ratio: 6 / 5;
   overflow: hidden;
-  background: var(--mat-sys-surface-container);
+  background: var(--mat-sys-tertiary-container);
+}
+.product-photo-unavailable img {
+  filter: grayscale(1);
+  opacity: 0.48;
+}
+.cookie-card mat-card-subtitle {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.original-price {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.85em;
+  font-weight: 500;
+}
+.final-price {
+  color: var(--mat-sys-on-surface);
+  font-weight: 700;
+}
+.discount-price {
+  color: var(--mat-sys-tertiary);
+}
+.unavailable-label {
+  color: var(--mat-sys-on-surface-variant);
+  font-weight: 600;
 }
 .cookie-card mat-card-header {
   padding-block: 16px 8px;
 }
 .cookie-card h3 {
   margin: 0;
+}
+.cookie-card h3 a,
+.cookie-card mat-card-actions button {
+  font-weight: 600;
 }
 .cookie-card mat-card-actions {
   margin-top: auto;
@@ -348,10 +382,6 @@ sori-cookie-card {
   padding: 16px;
   background: var(--mat-sys-surface-container-low);
   border-radius: 24px;
-}
-.catalog-paginator {
-  margin-top: 24px;
-  border-radius: 16px;
 }
 .loading-state,
 .empty-state {

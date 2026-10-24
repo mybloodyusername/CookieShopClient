@@ -2,11 +2,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { API_ORIGIN } from './config';
 @Pipe({ name: 'toman' })
 export class TomanPipe implements PipeTransform {
-  transform(value: number | string | null | undefined): string {
-    return (
-      new Intl.NumberFormat('fa-IR', { maximumFractionDigits: 0 }).format(Number(value ?? 0)) +
-      ' تومان'
+  transform(value: number | string | null | undefined, includeCurrency = true): string {
+    const formatted = new Intl.NumberFormat('fa-IR', { maximumFractionDigits: 0 }).format(
+      Number(value ?? 0),
     );
+    return includeCurrency ? `${formatted} تومان` : formatted;
   }
 }
 export function imageUrl(value?: string | null): string {

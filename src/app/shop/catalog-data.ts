@@ -12,22 +12,37 @@ export class CatalogData {
   readonly error = signal(false);
   readonly total = signal(0);
   private request = 0;
-  async load(search = '', categoryId = '', page = 1, pageSize = 12) {
+  async load(search = '', categoryId = '', limit?: number) {
     const request = ++this.request;
     this.loading.set(true);
     this.error.set(false);
     try {
-      const data = await firstValueFrom(
+      const pageSize = limit ?? 100;
+      const firstPage = await firstValueFrom(
         this.api.apiProductGet({
           search: search || undefined,
           categoryId: categoryId || undefined,
-          page,
+          page: 1,
           pageSize,
         }),
       );
+      const products = [...firstPage.items];
+      const total = Number(firstPage.totalCount);
+      for (let page = 2; !limit && products.length < total; page++) {
+        const data = await firstValueFrom(
+          this.api.apiProductGet({
+            search: search || undefined,
+            categoryId: categoryId || undefined,
+            page,
+            pageSize,
+          }),
+        );
+        if (data.items.length === 0) break;
+        products.push(...data.items);
+      }
       if (request === this.request) {
-        this.products.set(data.items);
-        this.total.set(Number(data.totalCount));
+        this.products.set(products);
+        this.total.set(total);
       }
     } catch {
       if (request === this.request) this.error.set(true);
