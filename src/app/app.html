@@ -3,117 +3,73 @@
   <header class="store-header" [class.nav-hidden]="navHidden()">
     <mat-toolbar>
       <div class="header-layout container">
+        <a class="brand" routerLink="/" aria-label="کوکی شاپ، صفحه اصلی">
+          <span class="brand-mark"><mat-icon svgIcon="cookie" /></span>
+          <span class="brand-copy">
+            <strong>کوکی شاپ</strong>
+            <small>کوکی‌های دست‌ساز</small>
+          </span>
+        </a>
+
         <nav class="desktop-nav" aria-label="منوی اصلی">
-          <a
-            mat-button
-            routerLink="/"
-            routerLinkActive="nav-active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            ariaCurrentWhenActive="page"
-            >خانه</a
-          >
-          <a
-            mat-button
-            routerLink="/shop"
-            routerLinkActive="nav-active"
-            ariaCurrentWhenActive="page"
-            >کوکی‌های ما</a
-          >
-          <a
-            mat-button
-            routerLink="/about"
-            routerLinkActive="nav-active"
-            ariaCurrentWhenActive="page"
-            >داستان ثوری</a
-          >
-          <a
-            mat-button
-            routerLink="/orders"
-            routerLinkActive="nav-active"
-            ariaCurrentWhenActive="page"
-            >سفارش‌های من</a
-          >
+          <a mat-button routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="nav-active"
+            ariaCurrentWhenActive="page">خانه</a>
+          <a mat-button routerLink="/shop" routerLinkActive="nav-active" ariaCurrentWhenActive="page">فروشگاه</a>
+          <a mat-button routerLink="/about" routerLinkActive="nav-active" ariaCurrentWhenActive="page">داستان کوکی شاپ</a>
         </nav>
+
         <div class="header-actions">
           @if (session.isAdmin()) {
-            <a mat-button routerLink="/admin">پنل مدیریت</a>
+            <a mat-button routerLink="/admin">مدیریت</a>
           }
+          <a mat-button class="account-link" routerLink="/account" routerLinkActive="nav-active"
+            ariaCurrentWhenActive="page"><mat-icon svgIcon="person" />حساب من</a>
           <a
-            mat-icon-button
-            routerLink="/cart"
+            mat-flat-button
+            class="header-cart"
+            routerLink="/checkout/cart"
             routerLinkActive="nav-active"
             ariaCurrentWhenActive="page"
-            aria-label="سبد خرید"
-            matTooltip="سبد خرید"
-            [matBadge]="count().toLocaleString('fa-IR')"
-            [matBadgeHidden]="!count()"
-            matBadgeOverlap
-            matBadgePosition="before"
-            matBadgeSize="medium"
-            [matBadgeDescription]="'تعداد اقلام سبد: ' + count().toLocaleString('fa-IR')"
+            [attr.aria-label]="'سبد خرید، ' + count().toLocaleString('fa-IR') + ' قلم'"
           >
             <mat-icon svgIcon="shopping_bag" />
+            <span>سبد خرید</span>
+            <span class="cart-count" aria-hidden="true">{{ count().toLocaleString('fa-IR') }}</span>
           </a>
-        </div>
-        <div class="header-title">
-          <a class="brand" routerLink="/" aria-label="ثوری، صفحه اصلی">{{ pageTitle() }}</a>
-          @if (canGoBack()) {
-            <button mat-icon-button type="button" (click)="goBack()" aria-label="بازگشت">
-              <mat-icon svgIcon="arrow_back" />
-            </button>
-          } @else {
-            <mat-icon class="brand-mark" svgIcon="cookie" />
-          }
         </div>
       </div>
     </mat-toolbar>
   </header>
 }
+
 <main id="main-content" tabindex="-1" [class.admin-main]="adminPage()">
   <router-outlet />
 </main>
+
 @if (!adminPage()) {
   <footer class="store-footer">
     <div class="container footer-grid">
       <div>
         <span class="eyebrow">یک تکه حال خوب</span>
-        <h2 class="mat-font-headline-sm">ثوری · Sori</h2>
+        <h2 class="mat-font-headline-sm">کوکی شاپ</h2>
         <p>برای لحظه‌هایی که کمی شیرینی کم دارند.</p>
         <p class="muted">همه قیمت‌ها به تومان است.</p>
       </div>
       <div class="footer-links">
-        <h3 class="mat-font-title-md">دنیای ثوری</h3>
-        <a mat-button routerLink="/shop" routerLinkActive="nav-active" ariaCurrentWhenActive="page"
-          >فروشگاه کوکی</a
-        ><a
-          mat-button
-          routerLink="/about"
-          routerLinkActive="nav-active"
-          ariaCurrentWhenActive="page"
-          >داستان ما</a
-        >
+        <h3 class="mat-font-title-md">دنیای کوکی شاپ</h3>
+        <a mat-button routerLink="/shop" routerLinkActive="nav-active" ariaCurrentWhenActive="page">فروشگاه کوکی</a>
+        <a mat-button routerLink="/about" routerLinkActive="nav-active" ariaCurrentWhenActive="page">داستان ما</a>
       </div>
       <div class="footer-links">
         <h3 class="mat-font-title-md">همراه شما</h3>
-        <a
-          mat-button
-          routerLink="/account"
-          routerLinkActive="nav-active"
-          ariaCurrentWhenActive="page"
-          >حساب کاربری</a
-        ><a
-          mat-button
-          routerLink="/orders"
-          routerLinkActive="nav-active"
-          ariaCurrentWhenActive="page"
-          >پیگیری سفارش</a
-        ><a mat-button routerLink="/cart" routerLinkActive="nav-active" ariaCurrentWhenActive="page"
-          >سبد خرید</a
-        >
+        <a mat-button routerLink="/account" routerLinkActive="nav-active" ariaCurrentWhenActive="page">حساب کاربری</a>
+        <a mat-button routerLink="/account/orders" routerLinkActive="nav-active" ariaCurrentWhenActive="page">پیگیری سفارش</a>
+        <a mat-button routerLink="/checkout/cart" routerLinkActive="nav-active" ariaCurrentWhenActive="page">سبد خرید</a>
       </div>
     </div>
   </footer>
-  <nav class="mobile-nav" [class.nav-hidden]="navHidden()" aria-label="منوی موبایل">
+
+  <nav class="mobile-nav" aria-label="منوی موبایل">
     @for (item of navigation; track item.path) {
       <a
         mat-button
@@ -121,10 +77,18 @@
         routerLinkActive="nav-active"
         [routerLinkActiveOptions]="{ exact: item.path === '/' }"
         ariaCurrentWhenActive="page"
-        ><span class="mobile-nav-item"
-          ><mat-icon [svgIcon]="item.icon" /><span>{{ item.label }}</span></span
-        ></a
+        [attr.aria-label]="item.path === '/checkout/cart' ? 'سبد خرید، ' + count().toLocaleString('fa-IR') + ' قلم' : null"
       >
+        <span class="mobile-nav-item">
+          <span class="mobile-nav-icon">
+            <mat-icon [svgIcon]="item.icon" />
+            @if (item.path === '/checkout/cart') {
+              <span class="mobile-cart-count" aria-hidden="true">{{ count().toLocaleString('fa-IR') }}</span>
+            }
+          </span>
+          <span>{{ item.label }}</span>
+        </span>
+      </a>
     }
   </nav>
 }

@@ -1,21 +1,21 @@
  <section class="container account-section">
     <div class="account-story">
       <mat-icon svgIcon="cookie" />
-      <h1 class="mat-font-headline-lg">به جمع شیرین<br />ثوری خوش آمدید.</h1>
+      <h1 class="mat-font-headline-lg">به جمع شیرین<br />کوکی شاپ خوش آمدید.</h1>
       <p>یک حساب، برای همه‌ی لحظه‌های خوشمزه‌ات.</p>
     </div>
     <mat-card appearance="outlined"
       ><mat-card-content
         ><div class="account-content">
           @if (session.user(); as user) {
-            <span>خانه‌ی شما در ثوری</span>
-            <h2 class="mat-font-headline-sm">سلام {{ user.fullName || 'دوست ثوری' }}!</h2>
+            <span>خانه‌ی شما در کوکی شاپ</span>
+            <h2 class="mat-font-headline-sm">سلام {{ user.fullName || 'دوست کوکی شاپ' }}!</h2>
             <p>از اینجا خرید و سفارش‌های خود را دنبال کنید.</p>
             @if (session.isAdmin()) {
               <a mat-flat-button routerLink="/admin">ورود به پنل مدیریت</a>
             }
-            <a mat-flat-button routerLink="/orders">سفارش‌های من</a
-            ><a mat-stroked-button routerLink="/cart">سبد خرید من</a
+            <a mat-flat-button routerLink="/account/orders">سفارش‌های من</a
+            ><a mat-stroked-button routerLink="/checkout/cart">سبد خرید من</a
             ><button mat-button [disabled]="session.busy()" (click)="session.logout()">
               خروج از حساب
             </button>
@@ -36,7 +36,7 @@
             </mat-tab-group>
             <ng-template #credentials>
               <h2 class="mat-font-headline-sm">
-                {{ register() ? 'اولین سلام به ثوری' : 'خوش برگشتید!' }}
+                {{ register() ? 'اولین سلام به کوکی شاپ' : 'خوش برگشتید!' }}
               </h2>
               <p>
                 {{
@@ -104,7 +104,7 @@
                   }
                 </mat-form-field>
                 <button mat-flat-button type="submit" [disabled]="session.busy()">
-                  {{ session.busy() ? 'کمی صبر کنید…' : register() ? 'ساخت حساب' : 'ورود به ثوری' }}
+                  {{ session.busy() ? 'کمی صبر کنید…' : register() ? 'ساخت حساب' : 'ورود به کوکی شاپ' }}
                 </button>
               </form>
             </ng-template>

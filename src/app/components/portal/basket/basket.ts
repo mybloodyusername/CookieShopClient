@@ -5,13 +5,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Component, inject, signal, effect, untracked } from '@angular/core';
-import { RouterLink, Router } from '@angular/router';
+import { Component, computed, inject, signal, effect, untracked } from '@angular/core';
+import { ActivatedRoute, RouterLink, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { NgOptimizedImage } from '@angular/common';
 import { form, FormField, required, pattern, submit } from '@angular/forms/signals';
 import { firstValueFrom } from 'rxjs';
 import { ApiAddressService, ApiOrderService, AddressResponse } from '../../../../api';
 import { SessionService } from '../../../services/session.service';
+import { CheckoutFlowService } from '../../../services/checkout-flow.service';
 import { TomanPipe } from '../../../pipes/toman.pipe';
 import { imageUrl } from '../../../utils/image-url';
 @Component({
@@ -33,13 +35,16 @@ import { imageUrl } from '../../../utils/image-url';
   styleUrl: './basket.scss',
 })
 export class BasketComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly routeData = toSignal(this.route.data, { initialValue: this.route.snapshot.data });
+  private readonly checkoutFlow = inject(CheckoutFlowService);
   readonly session = inject(SessionService);
   readonly api = inject(ApiAddressService);
   readonly orders = inject(ApiOrderService);
   readonly router = inject(Router);
   readonly addresses = signal<AddressResponse[]>([]);
-  readonly addressId = signal('');
-  readonly note = signal('');
+  readonly addressId = this.checkoutFlow.addressId;
+  readonly note = this.checkoutFlow.note;
   readonly image = imageUrl;
   readonly showAddress = signal(false);
   readonly addressError = signal(false);
@@ -50,7 +55,18 @@ export class BasketComponent {
     required(p.phoneNumber);
     pattern(p.phoneNumber, /^09[0-9]{9}$/, { message: 'شماره موبایل معتبر وارد کنید.' });
   });
-  readonly checkout = this.router.url.startsWith('/checkout');
+  readonly step = computed(
+    () => (this.routeData()['checkoutStep'] as 'cart' | 'delivery' | 'review' | undefined) ?? 'cart',
+  );
+  readonly checkoutSteps = [
+    { id: 'cart', label: 'سبد خرید' },
+    { id: 'delivery', label: 'نشانی تحویل' },
+    { id: 'review', label: 'مرور سفارش' },
+  ] as const;
+  readonly currentStepIndex = computed(() => this.checkoutSteps.findIndex(({ id }) => id === this.step()));
+  readonly selectedAddress = computed(() =>
+    this.addresses().find((address) => address.id === this.addressId()) ?? null,
+  );
   constructor() {
     effect(() => {
       if (this.session.ready() && this.session.user()) untracked(() => void this.refresh());
@@ -65,7 +81,7 @@ export class BasketComponent {
   async loadAddresses() {
     try {
       this.addresses.set(await firstValueFrom(this.api.apiAddressGet()));
-      this.addressId.set(this.addresses()[0]?.id ?? '');
+      if (!this.addressId()) this.addressId.set(this.addresses()[0]?.id ?? '');
       this.addressError.set(false);
     } catch {
       this.addressError.set(true);
@@ -94,8 +110,9 @@ export class BasketComponent {
         }),
       );
       this.session.cart.set(null);
+      this.checkoutFlow.reset();
       this.session.notice.set('سفارش شما ثبت شد. جزئیات را در سفارش‌های من ببینید.');
     });
-    if (success) await this.router.navigateByUrl('/orders');
+    if (success) await this.router.navigateByUrl('/account/orders');
   }
 }

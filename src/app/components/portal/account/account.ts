@@ -66,7 +66,7 @@ export class AccountComponent {
             ),
           );
           await this.session.loadCart();
-          this.session.notice.set('به ثوری خوش آمدید!');
+          this.session.notice.set('به کوکی شاپ خوش آمدید!');
         }
       });
     });

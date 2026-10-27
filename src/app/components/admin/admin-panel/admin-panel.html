@@ -7,7 +7,7 @@
   <section class="container section">
     <div class="empty-state">
       <mat-icon svgIcon="person" />
-      <h1 class="mat-font-headline-md">پنل مدیریت ثوری</h1>
+      <h1 class="mat-font-headline-md">پنل مدیریت کوکی شاپ</h1>
       <p>
         {{
           session.user()
@@ -30,7 +30,7 @@
     >
       <div class="sidebar-brand">
         <mat-icon svgIcon="cookie" />
-        <div><strong>ثوری · Sori</strong><span>پنل مدیریت فروشگاه</span></div>
+        <div><strong>کوکی شاپ</strong><span>پنل مدیریت فروشگاه</span></div>
       </div>
       <nav aria-label="منوی مدیریت">
         <mat-nav-list>
@@ -78,7 +78,7 @@
       <div class="panel-content">
         <div class="panel-heading">
           <div>
-            <span class="eyebrow">ثوری / مدیریت</span>
+            <span class="eyebrow">کوکی شاپ / مدیریت</span>
             <h1 class="mat-font-headline-lg">{{ panel().label }}</h1>
             <p class="muted">{{ panel().description }}</p>
           </div>
@@ -106,9 +106,9 @@
           @if (panel().id === 'overview') {
             <section class="welcome-panel">
               <div>
-                <span class="eyebrow">به پنل ثوری خوش آمدید</span>
+                <span class="eyebrow">به پنل کوکی شاپ خوش آمدید</span>
                 <h2 class="mat-font-headline-sm">
-                  سلام {{ session.user()?.fullName || 'مدیر ثوری' }}!
+                  سلام {{ session.user()?.fullName || 'مدیر کوکی شاپ' }}!
                 </h2>
                 <p>محصولات و سفارش‌ها را از همین‌جا دنبال کنید.</p>
               </div>

@@ -1,8 +1,29 @@
-<section class="page-banner">
-  <span>تا یک حال خوب، چند قدم مانده</span>
-  <h1 class="mat-font-headline-lg">{{ checkout ? 'نهایی کردن سفارش' : 'سبد خوشمزه‌ی شما' }}</h1>
+<section class="checkout-heading">
+  <h1 class="mat-font-headline-lg">
+    @switch (step()) {
+      @case ('cart') { سبد خوشمزه‌ی شما }
+      @case ('delivery') { نشانی تحویل }
+      @case ('review') { مرور سفارش }
+    }
+  </h1>
+  <p>هر مرحله را با خیال راحت کامل کنید.</p>
 </section>
-<section class="container section">
+
+<nav class="checkout-progress" aria-label="مراحل ثبت سفارش">
+  @for (checkoutStep of checkoutSteps; track checkoutStep.id; let index = $index) {
+    <div
+      class="checkout-progress-step"
+      [class.is-current]="step() === checkoutStep.id"
+      [class.is-complete]="currentStepIndex() > index"
+      [attr.aria-current]="step() === checkoutStep.id ? 'step' : null"
+    >
+      <span class="step-number">{{ (index + 1).toLocaleString('fa-IR') }}</span>
+      <span>{{ checkoutStep.label }}</span>
+    </div>
+  }
+</nav>
+
+<section class="container section checkout-content">
   @if (!session.ready()) {
     <div class="loading-state" role="status">
       <mat-spinner diameter="36" aria-label="در حال بررسی حساب" />
@@ -11,7 +32,7 @@
   } @else if (!session.user()) {
     <div class="empty-state">
       <h2 class="mat-font-headline-sm">سبد خریدتان منتظر شماست</h2>
-      <p>برای دیدن سبد خرید وارد حساب خود شوید.</p>
+      <p>برای ادامه‌ی سفارش وارد حساب خود شوید.</p>
       <a mat-flat-button routerLink="/account">ورود / ثبت‌نام</a>
     </div>
   } @else if (session.cartError()) {
@@ -28,60 +49,69 @@
     </div>
   } @else {
     <div class="checkout-grid">
-      <div>
-        <div class="cart-items">
-          @for (item of session.cart()?.items; track item.productId) {
-            <mat-card appearance="outlined" class="cart-item" role="article"
-              ><mat-card-content
-                ><div class="cart-item-layout">
-                  <a [routerLink]="['/shop', item.productId]"
-                    ><img
-                      [ngSrc]="image(item.imageUrl)"
-                      [alt]="item.productName"
-                      width="100"
-                      height="100"
-                  /></a>
-                  <div class="cart-item-info">
-                    <h2 class="mat-font-headline-sm">
-                      <a [routerLink]="['/shop', item.productId]">{{ item.productName }}</a>
-                    </h2>
-                    <p>{{ item.unitPrice | toman }}</p>
-                    <div class="quantity">
-                      <button
-                        mat-icon-button
-                        [disabled]="session.busy() || +item.quantity >= 1000"
-                        (click)="session.quantity(item.productId, +item.quantity + 1)"
-                        [attr.aria-label]="'افزایش تعداد ' + item.productName"
-                      >
-                        <mat-icon svgIcon="add" /></button
-                      ><span>{{ (+item.quantity).toLocaleString('fa-IR') }}</span
-                      ><button
-                        mat-icon-button
-                        [disabled]="session.busy()"
-                        (click)="session.quantity(item.productId, +item.quantity - 1)"
-                        [attr.aria-label]="'کاهش تعداد ' + item.productName"
-                      >
-                        <mat-icon svgIcon="remove" />
-                      </button>
+      <div class="checkout-main">
+        @if (step() === 'cart' || step() === 'review') {
+          <div class="cart-items">
+            @for (item of session.cart()?.items; track item.productId) {
+              <mat-card appearance="outlined" class="cart-item" role="article">
+                <mat-card-content>
+                  <div class="cart-item-layout">
+                    <a [routerLink]="['/shop', item.productId]">
+                      <img
+                        [ngSrc]="image(item.imageUrl)"
+                        [alt]="item.productName"
+                        width="88"
+                        height="88"
+                      />
+                    </a>
+                    <div class="cart-item-info">
+                      <h2 class="mat-font-title-md">
+                        <a [routerLink]="['/shop', item.productId]">{{ item.productName }}</a>
+                      </h2>
+                      <p>{{ item.unitPrice | toman }}</p>
+                      @if (step() === 'cart') {
+                        <div class="quantity">
+                          <button
+                            mat-icon-button
+                            [disabled]="session.busy() || +item.quantity >= 1000"
+                            (click)="session.quantity(item.productId, +item.quantity + 1)"
+                            [attr.aria-label]="'افزایش تعداد ' + item.productName"
+                          >
+                            <mat-icon svgIcon="add" />
+                          </button>
+                          <span aria-live="polite">{{ (+item.quantity).toLocaleString('fa-IR') }}</span>
+                          <button
+                            mat-icon-button
+                            [disabled]="session.busy()"
+                            (click)="session.quantity(item.productId, +item.quantity - 1)"
+                            [attr.aria-label]="'کاهش تعداد ' + item.productName"
+                          >
+                            <mat-icon svgIcon="remove" />
+                          </button>
+                        </div>
+                      } @else {
+                        <p>تعداد: {{ (+item.quantity).toLocaleString('fa-IR') }}</p>
+                      }
+                    </div>
+                    <div class="cart-item-total">
+                      <strong>{{ item.lineTotal | toman }}</strong>
+                      @if (step() === 'cart') {
+                        <button
+                          mat-button
+                          [disabled]="session.busy()"
+                          (click)="session.quantity(item.productId, 0)"
+                          [attr.aria-label]="'حذف ' + item.productName"
+                        >حذف</button>
+                      }
                     </div>
                   </div>
-                  <div class="cart-item-total">
-                    <strong>{{ item.lineTotal | toman }}</strong
-                    ><button
-                      mat-button
-                      [disabled]="session.busy()"
-                      (click)="session.quantity(item.productId, 0)"
-                      [attr.aria-label]="'حذف ' + item.productName"
-                    >
-                      حذف
-                    </button>
-                  </div>
-                </div></mat-card-content
-              ></mat-card
-            >
-          }
-        </div>
-        @if (checkout) {
+                </mat-card-content>
+              </mat-card>
+            }
+          </div>
+        }
+
+        @if (step() === 'delivery') {
           <section class="address-section">
             <h2 class="mat-font-headline-sm">سفارش به کجا برسد؟</h2>
             @if (addressError()) {
@@ -95,14 +125,16 @@
               (change)="addressId.set($event.value)"
             >
               @for (address of addresses(); track address.id) {
-                <mat-radio-button [value]="address.id"
-                  ><strong>{{ address.title }}</strong
-                  ><br />{{ address.addressLine1 }} {{ address.addressLine2 }}<br />{{
-                    address.phoneNumber
-                  }}</mat-radio-button
-                >
+                <mat-radio-button [value]="address.id">
+                  <strong>{{ address.title }}</strong><br />
+                  {{ address.addressLine1 }} {{ address.addressLine2 }}<br />
+                  {{ address.phoneNumber }}
+                </mat-radio-button>
               }
             </mat-radio-group>
+            @if (!addresses().length && !addressError()) {
+              <p>هنوز نشانی‌ای ثبت نشده است. یک نشانی تازه اضافه کنید.</p>
+            }
             <button
               mat-stroked-button
               (click)="showAddress.set(!showAddress())"
@@ -112,48 +144,32 @@
             </button>
             @if (showAddress()) {
               <form class="address-form" (submit)="saveAddress(); $event.preventDefault()">
-                <mat-form-field appearance="outline" subscriptSizing="dynamic"
-                  ><mat-label>عنوان نشانی</mat-label
-                  ><input
-                    matInput
-                    id="atitle"
-                    [formField]="fields.title"
-                    placeholder="مثلاً خانه"
-                  /><mat-error>عنوان نشانی را وارد کنید.</mat-error></mat-form-field
-                >
-                <mat-form-field appearance="outline" subscriptSizing="dynamic"
-                  ><mat-label>نشانی کامل</mat-label
-                  ><textarea
-                    matInput
-                    id="aline"
-                    [formField]="fields.addressLine1"
-                    rows="3"
-                  ></textarea
-                  ><mat-error>نشانی کامل را وارد کنید.</mat-error></mat-form-field
-                >
-                <mat-form-field appearance="outline" subscriptSizing="dynamic"
-                  ><mat-label>پلاک، واحد و توضیحات تکمیلی</mat-label
-                  ><input matInput id="aextra" [formField]="fields.addressLine2"
-                /></mat-form-field>
-                <mat-form-field appearance="outline" subscriptSizing="dynamic"
-                  ><mat-label>شماره موبایل گیرنده</mat-label
-                  ><input
-                    matInput
-                    id="aphone"
-                    type="tel"
-                    dir="ltr"
-                    [formField]="fields.phoneNumber"
-                  /><mat-hint>شماره ۱۱ رقمی با ارقام انگلیسی و با ۰۹</mat-hint
-                  ><mat-error>شماره موبایل معتبر وارد کنید.</mat-error></mat-form-field
-                >
-                <button mat-flat-button [disabled]="session.busy() || fields().invalid()">
-                  ذخیره نشانی
-                </button>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <mat-label>عنوان نشانی</mat-label>
+                  <input matInput id="atitle" [formField]="fields.title" placeholder="مثلاً خانه" />
+                  <mat-error>عنوان نشانی را وارد کنید.</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <mat-label>نشانی کامل</mat-label>
+                  <textarea matInput id="aline" [formField]="fields.addressLine1" rows="3"></textarea>
+                  <mat-error>نشانی کامل را وارد کنید.</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <mat-label>پلاک، واحد و توضیحات تکمیلی</mat-label>
+                  <input matInput id="aextra" [formField]="fields.addressLine2" />
+                </mat-form-field>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <mat-label>شماره موبایل گیرنده</mat-label>
+                  <input matInput id="aphone" type="tel" dir="ltr" [formField]="fields.phoneNumber" />
+                  <mat-hint>شماره ۱۱ رقمی با ارقام انگلیسی و با ۰۹</mat-hint>
+                  <mat-error>شماره موبایل معتبر وارد کنید.</mat-error>
+                </mat-form-field>
+                <button mat-flat-button [disabled]="session.busy() || fields().invalid()">ذخیره نشانی</button>
               </form>
             }
-            <mat-form-field appearance="outline" subscriptSizing="dynamic"
-              ><mat-label>یادداشت سفارش (اختیاری)</mat-label
-              ><textarea
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>یادداشت سفارش (اختیاری)</mat-label>
+              <textarea
                 matInput
                 #noteInput
                 id="order-note"
@@ -164,39 +180,73 @@
             </mat-form-field>
           </section>
         }
+
+        @if (step() === 'review') {
+          <section class="review-address">
+            <div class="section-heading">
+              <h2 class="mat-font-headline-sm">نشانی تحویل</h2>
+              <a mat-button routerLink="/checkout/delivery">ویرایش</a>
+            </div>
+            @if (selectedAddress(); as address) {
+              <p><strong>{{ address.title }}</strong></p>
+              <p>{{ address.addressLine1 }} {{ address.addressLine2 }}</p>
+              <p>{{ address.phoneNumber }}</p>
+            } @else {
+              <p>نشانی‌ای انتخاب نشده است.</p>
+              <a mat-stroked-button routerLink="/checkout/delivery">انتخاب نشانی</a>
+            }
+            @if (note()) {
+              <p>یادداشت: {{ note() }}</p>
+            }
+          </section>
+        }
       </div>
+
       <aside>
-        <mat-card appearance="outlined"
-          ><mat-card-content
-            ><div class="summary-content">
+        <mat-card appearance="outlined">
+          <mat-card-content>
+            <div class="summary-content">
               <span>یک قدم تا شیرینی</span>
               <h2 class="mat-font-headline-sm">خلاصه سفارش</h2>
               <div class="summary-line">
-                <span>مبلغ محصولات</span><strong>{{ session.cart()?.totalAmount | toman }}</strong>
+                <span>تعداد محصولات</span>
+                <strong>{{ session.cart()?.items?.length?.toLocaleString('fa-IR') }}</strong>
+              </div>
+              <div class="summary-line">
+                <span>مبلغ محصولات</span>
+                <strong>{{ session.cart()?.totalAmount | toman }}</strong>
               </div>
               <p>مبلغ نمایش‌داده‌شده از سبد خرید فروشگاه دریافت می‌شود.</p>
               <div class="summary-line">
-                <span>جمع سفارش</span><strong>{{ session.cart()?.totalAmount | toman }}</strong>
+                <span>جمع سفارش</span>
+                <strong>{{ session.cart()?.totalAmount | toman }}</strong>
               </div>
-              @if (checkout) {
-                <p>
-                  با ثبت سفارش، موجودی برای شما رزرو می‌شود. پرداخت آنلاین هنوز در دسترس نیست؛ ثبت
-                  سفارش به معنی پرداخت نیست.
-                </p>
-                <button
-                  mat-flat-button
-                  [disabled]="session.busy() || !addressId()"
-                  (click)="place()"
-                >
-                  {{ session.busy() ? 'در حال ثبت…' : 'ثبت سفارش' }}
-                </button>
-              } @else {
-                <a mat-flat-button routerLink="/checkout">ادامه و انتخاب نشانی</a>
+              @switch (step()) {
+                @case ('cart') {
+                  <a mat-flat-button routerLink="/checkout/delivery">ادامه و انتخاب نشانی</a>
+                }
+                @case ('delivery') {
+                  <a
+                    mat-flat-button
+                    [class.disabled-link]="!addressId()"
+                    [attr.aria-disabled]="!addressId()"
+                    [routerLink]="addressId() ? '/checkout/review' : null"
+                  >ادامه و مرور سفارش</a>
+                }
+                @case ('review') {
+                  <p>
+                    با ثبت سفارش، موجودی برای شما رزرو می‌شود. پرداخت آنلاین هنوز در دسترس نیست؛ ثبت
+                    سفارش به معنی پرداخت نیست.
+                  </p>
+                  <button mat-flat-button [disabled]="session.busy() || !addressId()" (click)="place()">
+                    {{ session.busy() ? 'در حال ثبت…' : 'ثبت سفارش' }}
+                  </button>
+                }
               }
               <a mat-button routerLink="/shop">ادامه خرید</a>
-            </div></mat-card-content
-          ></mat-card
-        >
+            </div>
+          </mat-card-content>
+        </mat-card>
       </aside>
     </div>
   }
