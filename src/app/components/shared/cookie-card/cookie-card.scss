@@ -44,21 +44,22 @@
   font-weight: 700;
 }
 
-.cookie-card mat-card-actions { margin-top: auto; padding: 16px; }
+//.cookie-card mat-card-actions { margin-top: auto; padding: 16px; }
 .cookie-card mat-card-actions > button { width: 100%; }
 
 .sale-ribbon {
   position: absolute;
   z-index: 2;
-  inset-block-start: 12px;
-  inset-inline-start: 12px;
-  padding: 5px 12px;
+  inset-block-start: -1px;
+  inset-inline-start: 20px;
+  padding: 8px 12px;
   border-radius: 0 0 10px 10px;
   background: var(--mat-sys-tertiary);
   color: var(--mat-sys-on-tertiary);
   text-align: center;
   font-size: 0.7rem;
   font-weight: 700;
+  line-height: 1;
   pointer-events: none;
 }
 
@@ -67,5 +68,4 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  margin-inline: auto;
 }

@@ -8,6 +8,7 @@ import type { ProductResponse } from '../../../../api';
 import { SessionService } from '../../../services/session.service';
 import { TomanPipe } from '../../../pipes/toman.pipe';
 import { imageUrl } from '../../../utils/image-url';
+import { MatDivider } from '@angular/material/list';
 @Component({
   selector: 'cs-cookie-card',
   imports: [
@@ -17,6 +18,7 @@ import { imageUrl } from '../../../utils/image-url';
     NgOptimizedImage,
     RouterLink,
     TomanPipe,
+    MatDivider,
   ],
   templateUrl: './cookie-card.html',
   styleUrl: './cookie-card.scss',
@@ -24,9 +26,16 @@ import { imageUrl } from '../../../utils/image-url';
 export class CookieCard {
   readonly product = input.required<ProductResponse>();
   readonly highlightDiscount = input(false);
-  readonly available = computed(() => this.product().isAvailable && +this.product().stockQuantity > 0);
+  readonly available = computed(
+    () => this.product().isAvailable && +this.product().stockQuantity > 0,
+  );
   readonly session = inject(SessionService);
-  readonly quantity = computed(() => Number(this.session.cart()?.items.find((item) => item.productId === this.product().id)?.quantity ?? 0));
+  readonly quantity = computed(() =>
+    Number(
+      this.session.cart()?.items.find((item) => item.productId === this.product().id)?.quantity ??
+        0,
+    ),
+  );
   readonly inCart = computed(() => this.quantity() > 0);
   readonly image = imageUrl;
   fallback(event: Event) {
