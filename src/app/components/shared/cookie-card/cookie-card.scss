@@ -10,6 +10,7 @@
 }
 
 .cookie-card:hover { box-shadow: var(--mat-sys-level2); }
+.cookie-card.discounted { border-color: var(--mat-sys-tertiary); }
 
 .product-photo {
   position: relative;
@@ -27,6 +28,7 @@
   align-items: baseline;
   flex-wrap: wrap;
   gap: 10px;
+  font-size: 0.875rem;
 }
 
 .original-price { color: var(--mat-sys-on-surface-variant); font-size: 0.85em; font-weight: 500; }
@@ -34,13 +36,16 @@
 .discount-price { color: var(--mat-sys-tertiary); }
 .unavailable-label { color: var(--mat-sys-on-surface-variant); font-weight: 600; }
 .cookie-card mat-card-header { padding-block: 16px 8px; }
-.cookie-card h3 { margin: 0; }
-
-.cookie-card h3 a,
-.cookie-card mat-card-actions button { font-weight: 600; }
+.cookie-card h3 {
+  margin: 0;
+  color: var(--mat-sys-primary);
+  font-size: var(--mat-sys-title-medium-size);
+  line-height: var(--mat-sys-title-medium-line-height);
+  font-weight: 700;
+}
 
 .cookie-card mat-card-actions { margin-top: auto; padding: 16px; }
-.cookie-card mat-card-actions button { width: 100%; }
+.cookie-card mat-card-actions > button { width: 100%; }
 
 .sale-ribbon {
   position: absolute;
@@ -49,8 +54,8 @@
   inset-inline-start: 12px;
   padding: 5px 12px;
   border-radius: 0 0 10px 10px;
-  background: var(--mat-sys-primary);
-  color: var(--mat-sys-on-primary);
+  background: var(--mat-sys-tertiary);
+  color: var(--mat-sys-on-tertiary);
   text-align: center;
   font-size: 0.7rem;
   font-weight: 700;
@@ -60,19 +65,7 @@
 .cookie-card mat-card-actions .product-quantity {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 2px;
-  width: 100%;
-  margin-inline-start: auto;
+  justify-content: center;
+  gap: 4px;
+  margin-inline: auto;
 }
-
-.cookie-card mat-card-actions .product-quantity button {
-  width: 36px;
-  height: 36px;
-  min-width: 36px;
-  flex: 0 0 36px;
-  padding: 0;
-}
-
-.cookie-card mat-card-actions .product-quantity button mat-icon { margin: 0; }
-.product-quantity span { min-width: 1.5rem; text-align: center; font-variant-numeric: tabular-nums; }

@@ -1,4 +1,5 @@
- <mat-card class="cookie-card" appearance="outlined" role="article">
+ <mat-card class="cookie-card" appearance="outlined" role="article"
+    [class.discounted]="highlightDiscount() && available() && product().isOnSale && product().salePrice">
     @if (available() && product().isOnSale && product().salePrice) {
       <span class="sale-ribbon">تخفیف ویژه</span>
     }
@@ -25,7 +26,7 @@
     }
     <mat-card-header>
       <h3 mat-card-title>
-        <a mat-button [routerLink]="['/shop', product().id]">{{ product().name }}</a>
+        <span class="product-name">{{ product().name }}</span>
       </h3>
       <mat-card-subtitle>
         @if (available()) {
@@ -47,7 +48,7 @@
             (click)="session.quantity(product().id, quantity() + 1)" [attr.aria-label]="'افزایش تعداد ' + product().name">
             <mat-icon svgIcon="add" />
           </button>
-          <span aria-live="polite">{{ quantity().toLocaleString('fa-IR') }}</span>
+          <span class="mat-font-title-md" aria-live="polite">{{ quantity().toLocaleString('fa-IR') }}</span>
           <button mat-icon-button type="button" [disabled]="session.busy()"
             (click)="session.quantity(product().id, quantity() - 1)" [attr.aria-label]="'کاهش تعداد ' + product().name">
             <mat-icon svgIcon="remove" />

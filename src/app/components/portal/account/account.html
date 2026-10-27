@@ -1,9 +1,11 @@
- <section class="container account-section">
-    <div class="account-story">
-      <mat-icon svgIcon="cookie" />
-      <h1 class="mat-font-headline-lg">به جمع شیرین<br />کوکی شاپ خوش آمدید.</h1>
-      <p>یک حساب، برای همه‌ی لحظه‌های خوشمزه‌ات.</p>
-    </div>
+  <section class="container account-section" [class.is-authenticated]="!!session.user()">
+    @if (!session.user()) {
+      <div class="account-story">
+        <mat-icon svgIcon="cookie" />
+        <h1 class="mat-font-headline-lg">به جمع شیرین<br />کوکی شاپ خوش آمدید.</h1>
+        <p>یک حساب، برای همه‌ی لحظه‌های خوشمزه‌ات.</p>
+      </div>
+    }
     <mat-card appearance="outlined"
       ><mat-card-content
         ><div class="account-content">
@@ -11,14 +13,19 @@
             <span>خانه‌ی شما در کوکی شاپ</span>
             <h2 class="mat-font-headline-sm">سلام {{ user.fullName || 'دوست کوکی شاپ' }}!</h2>
             <p>از اینجا خرید و سفارش‌های خود را دنبال کنید.</p>
+            <div class="account-shortcuts" aria-label="دسترسی سریع">
+              <a mat-stroked-button routerLink="/account/orders">
+                <mat-icon svgIcon="receipt_long" />
+                <span><strong>سفارش‌های من</strong><small>پیگیری وضعیت خریدها</small></span>
+              </a>
+              <a mat-stroked-button routerLink="/checkout/cart">
+                <mat-icon svgIcon="shopping_bag" />
+                <span><strong>سبد خرید</strong><small>ادامه‌ی سفارش‌های خوشمزه</small></span>
+              </a>
+            </div>
             @if (session.isAdmin()) {
               <a mat-flat-button routerLink="/admin">ورود به پنل مدیریت</a>
             }
-            <a mat-flat-button routerLink="/account/orders">سفارش‌های من</a
-            ><a mat-stroked-button routerLink="/checkout/cart">سبد خرید من</a
-            ><button mat-button [disabled]="session.busy()" (click)="session.logout()">
-              خروج از حساب
-            </button>
           } @else {
             <mat-tab-group
               [selectedIndex]="register() ? 1 : 0"

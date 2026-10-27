@@ -6,7 +6,7 @@
 <section class="container section">
   <form
     class="search-form"
-    (submit)="filter(searchInput.value, category()); $event.preventDefault()"
+    (submit)="filter(searchInput.value); $event.preventDefault()"
   >
     <mat-form-field appearance="outline" subscriptSizing="dynamic"
       ><mat-label>جست‌وجوی کوکی</mat-label
@@ -23,7 +23,7 @@
     class="category-links"
     aria-label="دسته‌بندی کوکی‌ها"
     [value]="category()"
-    (change)="filter(search(), $event.value || '')"
+    (change)="category.set($event.value || '')"
   >
     <mat-chip-option value="">همه‌ی کوکی‌ها</mat-chip-option>
     @for (c of data.categories(); track c.id) {
@@ -42,12 +42,12 @@
     </div>
   } @else {
     <div class="product-grid">
-      @for (p of data.products(); track p.id) {
-        <cs-cookie-card [product]="p" />
+      @for (p of filteredProducts(); track p.id) {
+        <cs-cookie-card [product]="p" [highlightDiscount]="true" />
       } @empty {
         <div class="empty-state">
           <h2 class="mat-font-headline-sm">هنوز کوکی‌ای با این مشخصات نداریم.</h2>
-          <button mat-flat-button (click)="filter('', '')">دیدن همه‌ی کوکی‌ها</button>
+          <button mat-flat-button (click)="clearFilters()">دیدن همه‌ی کوکی‌ها</button>
         </div>
       }
     </div>

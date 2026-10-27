@@ -52,6 +52,7 @@ export const routes: Routes = [
       },
       {
         path: 'account',
+        loadComponent: () => import('./components/portal/account-layout/account-layout').then((m) => m.AccountLayoutComponent),
         children: [
           {
             path: '',
@@ -62,6 +63,11 @@ export const routes: Routes = [
             path: 'orders',
             title: 'سفارش‌های من | کوکی شاپ',
             loadComponent: () => import('./components/portal/orders/orders').then((m) => m.OrdersComponent),
+          },
+          {
+            path: 'settings',
+            title: 'تنظیمات حساب | کوکی شاپ',
+            loadComponent: () => import('./components/portal/account-settings/account-settings').then((m) => m.AccountSettingsComponent),
           },
         ],
       },

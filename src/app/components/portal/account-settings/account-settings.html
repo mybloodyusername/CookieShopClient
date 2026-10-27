@@ -1,0 +1,24 @@
+<section class="settings-page">
+  <header class="settings-heading">
+    <span>جزئیات حساب شما</span>
+    <h1 class="mat-font-headline-lg">تنظیمات حساب</h1>
+    <p>اطلاعات ورود و راه‌های ارتباطی حساب شما.</p>
+  </header>
+  @if (session.user(); as user) {
+    <mat-card appearance="outlined">
+      <mat-card-content class="settings-content">
+        <div class="profile-mark"><mat-icon svgIcon="person" /></div>
+        <div class="profile-details">
+          <div><span>نام</span><strong>{{ user.fullName || 'ثبت نشده' }}</strong></div>
+          <div><span>نوع حساب</span><strong>{{ session.isAdmin() ? 'مدیر فروشگاه' : 'مشتری کوکی شاپ' }}</strong></div>
+        </div>
+        <p class="settings-note">برای تغییر اطلاعات حساب با پشتیبانی کوکی شاپ تماس بگیرید.</p>
+        <button mat-stroked-button [disabled]="session.busy()" (click)="session.logout()">
+          <mat-icon svgIcon="logout" /> خروج از حساب
+        </button>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <p>برای مشاهده تنظیمات، ابتدا وارد حساب خود شوید.</p>
+  }
+</section>

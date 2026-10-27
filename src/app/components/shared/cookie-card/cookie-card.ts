@@ -23,6 +23,7 @@ import { imageUrl } from '../../../utils/image-url';
 })
 export class CookieCard {
   readonly product = input.required<ProductResponse>();
+  readonly highlightDiscount = input(false);
   readonly available = computed(() => this.product().isAvailable && +this.product().stockQuantity > 0);
   readonly session = inject(SessionService);
   readonly quantity = computed(() => Number(this.session.cart()?.items.find((item) => item.productId === this.product().id)?.quantity ?? 0));

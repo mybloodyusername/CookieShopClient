@@ -12,7 +12,7 @@ export class CatalogDataService {
   readonly error = signal(false);
   readonly total = signal(0);
   private request = 0;
-  async load(search = '', categoryId = '', limit?: number) {
+  async load(limit?: number) {
     const request = ++this.request;
     this.loading.set(true);
     this.error.set(false);
@@ -20,8 +20,6 @@ export class CatalogDataService {
       const pageSize = limit ?? 100;
       const firstPage = await firstValueFrom(
         this.api.apiProductGet({
-          search: search || undefined,
-          categoryId: categoryId || undefined,
           page: 1,
           pageSize,
         }),
@@ -31,8 +29,6 @@ export class CatalogDataService {
       for (let page = 2; !limit && products.length < total; page++) {
         const data = await firstValueFrom(
           this.api.apiProductGet({
-            search: search || undefined,
-            categoryId: categoryId || undefined,
             page,
             pageSize,
           }),

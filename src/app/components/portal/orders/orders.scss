@@ -10,6 +10,8 @@
 
 .order-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
 .order-details { margin-top: 24px; border-top: 1px solid var(--mat-sys-outline-variant); padding-top: 16px; }
+.order-item { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-block: 16px; }
+.order-item p { margin: 4px 0 0; color: var(--mat-sys-on-surface-variant); font-size: .875rem; }
 
 .order-details p {
   display: flex;

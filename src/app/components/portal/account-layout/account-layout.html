@@ -1,0 +1,27 @@
+<div class="account-layout container" [class.has-navigation]="!!session.user()">
+  @if (session.user()) {
+    <nav class="account-tabs" mat-tab-nav-bar [tabPanel]="accountPanel" aria-label="بخش‌های حساب کاربری">
+      @for (link of links; track link.path) {
+        <a mat-tab-link [routerLink]="link.path" routerLinkActive #tabActive="routerLinkActive"
+          [routerLinkActiveOptions]="{ exact: link.exact }" [active]="tabActive.isActive"
+          ariaCurrentWhenActive="page">{{ link.label }}</a>
+      }
+    </nav>
+    <nav class="account-sidebar" aria-label="بخش‌های حساب کاربری">
+      <h2>حساب کاربری</h2>
+      <mat-nav-list>
+        @for (link of links; track link.path) {
+          <a mat-list-item [routerLink]="link.path" routerLinkActive #sideActive="routerLinkActive"
+            [routerLinkActiveOptions]="{ exact: link.exact }" [activated]="sideActive.isActive"
+            ariaCurrentWhenActive="page">
+            <mat-icon matListItemIcon [svgIcon]="link.icon" />
+            <span matListItemTitle>{{ link.label }}</span>
+          </a>
+        }
+      </mat-nav-list>
+    </nav>
+  }
+  <mat-tab-nav-panel #accountPanel class="account-main">
+    <router-outlet />
+  </mat-tab-nav-panel>
+</div>

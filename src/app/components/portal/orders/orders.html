@@ -65,10 +65,13 @@
                   @if (d.id === order.id) {
                     <div class="order-details">
                       @for (item of d.items; track item.productId) {
-                        <p>
-                          {{ item.productName }} × {{ (+item.quantity).toLocaleString('fa-IR') }}
+                        <div class="order-item">
+                          <div>
+                            <span>{{ item.productName }} × {{ (+item.quantity).toLocaleString('fa-IR') }}</span>
+                            <p>قیمت هر عدد: {{ item.unitPrice | toman }}</p>
+                          </div>
                           <strong>{{ item.lineTotal | toman }}</strong>
-                        </p>
+                        </div>
                       }
                       <p>نشانی: {{ d.address.addressLine1 }} {{ d.address.addressLine2 }}</p>
                       <p>گیرنده: {{ d.address.phoneNumber }}</p>

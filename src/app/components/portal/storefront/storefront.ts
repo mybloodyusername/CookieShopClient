@@ -25,7 +25,7 @@ import { CatalogDataService } from '../../../services/catalog-data.service';
 export class StorefrontComponent {
   readonly data = inject(CatalogDataService);
   constructor() {
-    void this.data.load('', '', 4);
+    void this.data.load(4);
     void this.data.loadCategories();
   }
 }

@@ -27,8 +27,16 @@
 .account-content,
 .form-stack { padding-block: 16px; }
 .account-content h2 { margin-bottom: 0; }
+.account-section.is-authenticated { grid-template-columns: minmax(0, 1fr); }
+.account-shortcuts { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.account-shortcuts a { display: flex; min-height: 72px; justify-content: flex-start; gap: 12px; text-align: start; }
+.account-shortcuts a mat-icon { flex: 0 0 auto; }
+.account-shortcuts a span { display: grid; gap: 4px; }
+.account-shortcuts small { color: var(--mat-sys-on-surface-variant); font-size: .78rem; }
 
 @media (min-width: 840px) {
   .account-section { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; padding-block: 56px; }
   .account-story { padding: 40px; }
+  .account-section.is-authenticated { grid-template-columns: minmax(0, 1fr); max-width: 920px; }
+  .account-shortcuts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

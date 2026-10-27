@@ -1,0 +1,14 @@
+.settings-page { display: grid; gap: 20px; }
+.settings-heading { padding: 8px 4px; }
+.settings-heading > span { color: var(--mat-sys-primary); font-weight: 700; }
+.settings-heading h1 { margin: 8px 0; }
+.settings-heading p { margin: 0; color: var(--mat-sys-on-surface-variant); }
+.settings-content { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 20px; padding: 24px; }
+.profile-mark { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 18px; background: var(--mat-sys-primary-container); color: var(--mat-sys-on-primary-container); }
+.profile-details { display: grid; gap: 16px; }
+.profile-details div { display: grid; gap: 4px; }
+.profile-details span { color: var(--mat-sys-on-surface-variant); font-size: .875rem; }
+.profile-details strong { overflow-wrap: anywhere; }
+.settings-note { grid-column: 1 / -1; margin: 0; color: var(--mat-sys-on-surface-variant); }
+.settings-content button { grid-column: 1 / -1; justify-self: start; }
+@media (min-width: 600px) { .settings-content { grid-template-columns: auto minmax(0, 1fr); padding: 32px; } }

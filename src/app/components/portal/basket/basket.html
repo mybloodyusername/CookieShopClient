@@ -68,7 +68,23 @@
                       <h2 class="mat-font-title-md">
                         <a [routerLink]="['/shop', item.productId]">{{ item.productName }}</a>
                       </h2>
-                      <p>{{ item.unitPrice | toman }}</p>
+                      <p class="cart-item-price">
+                        @if (+item.originalPrice > +item.unitPrice) {
+                          <del>{{ item.originalPrice | toman: false }}</del>
+                        }
+                        <strong>{{ item.unitPrice | toman }}</strong>
+                      </p>
+                    </div>
+                    @if (step() === 'cart') {
+                      <button
+                        mat-icon-button
+                        class="cart-item-delete"
+                        [disabled]="session.busy()"
+                        (click)="session.quantity(item.productId, 0)"
+                        [attr.aria-label]="'حذف ' + item.productName"
+                      ><mat-icon svgIcon="delete" /></button>
+                    }
+                    <div class="cart-item-total">
                       @if (step() === 'cart') {
                         <div class="quantity">
                           <button
@@ -79,7 +95,7 @@
                           >
                             <mat-icon svgIcon="add" />
                           </button>
-                          <span aria-live="polite">{{ (+item.quantity).toLocaleString('fa-IR') }}</span>
+                          <span class="mat-font-title-md" aria-live="polite">{{ (+item.quantity).toLocaleString('fa-IR') }}</span>
                           <button
                             mat-icon-button
                             [disabled]="session.busy()"
@@ -92,17 +108,7 @@
                       } @else {
                         <p>تعداد: {{ (+item.quantity).toLocaleString('fa-IR') }}</p>
                       }
-                    </div>
-                    <div class="cart-item-total">
                       <strong>{{ item.lineTotal | toman }}</strong>
-                      @if (step() === 'cart') {
-                        <button
-                          mat-button
-                          [disabled]="session.busy()"
-                          (click)="session.quantity(item.productId, 0)"
-                          [attr.aria-label]="'حذف ' + item.productName"
-                        >حذف</button>
-                      }
                     </div>
                   </div>
                 </mat-card-content>
