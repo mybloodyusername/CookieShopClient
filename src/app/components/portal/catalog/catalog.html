@@ -43,7 +43,7 @@
   } @else {
     <div class="product-grid">
       @for (p of filteredProducts(); track p.id) {
-        <cs-cookie-card [product]="p" [highlightDiscount]="true" />
+        <cs-cookie-card [product]="p" [shopView]="true" />
       } @empty {
         <div class="empty-state">
           <h2 class="mat-font-headline-sm">هنوز کوکی‌ای با این مشخصات نداریم.</h2>

@@ -10,6 +10,10 @@
   background: var(--mat-sys-surface-container-low);
 }
 
+@media (max-width: 599px) {
+  .product-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+}
+
 @media (min-width: 600px) {
   .search-form { grid-template-columns: minmax(0, 1fr) auto; }
 }

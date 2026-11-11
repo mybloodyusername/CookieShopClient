@@ -1,8 +1,6 @@
 <mat-card class="cookie-card" appearance="outlined" role="article"
-          [class.discounted]="highlightDiscount() && available() && product().isOnSale && product().salePrice">
-  @if (available() && product().isOnSale && product().salePrice) {
-    <span class="sale-ribbon">تخفیف ویژه</span>
-  }
+          [class.shop-card]="shopView()"
+          [class.discounted]="shopView() && available() && product().isOnSale && product().salePrice">
   @if (available()) {
     <a class="product-photo" [routerLink]="['/shop', product().id]" [attr.aria-label]="product().name">
       <img
@@ -41,7 +39,6 @@
       }
     </mat-card-subtitle>
   </mat-card-header>
-<!--  <mat-divider/>-->
   <mat-card-actions align="start">
     @if (inCart()) {
       <div class="product-quantity" [attr.aria-label]="'تعداد ' + product().name + ' در سبد خرید'">
@@ -60,7 +57,7 @@
     } @else {
       <button mat-flat-button type="button" [disabled]="session.busy() || !available()"
               (click)="session.add(product().id)" [attr.aria-label]="'افزودن ' + product().name + ' به سبد خرید'">
-        <mat-icon svgIcon="add"/>
+        @if (!shopView()) { <mat-icon svgIcon="add"/> }
         افزودن به سبد
       </button>
     }
